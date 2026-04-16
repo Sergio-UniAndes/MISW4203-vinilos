@@ -62,6 +62,47 @@ La UI consume `RolePermissions` y no decide permisos por hardcode.
 - `feature-auth`: selección de rol y persistencia de sesión.
 - `feature-home`: pantalla principal con lista mock y acciones condicionadas por permisos.
 
+## Requisitos de ejecución
+
+- **JDK 21** instalado localmente.
+- Android Studio configurado para usar **Gradle JDK 21**.
+- Si ejecutas desde terminal, asegúrate de que `JAVA_HOME` apunte a JDK 21.
+- El proyecto está unificado para compilar con **Java/Kotlin 21**.
+
+### Verificar la versión de Java
+
+```bash
+java -version
+```
+
+Debe reportar una versión 21.x.
+
+Si tienes más de un JDK instalado en macOS, puedes apuntar la terminal a Java 21 con:
+
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+export PATH="$JAVA_HOME/bin:$PATH"
+java -version
+```
+
+### Ejecutar el proyecto
+
+Si tu entorno tiene Gradle instalado globalmente:
+
+```bash
+cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
+gradle assembleDebug
+```
+
+Si no tienes Gradle global, abre el proyecto en Android Studio y ejecútalo desde el botón **Run** usando **Gradle JDK 21**.
+
+En Android Studio:
+
+1. Abre el proyecto.
+2. Ve a **Settings > Build, Execution, Deployment > Build Tools > Gradle**.
+3. Selecciona **Gradle JDK 21**.
+4. Ejecuta la app desde `app` o presiona **Run**.
+
 ## Notas de implementación
 
 - No se usa XML.

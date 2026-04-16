@@ -5,5 +5,5 @@ data class HomeItem(
     val title: String,
     val artist: String,
     val year: Int,
+    val genre: String,
 )
-
