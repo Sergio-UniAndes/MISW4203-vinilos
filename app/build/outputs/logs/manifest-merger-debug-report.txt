@@ -1,0 +1,421 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:1:1-17:12
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:1:1-17:12
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:1:1-17:12
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:1:1-17:12
+MERGED from [:feature-auth] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-auth/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:feature-home] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-home/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [:core:ui] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/core/ui/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.material:material:1.12.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/55f7253ca06403ee4bf324eb4c0d6d59/transformed/material-1.12.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d67f01267c1eb6ae7845716ea9a42707/transformed/constraintlayout-2.0.1/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ea53d9b10f48686869993ebfdc6cfd49/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/2b83fdae3ba8ac1a3ba21387e25798ae/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7f0c82eac9cc7d2bc01e3f69710e3766/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a5ce21598dce2c6036e8b8a04d153fe5/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.5.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/577d1265d47f57c1a999f171909e15dd/transformed/transition-1.5.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/56f98805fad3fbbcadf8ddb6dc623be6/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/260cf9ea200e744eb65b0b4a2a4ab089/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ed676cdc54f0fdf8dbf3e7e5185ec6ed/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/51198d7707f0aff63094254dd992608f/transformed/viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cbeccbdbbca64089ccfd199f01009c3c/transformed/navigation-common-2.8.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7fae08f4a1f26cfa153f972c3614fe34/transformed/navigation-runtime-2.8.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8869c652034bd789e126bbba0bb83814/transformed/navigation-common-ktx-2.8.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/af29fdd7d245e9b6f2dd0702ff8613ba/transformed/navigation-runtime-ktx-2.8.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-compose:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8612ede7da98b96f0e21b39b1a3c0a3d/transformed/navigation-compose-2.8.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material3:material3-android:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/175c366b2913a05cd1eb332e47f9e6bd/transformed/material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.material:material-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e15523ef390fd5fae244887b2af75557/transformed/material-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7d3487d974fdddbd5d597a31950367dc/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/889a762646fd90012902f7601e3c373e/transformed/material-icons-extended-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a65f091dbcef7c5aeb34b80f57f0c3a5/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bdc357a74f01748381bced693c5b9283/transformed/foundation-layout-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fdbb0d553de6cc5a0bf59f5347b3bebf/transformed/foundation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cb6ecf87e9bac3db1d6a6dd8a9118ef4/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53164f7905ade442cdbbb091eddd6d6a/transformed/animation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3593288a75b111b566bf6d2d6ebc53d8/transformed/ui-tooling-data-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/726b439c3ed7959e3bbb0315400dccfa/transformed/ui-unit-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95aff208e0273a1c45b23dd4014bff94/transformed/ui-geometry-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0ee2516e7b2d615805aea72c1f871375/transformed/ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-util-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bc8c67efa0591e1b468414ea7bf05ff9/transformed/ui-util-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/14058d6ec2c9d1f9af1a77dd6ae2843f/transformed/ui-text-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/84f215c49e7fee7e3092426fd246a539/transformed/ui-graphics-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d1412b48527326876f9e9bdaf965de22/transformed/fragment-1.3.6/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3073ad29ba4db70bdc3927b445c5a338/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4a28adcf99e1d680b48c9d6aa5810354/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/b38dda683b3a6136a20d4f6910cef94d/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/10d640f13b8286c55db4f52d7035fa68/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5387cf0f69c3fc4432ab8903f5a5c76c/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0e9137be857b63a3e4f714878cd7e9fd/transformed/lifecycle-viewmodel-2.8.3/AndroidManifest.xml:2:1-5:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8753a9ae47b9a1f97ba94b50625040a1/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/adb78995975bd29f81ada7a3ec616d6f/transformed/lifecycle-livedata-core-ktx-2.8.3/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4b0f7068b1cb588cc50e603c83e0fdd8/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fae52e7f7345780dd2dc8397c0b1f5c3/transformed/lifecycle-runtime-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a7c0c4ec575287d4b05a720650a62734/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d16baad549ed91d6ed7bafbc8bc77008/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5009486650854a41dcac18e2516bcf3c/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/77215a7ca4478e1c6da21b589286b068/transformed/lifecycle-livedata-2.8.3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95a9aff3b13e55c094208caca8e8b963/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0a0afaac8a3d50f3e9df4e43e258af49/transformed/lifecycle-viewmodel-compose-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7dab81b1af6f43bf0ae5eafc95f53cf7/transformed/ui-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.activity:activity-compose:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/063fa1c5ec83fe843e034278a86b33de/transformed/activity-compose-1.9.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-ktx:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a751d5c441e7fc0beca0c681abd917e0/transformed/activity-ktx-1.9.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e2b86682168563dda4b8eaa1d0d1e14e/transformed/activity-1.9.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/41df76c889aae77bee060010314df45b/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/554947b8e882c5b551ff14a3e90c1daf/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f51350180b7239b11416d5934d43d05d/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/16df6066822159cfe5b950b7b8ea1c52/transformed/autofill-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.graphics:graphics-path:1.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/73037460b702f4c732c40cf877d191e4/transformed/graphics-path-1.0.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/81ce1070d3e1b94cb0264065579d19e2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5238ff8a78d5e72052b095a60da83c76/transformed/core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/57ac58d906fa5d38f734cc91f764123d/transformed/datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7e5d857d1df30895bbcc911c0aae26dd/transformed/datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/253b3a2901351aa6657cc1b71a8a3d26/transformed/datastore-preferences-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53c46fc8d4f6a7edd15b098d75205a17/transformed/runtime-saveable-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e8fee52243b2b50f9a8be15d94789ed7/transformed/runtime-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f10cb87b2b38ee36186bf36dea5d8fd7/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/20b2946fa309fc10253a1d294ffbeb98/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd937648d5351787e61652f44d14c728/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c593260c81b12f3dd2f39fd19a1515e9/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c033d4ce5d1cabd69e519b982f84d590/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/96259420acefda37f85a62182566dfa0/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d15b481aae8e96bba4a6f5e3ea590e00/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8ef787a9a3b19d61bbd8869a518bc2b6/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/97b8222ef9a231fb21955be3373e1a5a/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a94fa7b4e7d9b3b356ae528d2b5396be/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:2:5-16:19
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:2:5-16:19
+MERGED from [com.google.android.material:material:1.12.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/55f7253ca06403ee4bf324eb4c0d6d59/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.12.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/55f7253ca06403ee4bf324eb4c0d6d59/transformed/material-1.12.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d67f01267c1eb6ae7845716ea9a42707/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d67f01267c1eb6ae7845716ea9a42707/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:28:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/20b2946fa309fc10253a1d294ffbeb98/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/20b2946fa309fc10253a1d294ffbeb98/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:5:9-35
+	android:label
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:4:9-32
+	android:allowBackup
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:3:9-35
+	android:theme
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:6:9-72
+activity#com.misw4203.vinilos.app.MainActivity
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:7:9-15:20
+	android:exported
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:9:13-36
+	android:theme
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:10:13-76
+	android:name
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:8:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:11:13-14:29
+action#android.intent.action.MAIN
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:12:17-69
+	android:name
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:12:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:13:17-77
+	android:name
+		ADDED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml:13:27-74
+uses-sdk
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+MERGED from [:feature-auth] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-auth/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:feature-auth] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-auth/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:feature-home] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-home/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:feature-home] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/feature-home/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:core:ui] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/core/ui/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:core:ui] /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/core/ui/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.material:material:1.12.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/55f7253ca06403ee4bf324eb4c0d6d59/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.12.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/55f7253ca06403ee4bf324eb4c0d6d59/transformed/material-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d67f01267c1eb6ae7845716ea9a42707/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d67f01267c1eb6ae7845716ea9a42707/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ea53d9b10f48686869993ebfdc6cfd49/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ea53d9b10f48686869993ebfdc6cfd49/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/2b83fdae3ba8ac1a3ba21387e25798ae/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/2b83fdae3ba8ac1a3ba21387e25798ae/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7f0c82eac9cc7d2bc01e3f69710e3766/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7f0c82eac9cc7d2bc01e3f69710e3766/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a5ce21598dce2c6036e8b8a04d153fe5/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a5ce21598dce2c6036e8b8a04d153fe5/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.5.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/577d1265d47f57c1a999f171909e15dd/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.transition:transition:1.5.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/577d1265d47f57c1a999f171909e15dd/transformed/transition-1.5.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/56f98805fad3fbbcadf8ddb6dc623be6/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/56f98805fad3fbbcadf8ddb6dc623be6/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/260cf9ea200e744eb65b0b4a2a4ab089/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/260cf9ea200e744eb65b0b4a2a4ab089/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ed676cdc54f0fdf8dbf3e7e5185ec6ed/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/ed676cdc54f0fdf8dbf3e7e5185ec6ed/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/51198d7707f0aff63094254dd992608f/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/51198d7707f0aff63094254dd992608f/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cbeccbdbbca64089ccfd199f01009c3c/transformed/navigation-common-2.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cbeccbdbbca64089ccfd199f01009c3c/transformed/navigation-common-2.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7fae08f4a1f26cfa153f972c3614fe34/transformed/navigation-runtime-2.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7fae08f4a1f26cfa153f972c3614fe34/transformed/navigation-runtime-2.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8869c652034bd789e126bbba0bb83814/transformed/navigation-common-ktx-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8869c652034bd789e126bbba0bb83814/transformed/navigation-common-ktx-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/af29fdd7d245e9b6f2dd0702ff8613ba/transformed/navigation-runtime-ktx-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/af29fdd7d245e9b6f2dd0702ff8613ba/transformed/navigation-runtime-ktx-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8612ede7da98b96f0e21b39b1a3c0a3d/transformed/navigation-compose-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose:2.8.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8612ede7da98b96f0e21b39b1a3c0a3d/transformed/navigation-compose-2.8.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material3:material3-android:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/175c366b2913a05cd1eb332e47f9e6bd/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/175c366b2913a05cd1eb332e47f9e6bd/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material:material-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e15523ef390fd5fae244887b2af75557/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e15523ef390fd5fae244887b2af75557/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7d3487d974fdddbd5d597a31950367dc/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7d3487d974fdddbd5d597a31950367dc/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/889a762646fd90012902f7601e3c373e/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/889a762646fd90012902f7601e3c373e/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a65f091dbcef7c5aeb34b80f57f0c3a5/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a65f091dbcef7c5aeb34b80f57f0c3a5/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bdc357a74f01748381bced693c5b9283/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bdc357a74f01748381bced693c5b9283/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fdbb0d553de6cc5a0bf59f5347b3bebf/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fdbb0d553de6cc5a0bf59f5347b3bebf/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cb6ecf87e9bac3db1d6a6dd8a9118ef4/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/cb6ecf87e9bac3db1d6a6dd8a9118ef4/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53164f7905ade442cdbbb091eddd6d6a/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53164f7905ade442cdbbb091eddd6d6a/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3593288a75b111b566bf6d2d6ebc53d8/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3593288a75b111b566bf6d2d6ebc53d8/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/726b439c3ed7959e3bbb0315400dccfa/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/726b439c3ed7959e3bbb0315400dccfa/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95aff208e0273a1c45b23dd4014bff94/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95aff208e0273a1c45b23dd4014bff94/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0ee2516e7b2d615805aea72c1f871375/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0ee2516e7b2d615805aea72c1f871375/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bc8c67efa0591e1b468414ea7bf05ff9/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bc8c67efa0591e1b468414ea7bf05ff9/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/14058d6ec2c9d1f9af1a77dd6ae2843f/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/14058d6ec2c9d1f9af1a77dd6ae2843f/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/84f215c49e7fee7e3092426fd246a539/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/84f215c49e7fee7e3092426fd246a539/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d1412b48527326876f9e9bdaf965de22/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d1412b48527326876f9e9bdaf965de22/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3073ad29ba4db70bdc3927b445c5a338/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/3073ad29ba4db70bdc3927b445c5a338/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4a28adcf99e1d680b48c9d6aa5810354/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4a28adcf99e1d680b48c9d6aa5810354/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/b38dda683b3a6136a20d4f6910cef94d/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/b38dda683b3a6136a20d4f6910cef94d/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/10d640f13b8286c55db4f52d7035fa68/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/10d640f13b8286c55db4f52d7035fa68/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5387cf0f69c3fc4432ab8903f5a5c76c/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5387cf0f69c3fc4432ab8903f5a5c76c/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0e9137be857b63a3e4f714878cd7e9fd/transformed/lifecycle-viewmodel-2.8.3/AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0e9137be857b63a3e4f714878cd7e9fd/transformed/lifecycle-viewmodel-2.8.3/AndroidManifest.xml:4:5-43
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8753a9ae47b9a1f97ba94b50625040a1/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8753a9ae47b9a1f97ba94b50625040a1/transformed/lifecycle-viewmodel-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/adb78995975bd29f81ada7a3ec616d6f/transformed/lifecycle-livedata-core-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/adb78995975bd29f81ada7a3ec616d6f/transformed/lifecycle-livedata-core-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4b0f7068b1cb588cc50e603c83e0fdd8/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/4b0f7068b1cb588cc50e603c83e0fdd8/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fae52e7f7345780dd2dc8397c0b1f5c3/transformed/lifecycle-runtime-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/fae52e7f7345780dd2dc8397c0b1f5c3/transformed/lifecycle-runtime-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a7c0c4ec575287d4b05a720650a62734/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a7c0c4ec575287d4b05a720650a62734/transformed/lifecycle-viewmodel-savedstate-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d16baad549ed91d6ed7bafbc8bc77008/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d16baad549ed91d6ed7bafbc8bc77008/transformed/lifecycle-viewmodel-ktx-2.8.3/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5009486650854a41dcac18e2516bcf3c/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5009486650854a41dcac18e2516bcf3c/transformed/lifecycle-livedata-core-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/77215a7ca4478e1c6da21b589286b068/transformed/lifecycle-livedata-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/77215a7ca4478e1c6da21b589286b068/transformed/lifecycle-livedata-2.8.3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95a9aff3b13e55c094208caca8e8b963/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/95a9aff3b13e55c094208caca8e8b963/transformed/lifecycle-runtime-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0a0afaac8a3d50f3e9df4e43e258af49/transformed/lifecycle-viewmodel-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/0a0afaac8a3d50f3e9df4e43e258af49/transformed/lifecycle-viewmodel-compose-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7dab81b1af6f43bf0ae5eafc95f53cf7/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7dab81b1af6f43bf0ae5eafc95f53cf7/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity-compose:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/063fa1c5ec83fe843e034278a86b33de/transformed/activity-compose-1.9.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/063fa1c5ec83fe843e034278a86b33de/transformed/activity-compose-1.9.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a751d5c441e7fc0beca0c681abd917e0/transformed/activity-ktx-1.9.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a751d5c441e7fc0beca0c681abd917e0/transformed/activity-ktx-1.9.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e2b86682168563dda4b8eaa1d0d1e14e/transformed/activity-1.9.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.9.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e2b86682168563dda4b8eaa1d0d1e14e/transformed/activity-1.9.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/41df76c889aae77bee060010314df45b/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/41df76c889aae77bee060010314df45b/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/554947b8e882c5b551ff14a3e90c1daf/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/554947b8e882c5b551ff14a3e90c1daf/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f51350180b7239b11416d5934d43d05d/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f51350180b7239b11416d5934d43d05d/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/16df6066822159cfe5b950b7b8ea1c52/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/16df6066822159cfe5b950b7b8ea1c52/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.graphics:graphics-path:1.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/73037460b702f4c732c40cf877d191e4/transformed/graphics-path-1.0.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.graphics:graphics-path:1.0.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/73037460b702f4c732c40cf877d191e4/transformed/graphics-path-1.0.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/81ce1070d3e1b94cb0264065579d19e2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/81ce1070d3e1b94cb0264065579d19e2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5238ff8a78d5e72052b095a60da83c76/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/5238ff8a78d5e72052b095a60da83c76/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/57ac58d906fa5d38f734cc91f764123d/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/57ac58d906fa5d38f734cc91f764123d/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7e5d857d1df30895bbcc911c0aae26dd/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/7e5d857d1df30895bbcc911c0aae26dd/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/253b3a2901351aa6657cc1b71a8a3d26/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/253b3a2901351aa6657cc1b71a8a3d26/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53c46fc8d4f6a7edd15b098d75205a17/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/53c46fc8d4f6a7edd15b098d75205a17/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e8fee52243b2b50f9a8be15d94789ed7/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/e8fee52243b2b50f9a8be15d94789ed7/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f10cb87b2b38ee36186bf36dea5d8fd7/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/f10cb87b2b38ee36186bf36dea5d8fd7/transformed/annotation-experimental-1.4.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/20b2946fa309fc10253a1d294ffbeb98/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/20b2946fa309fc10253a1d294ffbeb98/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd937648d5351787e61652f44d14c728/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd937648d5351787e61652f44d14c728/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c593260c81b12f3dd2f39fd19a1515e9/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c593260c81b12f3dd2f39fd19a1515e9/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c033d4ce5d1cabd69e519b982f84d590/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c033d4ce5d1cabd69e519b982f84d590/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/96259420acefda37f85a62182566dfa0/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/96259420acefda37f85a62182566dfa0/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d15b481aae8e96bba4a6f5e3ea590e00/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/d15b481aae8e96bba4a6f5e3ea590e00/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8ef787a9a3b19d61bbd8869a518bc2b6/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/8ef787a9a3b19d61bbd8869a518bc2b6/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/97b8222ef9a231fb21955be3373e1a5a/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/97b8222ef9a231fb21955be3373e1a5a/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a94fa7b4e7d9b3b356ae528d2b5396be/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a94fa7b4e7d9b3b356ae528d2b5396be/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos/app/src/main/AndroidManifest.xml
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/9954ded4347e225ae3c8530039f5b6a1/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/bd9c450799510ff3e0a6e0ab7fac4cbd/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.8.3] /Users/italonovoa/.gradle/caches/9.0.0/transforms/06783546a5c68998ac114cd02fce26c2/transformed/lifecycle-process-2.8.3/AndroidManifest.xml:30:17-78
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.7.0] /Users/italonovoa/.gradle/caches/9.0.0/transforms/c6783d79a70df6ef4ffd31d93050f5de/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+permission#com.misw4203.vinilos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+uses-permission#com.misw4203.vinilos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.13.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/a12b49fa363feec13b684a0cc2a657c3/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/italonovoa/.gradle/caches/9.0.0/transforms/eeffd9a23ead46d53652aa48aa9ad8cf/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
