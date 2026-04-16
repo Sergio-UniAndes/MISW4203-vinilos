@@ -1,1 +1,0 @@
-com.misw4203.vinilos.core.ui

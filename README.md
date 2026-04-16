@@ -62,6 +62,17 @@ La UI consume `RolePermissions` y no decide permisos por hardcode.
 - `feature-auth`: selección de rol y persistencia de sesión.
 - `feature-home`: pantalla principal con lista mock y acciones condicionadas por permisos.
 
+## Versiones del proyecto
+
+- Android Gradle Plugin (AGP): `8.5.2`
+- Kotlin: `1.9.24`
+- Jetpack Compose BOM: `2024.06.00`
+- Compose Compiler: `1.5.14`
+- Gradle Wrapper: `9.0.0`
+- Java/Kotlin target: `21`
+- `compileSdk`: `34`
+- `minSdk`: `24`
+
 ## Requisitos de ejecución
 
 - **JDK 21** instalado localmente.
@@ -87,7 +98,21 @@ java -version
 
 ### Ejecutar el proyecto
 
-Si tu entorno tiene Gradle instalado globalmente:
+Con Gradle Wrapper (recomendado):
+
+```bash
+cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
+./gradlew assembleDebug
+```
+
+Para instalar en un dispositivo/emulador conectado:
+
+```bash
+cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
+./gradlew installDebug
+```
+
+Si prefieres Gradle global:
 
 ```bash
 cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
@@ -102,6 +127,43 @@ En Android Studio:
 2. Ve a **Settings > Build, Execution, Deployment > Build Tools > Gradle**.
 3. Selecciona **Gradle JDK 21**.
 4. Ejecuta la app desde `app` o presiona **Run**.
+
+## Solución rápida de errores comunes
+
+### 1) Tema no encontrado en Manifest
+
+Error típico:
+
+`resource style/Theme.Material3.DayNight.NoActionBar not found`
+
+Solución aplicada en este proyecto:
+
+- Usar tema de framework en `app/src/main/AndroidManifest.xml`:
+  - `@android:style/Theme.Material.Light.NoActionBar`
+
+### 2) Clases duplicadas (`... is defined multiple times`)
+
+Si aparecen clases con sufijo ` 2.class` en `build/intermediates`, limpia y recompila:
+
+```bash
+cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
+./gradlew clean
+./gradlew :core:ui:assembleDebug
+```
+
+### 3) `Cannot access class 'androidx.datastore.core.DataStore'`
+
+Este proyecto ya encapsula la creación del repositorio de sesión en `feature-auth` mediante:
+
+- `feature-auth/src/main/kotlin/com/misw4203/vinilos/feature/auth/data/repository/SessionRepositoryProvider.kt`
+
+Si vuelve a salir, sincroniza Gradle y recompila:
+
+```bash
+cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
+./gradlew --refresh-dependencies
+./gradlew assembleDebug
+```
 
 ## Notas de implementación
 
