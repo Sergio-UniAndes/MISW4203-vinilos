@@ -91,7 +91,7 @@ fun AuthScreen(
                 subtitle = "Browse the catalog and discover music from around the world.",
                 icon = Icons.Outlined.Explore,
                 selected = state.selectedRole == UserRole.VISITOR,
-                onClick = { viewModel.onRoleSelected(UserRole.VISITOR) },
+                onClick = { viewModel.onRoleSelectedAndContinue(UserRole.VISITOR) },
             )
 
             SelectableOptionCard(
@@ -99,7 +99,7 @@ fun AuthScreen(
                 subtitle = "Manage your collection, edit records, and track your library.",
                 icon = Icons.Outlined.Inventory2,
                 selected = state.selectedRole == UserRole.COLLECTOR,
-                onClick = { viewModel.onRoleSelected(UserRole.COLLECTOR) },
+                onClick = { viewModel.onRoleSelectedAndContinue(UserRole.COLLECTOR) },
             )
 
             Spacer(modifier = Modifier.height(4.dp))
