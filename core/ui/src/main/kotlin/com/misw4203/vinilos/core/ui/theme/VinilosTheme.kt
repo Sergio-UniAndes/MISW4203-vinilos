@@ -7,18 +7,39 @@ import androidx.compose.runtime.Composable
 
 private val LightColors = lightColorScheme(
     primary = VinilosTertiary,
+    primaryContainer = VinilosPrimaryContainer,
     secondary = VinilosPrimaryStrong,
+    secondaryContainer = VinilosSecondaryContainer,
     tertiary = VinilosSecondary,
+    background = VinilosBackground,
+    surface = VinilosSurface,
+    surfaceVariant = VinilosSurfaceContainerHigh,
+    surfaceContainerLow = VinilosSurfaceContainerLow,
+    surfaceContainer = VinilosSurfaceContainer,
+    surfaceContainerHigh = VinilosSurfaceContainerHigh,
+    surfaceContainerHighest = VinilosSurfaceContainerHighest,
+    surfaceBright = VinilosSurfaceBright,
+    outlineVariant = VinilosOutlineVariant,
 )
 
 private val DarkColors = darkColorScheme(
     primary = VinilosPrimary,
+    primaryContainer = VinilosPrimaryContainer,
     secondary = VinilosPrimaryStrong,
+    secondaryContainer = VinilosSecondaryContainer,
     tertiary = VinilosTertiary,
     background = VinilosBackground,
     surface = VinilosSurface,
-    surfaceVariant = VinilosSurfaceElevated,
-    outline = VinilosOutline,
+    surfaceVariant = VinilosSurfaceContainerHigh,
+    surfaceContainerLow = VinilosSurfaceContainerLow,
+    surfaceContainer = VinilosSurfaceContainer,
+    surfaceContainerHigh = VinilosSurfaceContainerHigh,
+    surfaceContainerHighest = VinilosSurfaceContainerHighest,
+    surfaceBright = VinilosSurfaceBright,
+    outlineVariant = VinilosOutlineVariant,
+    onBackground = VinilosOnDark,
+    onSurface = VinilosOnDark,
+    onSurfaceVariant = VinilosOnDarkMuted,
 )
 
 @Composable

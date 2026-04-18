@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Gradle
+.gradle/
+**/build/
+
+# Local SDK config
+local.properties
+
+# IntelliJ / Android Studio
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+*.iml
+
+# Generated artifacts
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.hprof
+
+# Kotlin/Java
+out/
+
+# Logs
+*.log
+

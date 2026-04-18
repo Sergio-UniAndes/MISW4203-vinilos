@@ -8,8 +8,7 @@ import com.misw4203.vinilos.core.utils.permissions.PermissionsPolicy
 import com.misw4203.vinilos.core.utils.repository.SessionRepository
 import com.misw4203.vinilos.core.utils.usecase.ClearSessionUseCase
 import com.misw4203.vinilos.core.utils.usecase.ObserveSessionUseCase
-import com.misw4203.vinilos.feature.auth.data.local.sessionDataStore
-import com.misw4203.vinilos.feature.auth.data.repository.LocalSessionRepository
+import com.misw4203.vinilos.feature.auth.data.repository.provideSessionRepository
 import com.misw4203.vinilos.feature.auth.domain.SelectRoleUseCase
 import com.misw4203.vinilos.feature.auth.ui.AuthViewModel
 import com.misw4203.vinilos.feature.home.data.repository.MockHomeRepository
@@ -19,8 +18,8 @@ import com.misw4203.vinilos.feature.home.ui.HomeViewModel
 class AppContainer(context: Context) {
 
     private val permissionsPolicy: PermissionsPolicy = DefaultPermissionsPolicy()
-    private val sessionRepository: SessionRepository = LocalSessionRepository(
-        dataStore = context.sessionDataStore,
+    private val sessionRepository: SessionRepository = provideSessionRepository(
+        context = context,
         permissionsPolicy = permissionsPolicy,
     )
     private val homeRepository = MockHomeRepository()

@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -22,14 +23,21 @@ class HomeViewModel(
     private val clearSessionUseCase: ClearSessionUseCase,
 ) : ViewModel() {
 
+    private val selectedFilter = MutableStateFlow(HomeFilter.RECENTLY_ADDED)
+    private val selectedTab = MutableStateFlow(HomeTab.ALBUMS)
+
     val uiState: StateFlow<HomeUiState> = combine(
         observeSessionUseCase(),
         observeHomeItemsUseCase(),
-    ) { session: UserSession?, items: List<HomeItem> ->
+        selectedFilter,
+        selectedTab,
+    ) { session: UserSession?, items: List<HomeItem>, filter: HomeFilter, tab: HomeTab ->
         HomeUiState(
             isLoading = false,
             session = session,
             items = items,
+            selectedFilter = filter,
+            selectedTab = tab,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -40,16 +48,28 @@ class HomeViewModel(
     private val _effects = MutableSharedFlow<HomeUiEffect>()
     val effects = _effects.asSharedFlow()
 
+    fun onFilterSelected(filter: HomeFilter) {
+        selectedFilter.value = filter
+    }
+
+    fun onTabSelected(tab: HomeTab) {
+        selectedTab.value = tab
+    }
+
     fun onEditItem(item: HomeItem) {
-        emitMessage("Editar ${item.title}")
+        emitMessage("Edit ${item.title}")
     }
 
     fun onDeleteItem(item: HomeItem) {
-        emitMessage("Eliminar ${item.title}")
+        emitMessage("Delete ${item.title}")
     }
 
     fun onCreateItem() {
-        emitMessage("Crear nuevo elemento")
+        emitMessage("Create new album")
+    }
+
+    fun onSearchClick() {
+        emitMessage("Search coming soon")
     }
 
     fun onChangeProfile() {
@@ -65,4 +85,3 @@ class HomeViewModel(
         }
     }
 }
-
