@@ -20,7 +20,7 @@ class AuthViewModel(
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
-    private val _effects = MutableSharedFlow<AuthUiEffect>()
+    private val _effects = MutableSharedFlow<AuthUiEffect>(extraBufferCapacity = 1)
     val effects: SharedFlow<AuthUiEffect> = _effects.asSharedFlow()
 
     fun onRoleSelected(role: UserRole) {
@@ -29,13 +29,22 @@ class AuthViewModel(
         }
     }
 
+    fun onRoleSelectedAndContinue(role: UserRole) {
+        onRoleSelected(role)
+        onGetStarted()
+    }
+
     fun onGetStarted() {
+        if (_uiState.value.isSubmitting) return
         val selectedRole = _uiState.value.selectedRole ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true) }
-            selectRoleUseCase(selectedRole)
-            _effects.emit(AuthUiEffect.NavigateHome)
-            _uiState.update { it.copy(isSubmitting = false) }
+            try {
+                selectRoleUseCase(selectedRole)
+                _effects.tryEmit(AuthUiEffect.NavigateHome)
+            } finally {
+                _uiState.update { it.copy(isSubmitting = false) }
+            }
         }
     }
 }

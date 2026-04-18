@@ -57,6 +57,7 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                 viewModel = viewModel,
                 onContinue = {
                     navController.navigate(AppRoute.Home) {
+                        launchSingleTop = true
                         popUpTo(AppRoute.Auth) { inclusive = true }
                     }
                 },

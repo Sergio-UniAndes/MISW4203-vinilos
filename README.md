@@ -27,13 +27,13 @@ ui
 ## Flujo funcional mínimo
 
 1. `app` inicia con una pantalla bootstrap.
-2. Se consulta la sesión local persistida.
-3. Si no hay rol guardado, se navega a `feature-auth`.
+2. Se consulta la sesión activa en memoria.
+3. Como la sesión no se persiste localmente, el arranque va a `feature-auth` al abrir la app.
 4. El usuario selecciona un rol:
    - `Visitor`: solo lectura.
    - `Collector`: gestión completa.
-5. Se persiste el rol en DataStore.
-6. Al reabrir la app, si existe sesión, se va directo a `feature-home`.
+5. El rol se guarda solo durante la ejecución actual de la app.
+6. Al continuar, se navega a `feature-home`.
 
 ## Control de permisos
 
@@ -59,8 +59,8 @@ La UI consume `RolePermissions` y no decide permisos por hardcode.
 - `core:ui`: componentes Compose reutilizables y tema.
 - `core:navigation`: rutas comunes.
 - `core:utils`: sesión, permisos, modelos compartidos y casos de uso base.
-- `feature-auth`: selección de rol y persistencia de sesión.
-- `feature-home`: pantalla principal con lista mock y acciones condicionadas por permisos.
+- `feature-auth`: selección de rol y sesión en memoria.
+- `feature-home`: pantalla principal con álbumes desde un microservicio HTTP y acciones condicionadas por permisos.
 
 ## Versiones del proyecto
 
@@ -79,6 +79,7 @@ La UI consume `RolePermissions` y no decide permisos por hardcode.
 - Android Studio configurado para usar **Gradle JDK 21**.
 - Si ejecutas desde terminal, asegúrate de que `JAVA_HOME` apunte a JDK 21.
 - El proyecto está unificado para compilar con **Java/Kotlin 21**.
+- Para HU001, el backend esperado expone `GET http://localhost:3000/albums`; en el emulador Android esto se resuelve como `http://10.0.2.2:3000/albums`.
 
 ### Verificar la versión de Java
 
@@ -151,25 +152,22 @@ cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
 ./gradlew :core:ui:assembleDebug
 ```
 
-### 3) `Cannot access class 'androidx.datastore.core.DataStore'`
+### 3) Error de compilación tras cambios de dependencias
 
-Este proyecto ya encapsula la creación del repositorio de sesión en `feature-auth` mediante:
-
-- `feature-auth/src/main/kotlin/com/misw4203/vinilos/feature/auth/data/repository/SessionRepositoryProvider.kt`
-
-Si vuelve a salir, sincroniza Gradle y recompila:
+Si después de refactorizar módulos o borrar archivos temporales aparece un error de compilación, limpia y recompila:
 
 ```bash
 cd /Users/italonovoa/Documents/maestria/mobile/MISW4203-vinilos
-./gradlew --refresh-dependencies
+./gradlew clean
 ./gradlew assembleDebug
 ```
 
 ## Notas de implementación
 
 - No se usa XML.
-- No existe autenticación tradicional ni consumo de backend.
-- La solución está preparada para reemplazar los repositorios mock por implementaciones reales en el futuro.
+- No existe autenticación tradicional; HU001 consume el microservicio de álbumes por HTTP.
+- La sesión actual vive en memoria y se limpia al cerrar la app.
+- El catálogo de `feature-home` se obtiene por HTTP y el filtro por género sigue mockeado localmente.
 
 ## Siguiente paso recomendado
 
