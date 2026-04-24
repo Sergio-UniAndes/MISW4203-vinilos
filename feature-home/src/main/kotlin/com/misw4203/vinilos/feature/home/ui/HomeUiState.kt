@@ -29,8 +29,12 @@ data class HomeUiState(
     val filteredItems: List<HomeItem>
         get() = when (selectedFilter) {
             HomeFilter.RECENTLY_ADDED -> items.sortedByDescending(HomeItem::year)
-            HomeFilter.ROCK -> items.filter { it.genre.equals("Rock", ignoreCase = true) }
-            HomeFilter.JAZZ -> items.filter { it.genre.equals("Jazz", ignoreCase = true) }
+            HomeFilter.ROCK -> items
+                .filter { it.genre.equals("Rock", ignoreCase = true) }
+                .sortedByDescending(HomeItem::year)
+            HomeFilter.JAZZ -> items
+                .filter { it.genre.equals("Jazz", ignoreCase = true) }
+                .sortedByDescending(HomeItem::year)
         }
 
     val featuredItem: HomeItem?
