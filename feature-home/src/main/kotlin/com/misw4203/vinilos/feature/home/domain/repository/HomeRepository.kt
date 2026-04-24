@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
     fun observeItems(): Flow<List<HomeItem>>
+    fun observeItem(id: String): Flow<HomeItem?>
 }
 
