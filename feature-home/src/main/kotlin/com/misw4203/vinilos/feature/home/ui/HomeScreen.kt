@@ -46,12 +46,14 @@ import com.misw4203.vinilos.core.ui.components.VinilosBottomNavItem
 import com.misw4203.vinilos.core.ui.components.VinilosBottomNavigationBar
 import com.misw4203.vinilos.core.ui.components.VinilosFilterChip
 import com.misw4203.vinilos.core.ui.components.VinilosTopBar
+import com.misw4203.vinilos.feature.home.domain.model.HomeItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
     onBackToAuth: () -> Unit,
+    onAlbumClick: (HomeItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -105,6 +107,7 @@ fun HomeScreen(
                     onFilterSelected = viewModel::onFilterSelected,
                     onEditItem = viewModel::onEditItem,
                     onDeleteItem = viewModel::onDeleteItem,
+                    onAlbumClick = onAlbumClick,
                 )
 
                 HomeTab.ARTISTS -> ComingSoonSection(title = "Artists")
@@ -119,8 +122,9 @@ fun HomeScreen(
 private fun AlbumsEditorialFeed(
     state: HomeUiState,
     onFilterSelected: (HomeFilter) -> Unit,
-    onEditItem: (com.misw4203.vinilos.feature.home.domain.model.HomeItem) -> Unit,
-    onDeleteItem: (com.misw4203.vinilos.feature.home.domain.model.HomeItem) -> Unit,
+    onEditItem: (HomeItem) -> Unit,
+    onDeleteItem: (HomeItem) -> Unit,
+    onAlbumClick: (HomeItem) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -192,6 +196,7 @@ private fun AlbumsEditorialFeed(
         state.featuredItem?.let { featuredItem ->
             item(span = { GridItemSpan(maxLineSpan) }) {
                 FeaturedAlbumCard(
+                    modifier = Modifier.clickable { onAlbumClick(featuredItem) },
                     itemTitle = featuredItem.title,
                     artist = featuredItem.artist,
                     genre = featuredItem.genre,
@@ -206,6 +211,7 @@ private fun AlbumsEditorialFeed(
 
         items(state.gridItems, key = { it.id }) { item ->
             AlbumTileCard(
+                modifier = Modifier.clickable { onAlbumClick(item) },
                 title = item.title,
                 artist = item.artist,
                 genre = item.genre,
@@ -221,6 +227,7 @@ private fun AlbumsEditorialFeed(
 
 @Composable
 private fun FeaturedAlbumCard(
+    modifier: Modifier = Modifier,
     itemTitle: String,
     artist: String,
     genre: String,
@@ -232,7 +239,7 @@ private fun FeaturedAlbumCard(
 ) {
     val brush = editorialBrush(seed = "$itemTitle$artist$genre$year")
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
@@ -293,6 +300,7 @@ private fun FeaturedAlbumCard(
 
 @Composable
 private fun AlbumTileCard(
+    modifier: Modifier = Modifier,
     title: String,
     artist: String,
     genre: String,
@@ -303,7 +311,7 @@ private fun AlbumTileCard(
     onDelete: () -> Unit,
 ) {
     val brush = editorialBrush(seed = "$title$artist$genre$year")
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()

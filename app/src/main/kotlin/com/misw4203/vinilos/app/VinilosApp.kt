@@ -1,5 +1,6 @@
 package com.misw4203.vinilos.app
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,8 +16,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.misw4203.vinilos.core.navigation.AppRoute
 import com.misw4203.vinilos.core.ui.theme.VinilosTheme
+import com.misw4203.vinilos.feature.home.ui.AlbumDetailScreen
+import com.misw4203.vinilos.feature.home.ui.AlbumDetailViewModel
 import com.misw4203.vinilos.feature.auth.ui.AuthScreen
 import com.misw4203.vinilos.feature.auth.ui.AuthViewModel
 import com.misw4203.vinilos.feature.home.ui.HomeScreen
@@ -73,6 +78,25 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                         popUpTo(AppRoute.Home) { inclusive = true }
                     }
                 },
+                onAlbumClick = { item ->
+                    navController.navigate("${AppRoute.AlbumDetail}/${Uri.encode(item.id)}")
+                },
+            )
+        }
+
+        composable(
+            route = "${AppRoute.AlbumDetail}/{${AppRoute.AlbumDetailArg}}",
+            arguments = listOf(
+                navArgument(AppRoute.AlbumDetailArg) { type = NavType.StringType },
+            ),
+        ) { backStackEntry ->
+            val albumId = backStackEntry.arguments?.getString(AppRoute.AlbumDetailArg).orEmpty()
+            val viewModel: AlbumDetailViewModel = viewModel(
+                factory = appContainer.albumDetailViewModelFactory(albumId),
+            )
+            AlbumDetailScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
             )
         }
     }
