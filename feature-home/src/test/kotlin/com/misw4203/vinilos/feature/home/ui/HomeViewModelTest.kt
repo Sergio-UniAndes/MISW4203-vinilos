@@ -15,6 +15,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
@@ -180,5 +181,8 @@ private class FakeHomeRepository(
     private val data = MutableStateFlow(items)
 
     override fun observeItems(): Flow<List<HomeItem>> = data
+
+    override fun observeItem(id: String): Flow<HomeItem?> =
+        data.map { list -> list.firstOrNull { it.id == id } }
 }
 
