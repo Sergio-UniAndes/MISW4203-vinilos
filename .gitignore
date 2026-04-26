@@ -24,6 +24,7 @@ local.properties
 *.dex
 *.class
 *.hprof
+*.drawio
 
 # Kotlin/Java
 out/
@@ -31,3 +32,9 @@ out/
 # Logs
 *.log
 
+# AI
+.agents
+.claude
+.gemini
+.cursorrules
+skills-lock.json
