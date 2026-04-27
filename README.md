@@ -154,7 +154,29 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## 6. Ejecutar las pruebas
 
+El proyecto tiene **61 pruebas automatizadas**: 51 unitarias JVM (rápidas, sin emulador) + 10 E2E instrumentadas (Espresso + Compose UI Test, requieren emulador o dispositivo).
+
 ### Pruebas unitarias JVM (rápidas, sin emulador)
+
+#### Opción A — Android Studio (interfaz gráfica)
+
+**Ejecutar todas las pruebas de un módulo:**
+
+1. En la vista **Project** (panel izquierdo), cambia el filtro a **Project** o **Android** para ver la carpeta `src/test`.
+2. Click derecho sobre la carpeta `feature-home/src/test/kotlin` (o el módulo que quieras) → **Run 'Tests in ...'**.
+3. Los resultados aparecen en la pestaña **Run** abajo, con el árbol de paquetes/clases/métodos en verde o rojo.
+
+**Ejecutar una clase de prueba específica:**
+
+1. Abre la clase, p. ej. `HomeViewModelTest.kt`.
+2. Click en el icono ▶️ verde junto al nombre de la clase (en el _gutter_ a la izquierda) → **Run 'HomeViewModelTest'**.
+
+**Ejecutar un solo test (`@Test`):**
+
+1. Click en el icono ▶️ verde junto al nombre del método.
+2. Útil para iterar rápido cuando estás depurando un caso específico. También puedes usar **Debug** ▶️🐞 para poner breakpoints.
+
+#### Opción B — Línea de comandos (Gradle Wrapper)
 
 ```bash
 # Todas
@@ -165,6 +187,12 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
 ./gradlew :feature-auth:testDebugUnitTest
 ./gradlew :core:utils:test
 ./gradlew :app:testDebugUnitTest
+
+# Una clase específica
+./gradlew :feature-home:testDebugUnitTest --tests "*HomeViewModelTest"
+
+# Un solo método
+./gradlew :feature-home:testDebugUnitTest --tests "*HomeViewModelTest.onFilterSelected_appliesGenreFilter"
 ```
 
 Reportes HTML en `<módulo>/build/reports/tests/testDebugUnitTest/index.html`.
@@ -173,19 +201,46 @@ Cobertura actual: **51 tests JVM** (ViewModels, mapper, repositorio con fake `Ho
 
 ### Pruebas E2E instrumentadas (requieren emulador o dispositivo)
 
+> **Pre-requisito**: tener un emulador corriendo o un dispositivo físico conectado con depuración USB activa. Verifica con `adb devices` que aparezca al menos uno.
+
+#### Opción A — Android Studio (interfaz gráfica)
+
+1. Abre el dropdown del **Device Manager** (esquina superior derecha o a veces en alguna de las toolbars) y selecciona el emulador/dispositivo donde correr las pruebas. Si no hay ninguno, créalo desde **Tools → Device Manager → Create Device**.
+2. En la vista **Project**, navega a `app/src/androidTest/kotlin/com/misw4203/vinilos/app`.
+3. Click derecho sobre la carpeta → **Run 'Tests in ...'**, o sobre una clase específica como `AlbumDetailNavigationEspressoTest`.
+4. Android Studio compila el APK de tests, lo instala en el dispositivo y muestra el progreso en tiempo real en la pestaña **Run**. Verás el emulador ejecutando los gestos automáticos.
+5. Como con los unitarios, también puedes correr una clase o un solo `@Test` desde los iconos ▶️ del _gutter_.
+
+> Los tests E2E del Sprint 1 viven en `:app/src/androidTest`: `AuthHomeFlowTest`, `AuthHomeFlowEspressoTest`, `CollectorPermissionsEspressoTest`, `AlbumDetailNavigationEspressoTest`.
+
+#### Opción B — Línea de comandos
+
 ```bash
 # Verifica que haya un dispositivo conectado
 adb devices
 
 # Ejecuta los 10 tests E2E
 ./gradlew connectedDebugAndroidTest
+
+# Una clase específica
+./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.misw4203.vinilos.app.AlbumDetailNavigationEspressoTest
 ```
 
 Reporte en `app/build/reports/androidTests/connected/index.html`.
 
 Cobertura actual: **10 tests E2E** (Bootstrap → Auth → Home, navegación HU02, visibilidad por rol).
 
-> **Tip Windows:** si Gradle no encuentra JDK 21 con error `Cannot find a Java installation … languageVersion=21`, exporta `JAVA_HOME` apuntando al JBR de Android Studio antes de invocar el wrapper:
+> **Tip Windows (CLI):** si Gradle no encuentra JDK 21 con error `Cannot find a Java installation … languageVersion=21`, exporta `JAVA_HOME` apuntando al JBR de Android Studio antes de invocar el wrapper. **Desde Android Studio no aplica** porque ya usa su JBR embebido.
+>
+> **PowerShell:**
+>
+> ```powershell
+> $env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
+> $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
+> ./gradlew test
+> ```
+>
+> **Git Bash:**
 >
 > ```bash
 > export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
