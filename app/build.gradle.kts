@@ -73,5 +73,16 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    constraints {
+        implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
+        implementation("org.bouncycastle:bcpkix-jdk18on:1.78.1")
+    }
+}
+
+configurations.configureEach {
+    exclude(group = "org.bouncycastle", module = "bcprov-jdk15to18")
+    exclude(group = "org.bouncycastle", module = "bcprov-jdk15on")
+    exclude(group = "org.bouncycastle", module = "bcpkix-jdk15on")
 }
 
