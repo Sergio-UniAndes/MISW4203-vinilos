@@ -81,6 +81,9 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                 onAlbumClick = { item ->
                     navController.navigate("${AppRoute.AlbumDetail}/${Uri.encode(item.id)}")
                 },
+                onCreateAlbum = {
+                    navController.navigate(AppRoute.CreateAlbum)
+                },
             )
         }
 
@@ -97,6 +100,21 @@ private fun VinilosNavHost(appContainer: AppContainer) {
             AlbumDetailScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
+            )
+        }
+        composable(AppRoute.CreateAlbum) {
+            val viewModel: com.misw4203.vinilos.feature.home.ui.CreateAlbumViewModel = viewModel(factory = appContainer.createAlbumViewModelFactory())
+            com.misw4203.vinilos.feature.home.ui.CreateAlbumScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onCreated = {
+                    // Ensure Home is refreshed: pop back then navigate to Home to recreate the route
+                    navController.popBackStack()
+                    navController.navigate(AppRoute.Home) {
+                        launchSingleTop = true
+                        popUpTo(AppRoute.Home) { inclusive = true }
+                    }
+                },
             )
         }
     }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class RemoteHomeRepository(
     private val service: HomeService,
@@ -21,4 +22,24 @@ class RemoteHomeRepository(
     override fun observeItem(id: String): Flow<HomeItem?> = flow {
         emit(service.getAlbum(id)?.toHomeItem(0))
     }.flowOn(Dispatchers.IO)
+
+    override suspend fun createAlbum(album: com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto): Boolean {
+        return try {
+            withContext(Dispatchers.IO) {
+                service.createAlbum(album)
+            }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? {
+        return try {
+            withContext(Dispatchers.IO) {
+                service.uploadCover(contentResolver, uriString)
+            }
+        } catch (_: Exception) {
+            null
+        }
+    }
 }
