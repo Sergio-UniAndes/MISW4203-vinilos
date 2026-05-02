@@ -19,9 +19,6 @@ class RemoteArtistsRepository(
     }.flowOn(Dispatchers.IO)
 
     override fun observeArtist(id: Long): Flow<Artist?> = flow {
-        val musicians = service.getMusicians()
-        val artist = musicians.find { it.id == id }?.toArtist()
-        emit(artist)
+        emit(service.getMusician(id)?.toArtist())
     }.flowOn(Dispatchers.IO)
 }
-

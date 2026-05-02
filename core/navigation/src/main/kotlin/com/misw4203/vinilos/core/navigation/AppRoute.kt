@@ -7,5 +7,7 @@ object AppRoute {
     const val AlbumDetail = "albumDetail"
     const val AlbumDetailArg = "albumId"
     const val CreateAlbum = "createAlbum"
+    const val ArtistDetail = "artistDetail"
+    const val ArtistDetailArg = "artistId"
 }
 
