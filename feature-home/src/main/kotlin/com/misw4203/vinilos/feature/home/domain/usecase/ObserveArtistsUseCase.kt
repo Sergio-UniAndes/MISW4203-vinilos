@@ -9,10 +9,3 @@ class ObserveArtistsUseCase(
 ) {
     operator fun invoke(): Flow<List<Artist>> = repository.observeArtists()
 }
-
-class ObserveArtistDetailUseCase(
-    private val repository: ArtistsRepository,
-) {
-    operator fun invoke(id: Long): Flow<Artist?> = repository.observeArtist(id)
-}
-

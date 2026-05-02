@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.stateIn
 data class ArtistsUiState(
     val isLoading: Boolean = true,
     val artists: List<Artist> = emptyList(),
-    val error: String? = null,
 )
 
 class ArtistsViewModel(
@@ -24,7 +23,6 @@ class ArtistsViewModel(
             ArtistsUiState(
                 isLoading = false,
                 artists = artists,
-                error = null,
             )
         }
         .stateIn(
@@ -33,4 +31,3 @@ class ArtistsViewModel(
             initialValue = ArtistsUiState(),
         )
 }
-
