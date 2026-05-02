@@ -55,6 +55,7 @@ fun HomeScreen(
     onBackToAuth: () -> Unit,
     onAlbumClick: (HomeItem) -> Unit,
     modifier: Modifier = Modifier,
+    artistsContent: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -110,7 +111,7 @@ fun HomeScreen(
                     onAlbumClick = onAlbumClick,
                 )
 
-                HomeTab.ARTISTS -> ComingSoonSection(title = "Artists")
+                HomeTab.ARTISTS -> artistsContent()
                 HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
             }
         }
@@ -449,3 +450,5 @@ private fun editorialBrush(seed: String): Brush {
     val colors = palette[index]
     return Brush.linearGradient(colors = colors)
 }
+
+
