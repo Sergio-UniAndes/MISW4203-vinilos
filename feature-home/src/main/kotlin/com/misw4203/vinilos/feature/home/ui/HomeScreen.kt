@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -273,17 +272,14 @@ private fun FeaturedAlbumCard(
                     .clip(RoundedCornerShape(24.dp))
                     .background(brush),
             ) {
-                if (!coverUrl.isNullOrBlank()) {
+                coverUrl?.takeIf { it.isNotBlank() }?.let { url ->
                     AsyncImage(
-                        model = coverUrl,
+                        model = url,
                         contentDescription = itemTitle,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(24.dp)),
                         contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
-
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -481,17 +477,4 @@ private fun ComingSoonSection(title: String) {
         }
     }
 }
-
-private fun editorialBrush(seed: String): Brush {
-    val palette = listOf(
-        listOf(Color(0xFF1F2A37), Color(0xFF0F1115), Color(0xFF7A5CFF)),
-        listOf(Color(0xFF30204B), Color(0xFF111117), Color(0xFFB792FF)),
-        listOf(Color(0xFF15282D), Color(0xFF0E1215), Color(0xFF47E0C8)),
-        listOf(Color(0xFF34261B), Color(0xFF101012), Color(0xFFFFB38A)),
-    )
-    val index = kotlin.math.abs(seed.hashCode()) % palette.size
-    val colors = palette[index]
-    return Brush.linearGradient(colors = colors)
-}
-
 

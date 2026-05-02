@@ -16,55 +16,46 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * End-to-end coverage of HU02 (album detail navigation). Uses Espresso for the system
- * back press and idling synchronization, and Compose finders for in-app nodes. Backend
- * availability is not guaranteed in every environment, so the data-dependent test is
- * skipped via [Assume] when the catalog is empty.
+ * End-to-end coverage of HU04 (artist detail navigation). Uses Espresso for the
+ * system back press and idling synchronization, and Compose finders for in-app
+ * nodes. The data-dependent test is skipped via [Assume] when no artist is
+ * available (e.g. backend unreachable).
  */
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class AlbumDetailNavigationEspressoTest {
+class ArtistDetailNavigationEspressoTest {
 
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun home_rendersTopBar_evenWhenCatalogIsEmpty() {
+    fun visitor_canOpenArtistDetail_andReturnViaSystemBack() {
         navigateToHomeAsVisitor()
 
-        composeRule.onNodeWithText("Vinilos").assertIsDisplayed()
-        // The "TOTAL" suffix is present whether the catalog is empty or populated.
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithText("TOTAL", substring = true).fetchSemanticsNodes().isNotEmpty()
-        }
-    }
+        // Switch to the Artists tab.
+        composeRule.onNodeWithText("Artists").performClick()
+        composeRule.waitForIdle()
 
-    @Test
-    fun visitor_canOpenFeaturedAlbumDetail_andReturnViaSystemBack() {
-        navigateToHomeAsVisitor()
-
-        // Wait briefly for the catalog to load. If the backend is unreachable, the
-        // featured release card never renders and the test is skipped — this keeps
-        // the suite green in environments without the local API.
-        val featuredAvailable = waitForCondition(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithText("FEATURED RELEASE").fetchSemanticsNodes().isNotEmpty()
+        val artistAvailable = waitForCondition(timeoutMillis = 10_000) {
+            composeRule.onAllNodesWithText("SPOTLIGHT").fetchSemanticsNodes().isNotEmpty()
         }
         Assume.assumeTrue(
-            "Album catalog not reachable; HU02 detail-navigation E2E skipped.",
-            featuredAvailable,
+            "Artist catalog not reachable; HU04 detail-navigation E2E skipped.",
+            artistAvailable,
         )
 
-        // The card carries the clickable modifier; clicking the inner label propagates.
-        composeRule.onNodeWithText("FEATURED RELEASE").performClick()
+        // The featured artist's name is rendered alongside the SPOTLIGHT badge.
+        // Tapping the SPOTLIGHT label propagates the click on the parent card.
+        composeRule.onNodeWithText("SPOTLIGHT").performClick()
         composeRule.waitForIdle()
         Espresso.onIdle()
 
-        // Detail screen renders either the section header (success) or the fallback
-        // copy if the per-id endpoint rejects the request — both prove navigation worked.
+        // Detail screen renders FEATURED ARTIST on success or "Artist not found"
+        // if the per-id endpoint rejects the request — both prove navigation worked.
         composeRule.waitUntil(timeoutMillis = 10_000) {
-            val onDetail = composeRule.onAllNodesWithText("About this release")
+            val onDetail = composeRule.onAllNodesWithText("FEATURED ARTIST")
                 .fetchSemanticsNodes().isNotEmpty()
-            val onFallback = composeRule.onAllNodesWithText("Album not found")
+            val onFallback = composeRule.onAllNodesWithText("Artist not found")
                 .fetchSemanticsNodes().isNotEmpty()
             onDetail || onFallback
         }

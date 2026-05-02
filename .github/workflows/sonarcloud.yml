@@ -44,6 +44,5 @@ jobs:
           ./gradlew sonarqube \
             -Dsonar.token=$SONAR_TOKEN \
             -Dsonar.organization=misw-4102-procesosdedesarrolloagil \
-            -Dsonar.host.url=https://sonarcloud.io \
             --no-daemon --info
 

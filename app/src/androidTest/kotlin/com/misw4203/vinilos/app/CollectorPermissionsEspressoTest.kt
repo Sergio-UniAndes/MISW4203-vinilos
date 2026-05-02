@@ -37,8 +37,11 @@ class CollectorPermissionsEspressoTest {
             waitForCatalog(),
         )
 
-        composeRule.onAllNodesWithText("Edit").onFirst().assertIsDisplayed()
-        composeRule.onAllNodesWithText("Delete").onFirst().assertIsDisplayed()
+        // Edit/Delete pills sit below the FeaturedAlbumCard image inside a
+        // LazyVerticalGrid; their viewport visibility depends on screen size,
+        // so assert presence in the semantics tree instead of viewport.
+        composeRule.onAllNodesWithText("Edit").onFirst().assertExists()
+        composeRule.onAllNodesWithText("Delete").onFirst().assertExists()
     }
 
     @Test
