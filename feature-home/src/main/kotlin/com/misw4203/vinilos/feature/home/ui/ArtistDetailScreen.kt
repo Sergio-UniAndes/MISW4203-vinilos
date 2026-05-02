@@ -102,6 +102,7 @@ private fun ArtistDetailContent(
 
 @Composable
 private fun FeaturedArtistHero(artist: Artist) {
+    val brush = editorialBrush(seed = "${artist.id}${artist.name}")
     Card(
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
@@ -114,14 +115,16 @@ private fun FeaturedArtistHero(artist: Artist) {
                     .fillMaxWidth()
                     .aspectRatio(0.85f)
                     .clip(RoundedCornerShape(22.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainer),
+                    .background(brush),
             ) {
-                AsyncImage(
-                    model = artist.image,
-                    contentDescription = artist.name,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                artist.image?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = artist.name,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

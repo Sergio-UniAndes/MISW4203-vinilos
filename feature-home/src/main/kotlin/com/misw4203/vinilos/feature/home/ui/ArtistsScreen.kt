@@ -252,6 +252,7 @@ private fun FeaturedArtistCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val brush = editorialBrush(seed = "${artist.id}${artist.name}")
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -268,14 +269,16 @@ private fun FeaturedArtistCard(
                     .fillMaxWidth()
                     .height(200.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainer),
+                    .background(brush),
             ) {
-                AsyncImage(
-                    model = artist.image,
-                    contentDescription = artist.name,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize(),
-                )
+                artist.image?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = artist.name,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -312,6 +315,7 @@ private fun ArtistListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val brush = editorialBrush(seed = "${artist.id}${artist.name}")
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -325,15 +329,21 @@ private fun ArtistListItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.weight(1f),
         ) {
-            AsyncImage(
-                model = artist.image,
-                contentDescription = artist.name,
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceContainer),
-            )
+                    .background(brush),
+            ) {
+                artist.image?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = artist.name,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+            }
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(

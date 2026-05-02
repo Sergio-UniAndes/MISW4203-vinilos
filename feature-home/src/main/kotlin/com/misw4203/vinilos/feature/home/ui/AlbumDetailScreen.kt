@@ -30,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -125,7 +124,7 @@ fun AlbumDetailScreen(
 
 @Composable
 private fun DetailHeroCard(album: HomeItem) {
-    val brush = editorialBrush(seed = "${album.id}${album.title}${album.artist}${album.genre}")
+    val brush = editorialRadialBrush(seed = "${album.id}${album.title}${album.artist}${album.genre}")
 
     Card(
         shape = RoundedCornerShape(32.dp),
@@ -396,21 +395,6 @@ private fun DetailChip(text: String) {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
         )
     }
-}
-
-private fun editorialBrush(seed: String): Brush {
-    val palette = listOf(
-        listOf(Color(0xFF1F2A37), Color(0xFF0F1115), Color(0xFF7A5CFF)),
-        listOf(Color(0xFF30204B), Color(0xFF111117), Color(0xFFB792FF)),
-        listOf(Color(0xFF15282D), Color(0xFF0E1215), Color(0xFF47E0C8)),
-        listOf(Color(0xFF34261B), Color(0xFF101012), Color(0xFFFFB38A)),
-    )
-    val index = kotlin.math.abs(seed.hashCode()) % palette.size
-    return Brush.radialGradient(
-        colors = palette[index],
-        center = Offset(500f, 240f),
-        radius = 1200f,
-    )
 }
 
 private fun formatReleaseDate(releaseDate: String?, fallbackYear: Int): String {
