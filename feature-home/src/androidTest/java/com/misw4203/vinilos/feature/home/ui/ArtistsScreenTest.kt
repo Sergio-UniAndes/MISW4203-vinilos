@@ -4,52 +4,90 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.misw4203.vinilos.feature.home.domain.model.Artist
+import com.misw4203.vinilos.feature.home.domain.repository.ArtistsRepository
+import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.misw4203.vinilos.feature.home.domain.model.Artist
 
-// Use AndroidJUnit4 to run instrumented Compose tests. Espresso is available in dependencies for interop.
 @RunWith(AndroidJUnit4::class)
 class ArtistsScreenTest {
 
     @get:Rule
     val composeRule = createAndroidComposeRule<ComponentActivity>()
 
-    private class FakeArtistsRepository(private val artists: List<Artist>) : com.misw4203.vinilos.feature.home.domain.repository.ArtistsRepository {
+    private class FakeArtistsRepository(private val artists: List<Artist>) : ArtistsRepository {
         override fun observeArtists(): Flow<List<Artist>> = flowOf(artists)
         override fun observeArtist(id: Long): Flow<Artist?> = flowOf(artists.find { it.id == id })
     }
 
-    @Test
-    fun artistsScreen_displaysArtistsAndSpotlight() {
-        val sample = listOf(
-            Artist(id = 1L, name = "The Midnight Ink", image = null, description = "Artist of the month"),
-            Artist(id = 2L, name = "Julian Vance", image = null, description = "12 Records • Neo-Soul"),
+    private fun screenWith(artists: List<Artist>) {
+        val viewModel = ArtistsViewModel(
+            observeArtistsUseCase = ObserveArtistsUseCase(FakeArtistsRepository(artists)),
         )
-
-        val fakeRepo = FakeArtistsRepository(sample)
-        val useCase = com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase(fakeRepo)
-        val viewModel = ArtistsViewModel(observeArtistsUseCase = useCase)
-
         composeRule.setContent {
             MaterialTheme {
                 ArtistsScreen(viewModel = viewModel)
             }
         }
+    }
 
-        // Title
+    @Test
+    fun artistsScreen_displaysArtistsAndSpotlight() {
+        screenWith(
+            listOf(
+                Artist(id = 1L, name = "The Midnight Ink", description = "Artist of the month"),
+                Artist(id = 2L, name = "Julian Vance", description = "12 Records · Neo-Soul"),
+            ),
+        )
+
         composeRule.onNodeWithText("Artists").assertIsDisplayed()
-
-        // Spotlight artist (first)
         composeRule.onNodeWithText("The Midnight Ink").assertIsDisplayed()
-
-        // List item
         composeRule.onNodeWithText("Julian Vance").assertIsDisplayed()
     }
-}
 
+    @Test
+    fun artistsScreen_filtersList_whenUserTypesInSearch() {
+        screenWith(
+            listOf(
+                Artist(id = 1L, name = "Ruben Blades"),
+                Artist(id = 2L, name = "Joan Manuel Serrat"),
+                Artist(id = 3L, name = "Lila Downs"),
+            ),
+        )
+
+        composeRule.onNodeWithText("Ruben Blades").assertIsDisplayed()
+        composeRule.onNodeWithText("Joan Manuel Serrat").assertIsDisplayed()
+
+        composeRule.onNodeWithTag(SEARCH_FIELD_TAG).performTextInput("ruben")
+        composeRule.waitForIdle()
+
+        composeRule.onNodeWithText("Ruben Blades").assertIsDisplayed()
+        composeRule.onNodeWithText("Joan Manuel Serrat").assertDoesNotExist()
+        composeRule.onNodeWithText("Lila Downs").assertDoesNotExist()
+    }
+
+    @Test
+    fun artistsScreen_showsEmptyMessage_whenNoArtistsAvailable() {
+        screenWith(emptyList())
+
+        composeRule.onNodeWithText("No artists in the catalog yet.").assertIsDisplayed()
+    }
+
+    @Test
+    fun artistsScreen_showsNoMatches_whenQueryHasNoResults() {
+        screenWith(listOf(Artist(id = 1L, name = "Ruben Blades")))
+
+        composeRule.onNodeWithTag(SEARCH_FIELD_TAG).performTextInput("zzz")
+        composeRule.waitForIdle()
+
+        composeRule.onNodeWithText("No matches for \"zzz\".").assertIsDisplayed()
+    }
+}

@@ -3,6 +3,8 @@ package com.misw4203.vinilos.feature.home.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Search
@@ -27,11 +31,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,89 +65,150 @@ fun ArtistsScreen(
             .padding(horizontal = 16.dp),
     ) {
         item {
-            // Header with title
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.padding(vertical = 16.dp),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Bottom,
-                ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(
-                            text = "Artists",
-                            style = MaterialTheme.typography.displayMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                        Box(
-                            modifier = Modifier
-                                .width(70.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(999.dp))
-                                .background(MaterialTheme.colorScheme.primary),
+            ArtistsHeader(
+                query = state.query,
+                totalCount = state.totalCount,
+                onQueryChange = viewModel::onQueryChange,
+            )
+        }
+
+        when {
+            state.totalCount == 0 -> {
+                item { EmptyMessage(text = "No artists in the catalog yet.") }
+            }
+            state.artists.isEmpty() -> {
+                item {
+                    EmptyMessage(text = "No matches for \"${state.query.trim()}\".")
+                }
+            }
+            else -> {
+                state.artists.firstOrNull()?.let { featuredArtist ->
+                    item {
+                        FeaturedArtistCard(
+                            artist = featuredArtist,
+                            modifier = Modifier.padding(vertical = 16.dp),
                         )
                     }
-
-                    Text(
-                        text = "${state.artists.size} TOTAL",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f),
-                    )
                 }
+                items(state.artists.drop(1), key = { it.id }) { artist ->
+                    ArtistListItem(artist = artist)
+                }
+            }
+        }
 
-                // Search bar
-                Card(
+        item { Box(modifier = Modifier.height(60.dp)) }
+    }
+}
+
+@Composable
+private fun ArtistsHeader(
+    query: String,
+    totalCount: Int,
+    onQueryChange: (String) -> Unit,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.padding(vertical = 16.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(
+                    text = "Artists",
+                    style = MaterialTheme.typography.displayMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    shape = RoundedCornerShape(50.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        Image(
-                            imageVector = Icons.Outlined.Search,
-                            contentDescription = "Search",
-                            modifier = Modifier.size(20.dp),
-                        )
+                        .width(70.dp)
+                        .height(5.dp)
+                        .clip(RoundedCornerShape(999.dp))
+                        .background(MaterialTheme.colorScheme.primary),
+                )
+            }
+
+            Text(
+                text = "$totalCount TOTAL",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.9f),
+            )
+        }
+
+        SearchPill(
+            query = query,
+            onQueryChange = onQueryChange,
+        )
+    }
+}
+
+@Composable
+private fun SearchPill(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val containerColor = if (isFocused) {
+        MaterialTheme.colorScheme.surfaceBright
+    } else {
+        MaterialTheme.colorScheme.surfaceContainerHigh
+    }
+    val iconColor = if (isFocused) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp),
+        shape = RoundedCornerShape(999.dp),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Image(
+                imageVector = Icons.Outlined.Search,
+                contentDescription = "Search",
+                colorFilter = ColorFilter.tint(iconColor),
+                modifier = Modifier.size(20.dp),
+            )
+            BasicTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                singleLine = true,
+                interactionSource = interactionSource,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag(SEARCH_FIELD_TAG),
+                decorationBox = { innerTextField ->
+                    if (query.isEmpty()) {
                         Text(
                             text = "Find your favorite curator...",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
-                }
-            }
-        }
-
-        // Spotlight / Featured artist (first item)
-        state.artists.firstOrNull()?.let { featuredArtist ->
-            item {
-                FeaturedArtistCard(
-                    artist = featuredArtist,
-                    modifier = Modifier.padding(vertical = 16.dp),
-                )
-            }
-        }
-
-        // Artists list
-        items(state.artists.drop(1), key = { it.id }) { artist ->
-            ArtistListItem(artist = artist)
-        }
-
-        item {
-            // Bottom padding
-            Box(modifier = Modifier.height(60.dp))
+                    innerTextField()
+                },
+            )
         }
     }
 }
@@ -152,6 +222,22 @@ private fun LoadingState(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+    }
+}
+
+@Composable
+private fun EmptyMessage(text: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 48.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
@@ -266,3 +352,5 @@ private fun ArtistListItem(
         )
     }
 }
+
+internal const val SEARCH_FIELD_TAG = "artists_search_field"

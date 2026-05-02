@@ -1,5 +1,6 @@
 package com.misw4203.vinilos.feature.home.data.remote
 
+import android.util.Log
 import com.misw4203.vinilos.feature.home.data.remote.dto.PerformerDto
 import org.json.JSONArray
 import org.json.JSONObject
@@ -21,11 +22,16 @@ class HttpArtistsService(
             connection.connectTimeout = TIMEOUT_MILLIS
             connection.readTimeout = TIMEOUT_MILLIS
 
-            if (connection.responseCode !in HTTP_SUCCESS_RANGE) return emptyList()
+            val responseCode = connection.responseCode
+            if (responseCode !in HTTP_SUCCESS_RANGE) {
+                Log.w(TAG, "GET /musicians returned $responseCode")
+                return emptyList()
+            }
 
             val payload = connection.inputStream.bufferedReader().use { it.readText() }
             parsePerformers(payload)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.w(TAG, "GET /musicians failed: ${e.message}", e)
             emptyList()
         } finally {
             connection.disconnect()
@@ -58,6 +64,7 @@ class HttpArtistsService(
 
     private companion object {
         const val TIMEOUT_MILLIS = 10_000
+        const val TAG = "HttpArtistsService"
         val HTTP_SUCCESS_RANGE = 200..299
     }
 }
