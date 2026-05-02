@@ -6,5 +6,6 @@ object AppRoute {
     const val Home = "home"
     const val AlbumDetail = "albumDetail"
     const val AlbumDetailArg = "albumId"
+    const val CreateAlbum = "createAlbum"
 }
 
