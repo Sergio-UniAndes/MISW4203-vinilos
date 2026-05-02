@@ -24,6 +24,10 @@ import com.misw4203.vinilos.feature.home.ui.AlbumDetailScreen
 import com.misw4203.vinilos.feature.home.ui.AlbumDetailViewModel
 import com.misw4203.vinilos.feature.auth.ui.AuthScreen
 import com.misw4203.vinilos.feature.auth.ui.AuthViewModel
+import com.misw4203.vinilos.feature.home.data.repository.provideArtistsRepository
+import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase
+import com.misw4203.vinilos.feature.home.ui.ArtistsScreen
+import com.misw4203.vinilos.feature.home.ui.ArtistsViewModel
 import com.misw4203.vinilos.feature.home.ui.HomeScreen
 import com.misw4203.vinilos.feature.home.ui.HomeViewModel
 
@@ -71,6 +75,13 @@ private fun VinilosNavHost(appContainer: AppContainer) {
 
         composable(AppRoute.Home) {
             val viewModel: HomeViewModel = viewModel(factory = appContainer.homeViewModelFactory())
+            val artistsViewModel: ArtistsViewModel = viewModel(
+                factory = viewModelFactory {
+                    ArtistsViewModel(
+                        observeArtistsUseCase = ObserveArtistsUseCase(provideArtistsRepository()),
+                    )
+                },
+            )
             HomeScreen(
                 viewModel = viewModel,
                 onBackToAuth = {
@@ -81,9 +92,7 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                 onAlbumClick = { item ->
                     navController.navigate("${AppRoute.AlbumDetail}/${Uri.encode(item.id)}")
                 },
-                onCreateAlbum = {
-                    navController.navigate(AppRoute.CreateAlbum)
-                },
+                artistsContent = { ArtistsScreen(viewModel = artistsViewModel) },
             )
         }
 
