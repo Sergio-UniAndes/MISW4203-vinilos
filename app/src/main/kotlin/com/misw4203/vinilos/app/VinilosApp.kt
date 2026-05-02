@@ -92,7 +92,10 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                 onAlbumClick = { item ->
                     navController.navigate("${AppRoute.AlbumDetail}/${Uri.encode(item.id)}")
                 },
-                artistsContent = { ArtistsScreen(viewModel = artistsViewModel) },
+                onCreateAlbum = {
+                    navController.navigate(AppRoute.CreateAlbum)
+                },
+                artistsContent = { ArtistsScreen(viewModel = artistsViewModel) }
             )
         }
 
