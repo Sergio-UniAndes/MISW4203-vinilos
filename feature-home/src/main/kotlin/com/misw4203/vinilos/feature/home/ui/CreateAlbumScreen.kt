@@ -40,6 +40,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -82,9 +85,15 @@ fun CreateAlbumScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    val coverUrlErrorText = coverUrlError(state.cover)
-    val releaseDateErrorText = releaseDateError(state.releaseDate)
-    val descriptionErrorText = descriptionError(state.description)
+    var nameTouched by remember { mutableStateOf(false) }
+    var coverTouched by remember { mutableStateOf(false) }
+    var releaseDateTouched by remember { mutableStateOf(false) }
+    var descriptionTouched by remember { mutableStateOf(false) }
+
+    val nameErrorText = if (nameTouched) nameError(state.name) else null
+    val coverUrlErrorText = if (coverTouched) coverUrlError(state.cover) else null
+    val releaseDateErrorText = if (releaseDateTouched) releaseDateError(state.releaseDate) else null
+    val descriptionErrorText = if (descriptionTouched) descriptionError(state.description) else null
     val formIsValid = validateCreateAlbumForm(state) == null
 
     LaunchedEffect(viewModel) {
@@ -268,6 +277,9 @@ fun CreateAlbumScreen(
                             onValueChange = viewModel::onNameChange,
                             label = "Album name",
                             placeholder = "Buscando América",
+                            supportingText = if (nameTouched) nameErrorText else "Album name is required",
+                            isError = nameErrorText != null,
+                            onTouched = { nameTouched = true },
                         )
 
                         val context = LocalContext.current
@@ -284,7 +296,7 @@ fun CreateAlbumScreen(
                         Text(
                             text = genreError(state.genre) ?: "Select one genre",
                             style = MaterialTheme.typography.labelMedium,
-                            color = if (state.genre.isBlank()) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error,
+                            color = if (genreError(state.genre) != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                         )
 
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
@@ -293,10 +305,11 @@ fun CreateAlbumScreen(
                                 onValueChange = viewModel::onReleaseDateChange,
                                 label = "Release date",
                                 placeholder = "YYYY-MM-DD",
-                                supportingText = releaseDateErrorText ?: "Required",
+                                supportingText = if (releaseDateTouched) releaseDateErrorText ?: "Required" else "Tap to choose a date",
                                 isError = releaseDateErrorText != null,
                                 modifier = Modifier.weight(1f),
                                 context = context,
+                                onTouched = { releaseDateTouched = true },
                             )
                         }
 
@@ -312,7 +325,7 @@ fun CreateAlbumScreen(
                         Text(
                             text = recordLabelError(state.recordLabel) ?: "Select one record label",
                             style = MaterialTheme.typography.labelMedium,
-                            color = if (state.recordLabel.isBlank()) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error,
+                            color = if (recordLabelError(state.recordLabel) != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
                         )
 
                         EditorialTextField(
@@ -321,8 +334,9 @@ fun CreateAlbumScreen(
                             label = "Cover URL",
                             placeholder = "https://...",
                             keyboardType = KeyboardType.Uri,
-                            supportingText = coverUrlErrorText ?: "Use a valid http or https image URL",
+                            supportingText = if (coverTouched) coverUrlErrorText ?: "Use a valid http or https image URL" else "Paste a valid image URL",
                             isError = coverUrlErrorText != null,
+                            onTouched = { coverTouched = true },
                         )
 
                         EditorialTextField(
@@ -333,8 +347,9 @@ fun CreateAlbumScreen(
                             modifier = Modifier.height(140.dp),
                             singleLine = false,
                             isMultiline = true,
-                            supportingText = descriptionErrorText ?: "Minimum $MIN_DESCRIPTION_LENGTH characters",
+                            supportingText = if (descriptionTouched) descriptionErrorText ?: "Minimum $MIN_DESCRIPTION_LENGTH characters" else "Minimum $MIN_DESCRIPTION_LENGTH characters",
                             isError = descriptionErrorText != null,
+                            onTouched = { descriptionTouched = true },
                         )
 
                         Text(
@@ -444,14 +459,24 @@ private fun EditorialTextField(
     isMultiline: Boolean = false,
     supportingText: String? = null,
     isError: Boolean = false,
+    onTouched: () -> Unit = {},
 ) {
     val shape = if (isMultiline) RoundedCornerShape(16.dp) else RoundedCornerShape(999.dp)
+    var wasFocused by remember { mutableStateOf(false) }
     TextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
         placeholder = { Text(placeholder) },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                if (focusState.isFocused) {
+                    wasFocused = true
+                } else if (wasFocused) {
+                    onTouched()
+                }
+            },
         singleLine = singleLine,
         shape = shape,
         isError = isError,
@@ -489,11 +514,13 @@ private fun DatePickerField(
     context: android.content.Context,
     supportingText: String? = null,
     isError: Boolean = false,
+    onTouched: () -> Unit = {},
 ) {
     // Parse existing value to preselect date if possible
     val initDate = runCatching {
         if (value.isBlank()) LocalDate.now() else LocalDate.parse(value.substringBefore('T'))
     }.getOrElse { LocalDate.now() }
+    var wasFocused by remember { mutableStateOf(false) }
 
     val year = initDate.year
     val month = initDate.monthValue - 1
@@ -516,7 +543,15 @@ private fun DatePickerField(
         readOnly = true,
         label = { Text(label) },
         placeholder = { Text(placeholder) },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .onFocusChanged { focusState ->
+                if (focusState.isFocused) {
+                    wasFocused = true
+                } else if (wasFocused) {
+                    onTouched()
+                }
+            },
         singleLine = true,
         shape = RoundedCornerShape(999.dp),
         isError = isError,
@@ -529,7 +564,10 @@ private fun DatePickerField(
             Text(
                 text = "📅",
                 modifier = Modifier
-                    .clickable { picker.show() }
+                    .clickable {
+                        onTouched()
+                        picker.show()
+                    }
                     .semantics { contentDescription = "Open date picker" },
             )
         },

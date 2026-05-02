@@ -45,6 +45,11 @@ internal fun descriptionError(value: String): String? = when {
     else -> null
 }
 
+internal fun nameError(value: String): String? = when {
+    value.isBlank() -> "Name is required"
+    else -> null
+}
+
 internal fun genreError(value: String): String? = when {
     value.isBlank() -> "Genre is required"
     value !in AllowedGenres -> "Genre must be one of: Classical, Salsa, Rock, Folk"
@@ -59,7 +64,7 @@ internal fun recordLabelError(value: String): String? = when {
 
 internal fun validateCreateAlbumForm(state: CreateAlbumUiState): String? =
     listOfNotNull(
-        if (state.name.isBlank()) "Name is required" else null,
+        nameError(state.name),
         releaseDateError(state.releaseDate),
         coverUrlError(state.cover),
         descriptionError(state.description),
