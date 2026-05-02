@@ -45,14 +45,14 @@ class CreateAlbumNavigationEspressoTest {
 
         waitForText("Create Album")
         composeRule.onAllNodesWithText("Create Album").assertCountEquals(2)
-        composeRule.onNodeWithText("Album name").assertIsDisplayed()
-        composeRule.onNodeWithText("Release date").assertIsDisplayed()
-        composeRule.onNodeWithText("Cover URL").assertIsDisplayed()
+        composeRule.onNodeWithText("Album name").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithText("Release date").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithText("Cover URL").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Description").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Choose a genre from the options below").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Choose a record label from the options below").performScrollTo().assertIsDisplayed()
-        composeRule.onNodeWithContentDescription("Choose album cover image").assertIsDisplayed()
-        composeRule.onNodeWithContentDescription("Open date picker").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Choose album cover image").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Open date picker").performScrollTo().assertIsDisplayed()
     }
 
     @Test

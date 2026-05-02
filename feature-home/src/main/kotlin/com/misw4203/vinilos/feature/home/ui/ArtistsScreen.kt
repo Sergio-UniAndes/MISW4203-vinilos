@@ -51,6 +51,7 @@ import com.misw4203.vinilos.feature.home.domain.model.Artist
 fun ArtistsScreen(
     viewModel: ArtistsViewModel,
     modifier: Modifier = Modifier,
+    onArtistClick: (Artist) -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -86,12 +87,16 @@ fun ArtistsScreen(
                     item {
                         FeaturedArtistCard(
                             artist = featuredArtist,
+                            onClick = { onArtistClick(featuredArtist) },
                             modifier = Modifier.padding(vertical = 16.dp),
                         )
                     }
                 }
                 items(state.artists.drop(1), key = { it.id }) { artist ->
-                    ArtistListItem(artist = artist)
+                    ArtistListItem(
+                        artist = artist,
+                        onClick = { onArtistClick(artist) },
+                    )
                 }
             }
         }
@@ -244,10 +249,13 @@ private fun EmptyMessage(text: String) {
 @Composable
 private fun FeaturedArtistCard(
     artist: Artist,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -301,11 +309,13 @@ private fun FeaturedArtistCard(
 @Composable
 private fun ArtistListItem(
     artist: Artist,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,

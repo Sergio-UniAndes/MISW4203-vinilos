@@ -7,6 +7,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.junit.Rule
@@ -26,7 +27,9 @@ class AuthHomeFlowTest {
 
         composeRule.onNodeWithText("Visitor").assertIsDisplayed()
         composeRule.onNodeWithText("Collector").assertIsDisplayed()
-        composeRule.onNodeWithText("Get Started").assertIsDisplayed()
+        // AuthScreen content can overflow the viewport on shorter devices
+        // (e.g. ~870dp tall phones); scroll the button into view first.
+        composeRule.onNodeWithText("Get Started").performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -54,7 +57,7 @@ class AuthHomeFlowTest {
         composeRule.waitForIdle()
 
         waitForText("Select Your Profile")
-        composeRule.onNodeWithText("Get Started").assertIsDisplayed()
+        composeRule.onNodeWithText("Get Started").performScrollTo().assertIsDisplayed()
     }
 
     private fun waitForText(text: String) {

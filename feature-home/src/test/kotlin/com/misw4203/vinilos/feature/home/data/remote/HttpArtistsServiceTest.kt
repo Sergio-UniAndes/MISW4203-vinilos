@@ -5,6 +5,8 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -25,6 +27,8 @@ class HttpArtistsServiceTest {
     fun tearDown() {
         server.shutdown()
     }
+
+    // -- getMusicians ---------------------------------------------------------
 
     @Test
     fun getMusicians_returnsParsedDtos_onSuccess() = runTest {
@@ -105,5 +109,92 @@ class HttpArtistsServiceTest {
 
         assertEquals(1, result.size)
         assertEquals("Valid", result[0].name)
+    }
+
+    // -- getMusician ----------------------------------------------------------
+
+    @Test
+    fun getMusician_returnsParsedDtoWithAlbums_onSuccess() = runTest {
+        server.enqueue(
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(
+                    """
+                    {
+                      "id": 100,
+                      "name": "Ruben Blades",
+                      "image": "https://example.com/rb.jpg",
+                      "description": "Cantante panameño.",
+                      "birthDate": "1948-07-16T00:00:00-05:00",
+                      "albums": [
+                        {
+                          "id": 1,
+                          "name": "Buscando America",
+                          "cover": "https://example.com/ba.jpg",
+                          "releaseDate": "1984-08-01T00:00:00-05:00",
+                          "description": "Salsa álbum",
+                          "genre": "Salsa",
+                          "recordLabel": "Elektra"
+                        },
+                        {
+                          "id": 2,
+                          "name": "Maestra Vida",
+                          "genre": "Salsa"
+                        }
+                      ],
+                      "performerPrizes": []
+                    }
+                    """.trimIndent(),
+                ),
+        )
+
+        val musician = service.getMusician(100L)
+
+        assertNotNull(musician)
+        assertEquals(100L, musician!!.id)
+        assertEquals("Ruben Blades", musician.name)
+        assertEquals(2, musician.albums.size)
+        assertEquals(1L, musician.albums[0].id)
+        assertEquals("Buscando America", musician.albums[0].name)
+        assertEquals("https://example.com/ba.jpg", musician.albums[0].cover)
+        assertEquals("Salsa", musician.albums[0].genre)
+        assertEquals("Elektra", musician.albums[0].recordLabel)
+
+        val request = server.takeRequest()
+        assertEquals("GET", request.method)
+        assertEquals("/musicians/100", request.path)
+    }
+
+    @Test
+    fun getMusician_returnsParsedDto_withEmptyAlbums() = runTest {
+        server.enqueue(
+            MockResponse().setResponseCode(200).setBody(
+                """{ "id": 7, "name": "Solo", "description": "x" }""",
+            ),
+        )
+
+        val musician = service.getMusician(7L)
+
+        assertNotNull(musician)
+        assertEquals(7L, musician!!.id)
+        assertTrue(musician.albums.isEmpty())
+    }
+
+    @Test
+    fun getMusician_returnsNull_on404() = runTest {
+        server.enqueue(MockResponse().setResponseCode(404))
+        assertNull(service.getMusician(999L))
+    }
+
+    @Test
+    fun getMusician_returnsNull_on500() = runTest {
+        server.enqueue(MockResponse().setResponseCode(500))
+        assertNull(service.getMusician(1L))
+    }
+
+    @Test
+    fun getMusician_returnsNull_onMalformedJson() = runTest {
+        server.enqueue(MockResponse().setResponseCode(200).setBody("{ broken"))
+        assertNull(service.getMusician(1L))
     }
 }

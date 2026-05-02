@@ -13,10 +13,12 @@ import com.misw4203.vinilos.feature.auth.ui.AuthViewModel
 import com.misw4203.vinilos.feature.home.data.repository.provideArtistsRepository
 import com.misw4203.vinilos.feature.home.data.repository.provideHomeRepository
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveAlbumDetailUseCase
+import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistDetailUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveHomeItemsUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.CreateAlbumUseCase
 import com.misw4203.vinilos.feature.home.ui.AlbumDetailViewModel
+import com.misw4203.vinilos.feature.home.ui.ArtistDetailViewModel
 import com.misw4203.vinilos.feature.home.ui.ArtistsViewModel
 import com.misw4203.vinilos.feature.home.ui.HomeViewModel
 
@@ -37,6 +39,7 @@ class AppContainer {
     private val createAlbumUseCase = CreateAlbumUseCase(homeRepository)
     private val uploadCoverUseCase = com.misw4203.vinilos.feature.home.domain.usecase.UploadCoverUseCase(homeRepository)
     private val observeArtistsUseCase = ObserveArtistsUseCase(artistsRepository)
+    private val observeArtistDetailUseCase = ObserveArtistDetailUseCase(artistsRepository)
 
     fun bootstrapViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
         BootstrapViewModel(observeSessionUseCase)
@@ -70,6 +73,13 @@ class AppContainer {
 
     fun artistsViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
         ArtistsViewModel(observeArtistsUseCase = observeArtistsUseCase)
+    }
+
+    fun artistDetailViewModelFactory(artistId: Long): ViewModelProvider.Factory = viewModelFactory {
+        ArtistDetailViewModel(
+            artistId = artistId,
+            observeArtistDetailUseCase = observeArtistDetailUseCase,
+        )
     }
 }
 

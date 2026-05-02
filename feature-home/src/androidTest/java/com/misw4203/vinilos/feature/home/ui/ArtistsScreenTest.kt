@@ -6,6 +6,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.misw4203.vinilos.feature.home.domain.model.Artist
@@ -28,13 +29,19 @@ class ArtistsScreenTest {
         override fun observeArtist(id: Long): Flow<Artist?> = flowOf(artists.find { it.id == id })
     }
 
-    private fun screenWith(artists: List<Artist>) {
+    private fun screenWith(
+        artists: List<Artist>,
+        onArtistClick: (Artist) -> Unit = {},
+    ) {
         val viewModel = ArtistsViewModel(
             observeArtistsUseCase = ObserveArtistsUseCase(FakeArtistsRepository(artists)),
         )
         composeRule.setContent {
             MaterialTheme {
-                ArtistsScreen(viewModel = viewModel)
+                ArtistsScreen(
+                    viewModel = viewModel,
+                    onArtistClick = onArtistClick,
+                )
             }
         }
     }
@@ -89,5 +96,22 @@ class ArtistsScreenTest {
         composeRule.waitForIdle()
 
         composeRule.onNodeWithText("No matches for \"zzz\".").assertIsDisplayed()
+    }
+
+    @Test
+    fun artistsScreen_clickingArtist_invokesCallback() {
+        var clickedId = -1L
+        screenWith(
+            artists = listOf(
+                Artist(id = 1L, name = "Ruben Blades"),
+                Artist(id = 2L, name = "Joan Manuel Serrat"),
+            ),
+            onArtistClick = { clickedId = it.id },
+        )
+
+        composeRule.onNodeWithText("Joan Manuel Serrat").performClick()
+        composeRule.waitForIdle()
+
+        assert(clickedId == 2L) { "expected callback to fire with 2L, got $clickedId" }
     }
 }

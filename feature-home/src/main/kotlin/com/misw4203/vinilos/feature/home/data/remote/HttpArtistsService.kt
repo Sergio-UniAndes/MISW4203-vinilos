@@ -1,21 +1,23 @@
 package com.misw4203.vinilos.feature.home.data.remote
 
 import android.util.Log
-import com.misw4203.vinilos.feature.home.data.remote.dto.PerformerDto
+import com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto
+import com.misw4203.vinilos.feature.home.data.remote.dto.MusicianDto
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
 interface ArtistsService {
-    suspend fun getMusicians(): List<PerformerDto>
+    suspend fun getMusicians(): List<MusicianDto>
+    suspend fun getMusician(id: Long): MusicianDto?
 }
 
 class HttpArtistsService(
     private val baseUrl: String,
 ) : ArtistsService {
 
-    override suspend fun getMusicians(): List<PerformerDto> {
+    override suspend fun getMusicians(): List<MusicianDto> {
         val connection = openConnection("/musicians")
         return try {
             connection.requestMethod = "GET"
@@ -29,7 +31,7 @@ class HttpArtistsService(
             }
 
             val payload = connection.inputStream.bufferedReader().use { it.readText() }
-            parsePerformers(payload)
+            parseMusicians(payload)
         } catch (e: Exception) {
             Log.w(TAG, "GET /musicians failed: ${e.message}", e)
             emptyList()
@@ -38,23 +40,47 @@ class HttpArtistsService(
         }
     }
 
-    private fun parsePerformers(payload: String): List<PerformerDto> {
+    override suspend fun getMusician(id: Long): MusicianDto? {
+        val connection = openConnection("/musicians/$id")
+        return try {
+            connection.requestMethod = "GET"
+            connection.connectTimeout = TIMEOUT_MILLIS
+            connection.readTimeout = TIMEOUT_MILLIS
+
+            val responseCode = connection.responseCode
+            if (responseCode !in HTTP_SUCCESS_RANGE) {
+                Log.w(TAG, "GET /musicians/$id returned $responseCode")
+                return null
+            }
+
+            val payload = connection.inputStream.bufferedReader().use { it.readText() }
+            parseMusician(JSONObject(payload))
+        } catch (e: Exception) {
+            Log.w(TAG, "GET /musicians/$id failed: ${e.message}", e)
+            null
+        } finally {
+            connection.disconnect()
+        }
+    }
+
+    private fun parseMusicians(payload: String): List<MusicianDto> {
         val jsonArray = JSONArray(payload)
         return buildList {
             for (index in 0 until jsonArray.length()) {
                 val json = jsonArray.safeOptJSONObject(index) ?: continue
-                add(parsePerformer(json))
+                add(parseMusician(json))
             }
         }
     }
 
-    private fun parsePerformer(json: JSONObject): PerformerDto {
-        return PerformerDto(
-            id = json.optLongOrNull("id") ?: json.optLongOrNull("new_id_a"),
+    private fun parseMusician(json: JSONObject): MusicianDto {
+        return MusicianDto(
+            id = json.optLongOrNull("id"),
             name = json.optStringOrNull("name"),
             image = json.optStringOrNull("image"),
             description = json.optStringOrNull("description"),
             birthDate = json.optStringOrNull("birthDate"),
+            albums = json.optJSONArray("albums").toAlbumDtos(),
         )
     }
 
@@ -78,3 +104,22 @@ private fun JSONObject.optStringOrNull(name: String): String? =
 private fun JSONObject.optLongOrNull(name: String): Long? =
     if (has(name) && !isNull(name)) optLong(name) else null
 
+private fun JSONArray?.toAlbumDtos(): List<AlbumDto> {
+    if (this == null) return emptyList()
+    return buildList {
+        for (index in 0 until length()) {
+            val item = safeOptJSONObject(index) ?: continue
+            add(
+                AlbumDto(
+                    id = item.optLongOrNull("id"),
+                    name = item.optStringOrNull("name"),
+                    cover = item.optStringOrNull("cover"),
+                    description = item.optStringOrNull("description"),
+                    genre = item.optStringOrNull("genre"),
+                    releaseDate = item.optStringOrNull("releaseDate"),
+                    recordLabel = item.optStringOrNull("recordLabel"),
+                ),
+            )
+        }
+    }
+}
