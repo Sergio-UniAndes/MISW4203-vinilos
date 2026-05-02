@@ -80,9 +80,4 @@ dependencies {
     }
 }
 
-configurations.configureEach {
-    exclude(group = "org.bouncycastle", module = "bcprov-jdk15to18")
-    exclude(group = "org.bouncycastle", module = "bcprov-jdk15on")
-    exclude(group = "org.bouncycastle", module = "bcpkix-jdk15on")
-}
 
