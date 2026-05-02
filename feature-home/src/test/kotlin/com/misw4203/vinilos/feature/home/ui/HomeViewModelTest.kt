@@ -184,5 +184,9 @@ private class FakeHomeRepository(
 
     override fun observeItem(id: String): Flow<HomeItem?> =
         data.map { list -> list.firstOrNull { it.id == id } }
+
+    override suspend fun createAlbum(album: com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto): Boolean = true
+
+    override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
 }
 

@@ -73,5 +73,11 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    constraints {
+        implementation("org.bouncycastle:bcprov-jdk18on:1.84")
+        implementation("org.bouncycastle:bcpkix-jdk18on:1.84")
+    }
 }
+
 

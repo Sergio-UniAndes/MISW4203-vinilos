@@ -96,5 +96,7 @@ class RemoteHomeRepositoryTest {
     ) : HomeService {
         override suspend fun getAlbums(): List<AlbumDto> = albums
         override suspend fun getAlbum(id: String): AlbumDto? = albumsById[id]
+        override suspend fun createAlbum(album: AlbumDto): Boolean = true
+        override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
     }
 }

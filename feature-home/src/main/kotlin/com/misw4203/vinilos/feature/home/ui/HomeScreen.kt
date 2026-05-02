@@ -54,6 +54,7 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onBackToAuth: () -> Unit,
     onAlbumClick: (HomeItem) -> Unit,
+    onCreateAlbum: () -> Unit,
     modifier: Modifier = Modifier,
     artistsContent: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
 ) {
@@ -113,6 +114,20 @@ fun HomeScreen(
 
                 HomeTab.ARTISTS -> artistsContent()
                 HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
+            }
+            if (state.permissions.canCreate) {
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(20.dp)
+                        .clickable { onCreateAlbum() },
+                    shape = RoundedCornerShape(999.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+                        Text(text = "+ Add Album", color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.titleMedium)
+                    }
+                }
             }
         }
     }
