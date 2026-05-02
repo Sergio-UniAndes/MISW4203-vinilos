@@ -40,8 +40,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.misw4203.vinilos.core.ui.components.VinilosBottomNavItem
 import com.misw4203.vinilos.core.ui.components.VinilosBottomNavigationBar
 import com.misw4203.vinilos.core.ui.components.VinilosFilterChip
@@ -217,6 +219,7 @@ private fun AlbumsEditorialFeed(
                     artist = featuredItem.artist,
                     genre = featuredItem.genre,
                     year = featuredItem.year,
+                    coverUrl = featuredItem.coverUrl,
                     canEdit = state.permissions.canEdit,
                     canDelete = state.permissions.canDelete,
                     onEdit = { onEditItem(featuredItem) },
@@ -232,6 +235,7 @@ private fun AlbumsEditorialFeed(
                 artist = item.artist,
                 genre = item.genre,
                 year = item.year,
+                coverUrl = item.coverUrl,
                 canEdit = state.permissions.canEdit,
                 canDelete = state.permissions.canDelete,
                 onEdit = { onEditItem(item) },
@@ -248,6 +252,7 @@ private fun FeaturedAlbumCard(
     artist: String,
     genre: String,
     year: Int,
+    coverUrl: String? = null,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -268,6 +273,17 @@ private fun FeaturedAlbumCard(
                     .clip(RoundedCornerShape(24.dp))
                     .background(brush),
             ) {
+                if (!coverUrl.isNullOrBlank()) {
+                    AsyncImage(
+                        model = coverUrl,
+                        contentDescription = itemTitle,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(24.dp)),
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -321,6 +337,7 @@ private fun AlbumTileCard(
     artist: String,
     genre: String,
     year: Int,
+    coverUrl: String? = null,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -335,13 +352,24 @@ private fun AlbumTileCard(
                 .clip(RoundedCornerShape(22.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(14.dp)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(brush),
-            )
+            if (!coverUrl.isNullOrBlank()) {
+                AsyncImage(
+                    model = coverUrl,
+                    contentDescription = title,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(22.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(14.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(brush),
+                )
+            }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
