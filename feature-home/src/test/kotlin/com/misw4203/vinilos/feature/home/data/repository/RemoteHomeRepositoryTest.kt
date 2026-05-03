@@ -1,11 +1,13 @@
 package com.misw4203.vinilos.feature.home.data.repository
 
+import com.misw4203.vinilos.feature.home.data.cache.AlbumsLocalCache
 import com.misw4203.vinilos.feature.home.data.remote.HomeService
 import com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto
 import com.misw4203.vinilos.feature.home.data.remote.dto.CommentDto
 import com.misw4203.vinilos.feature.home.data.remote.dto.PerformerDto
 import com.misw4203.vinilos.feature.home.data.remote.dto.TrackDto
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -90,6 +92,49 @@ class RemoteHomeRepositoryTest {
         assertNull(repository.observeItem("missing").first())
     }
 
+    @Test
+    fun observeItems_emitsCachedItems_beforeNetwork() = runTest {
+        val cachedAlbum = AlbumDto(id = 99L, name = "From Cache", artist = "Cache Artist", genre = "Jazz")
+        val networkAlbum = AlbumDto(id = 1L, name = "From Network", artist = "Network Artist", genre = "Rock")
+        val cache = FakeAlbumsLocalCache(initial = listOf(cachedAlbum))
+        val service = FakeHomeService(albums = listOf(networkAlbum))
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeItems().toList()
+
+        assertEquals(2, emissions.size)
+        assertEquals("From Cache", emissions[0].single().title)
+        assertEquals("From Network", emissions[1].single().title)
+    }
+
+    @Test
+    fun observeItems_persistsNetworkResponse_intoLocalCache() = runTest {
+        val cache = FakeAlbumsLocalCache(initial = null)
+        val service = FakeHomeService(
+            albums = listOf(AlbumDto(id = 1L, name = "Fresh", artist = "Fresh Artist", genre = "Rock")),
+        )
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        repository.observeItems().toList()
+
+        val persisted = cache.snapshot()
+        assertEquals(1, persisted.size)
+        assertEquals("Fresh", persisted[0].name)
+    }
+
+    @Test
+    fun observeItems_doesNotEmitDuplicate_whenNetworkMatchesLocalCache() = runTest {
+        val album = AlbumDto(id = 1L, name = "Same", artist = "Same", genre = "Same")
+        val cache = FakeAlbumsLocalCache(initial = listOf(album))
+        val service = FakeHomeService(albums = listOf(album))
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeItems().toList()
+
+        assertEquals(1, emissions.size)
+        assertEquals("Same", emissions[0].single().title)
+    }
+
     private class FakeHomeService(
         private val albums: List<AlbumDto> = emptyList(),
         private val albumsById: Map<String, AlbumDto> = emptyMap(),
@@ -98,5 +143,18 @@ class RemoteHomeRepositoryTest {
         override suspend fun getAlbum(id: String): AlbumDto? = albumsById[id]
         override suspend fun createAlbum(album: AlbumDto): Boolean = true
         override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
+    }
+
+    private class FakeAlbumsLocalCache(
+        initial: List<AlbumDto>?,
+    ) : AlbumsLocalCache {
+        private var stored: List<AlbumDto>? = initial
+
+        override suspend fun read(): List<AlbumDto>? = stored
+        override suspend fun write(albums: List<AlbumDto>) {
+            stored = albums
+        }
+
+        fun snapshot(): List<AlbumDto> = stored.orEmpty()
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -56,6 +57,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
@@ -65,6 +69,7 @@ dependencies {
     testImplementation("androidx.test:core:1.5.0")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     testImplementation("org.json:json:20240303")
+    testImplementation(libs.androidx.room.testing)
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test:runner:1.7.0")
     androidTestImplementation(platform(libs.androidx.compose.bom))
