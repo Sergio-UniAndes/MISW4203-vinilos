@@ -95,16 +95,7 @@ class HttpArtistsService(
     }
 }
 
-private fun JSONArray.safeOptJSONObject(index: Int): JSONObject? =
-    runCatching { getJSONObject(index) }.getOrNull()
-
-private fun JSONObject.optStringOrNull(name: String): String? =
-    optString(name).takeIf { it.isNotBlank() }
-
-private fun JSONObject.optLongOrNull(name: String): Long? =
-    if (has(name) && !isNull(name)) optLong(name) else null
-
-private fun JSONArray?.toAlbumDtos(): List<AlbumDto> {
+internal fun JSONArray?.toAlbumDtos(): List<AlbumDto> {
     if (this == null) return emptyList()
     return buildList {
         for (index in 0 until length()) {
