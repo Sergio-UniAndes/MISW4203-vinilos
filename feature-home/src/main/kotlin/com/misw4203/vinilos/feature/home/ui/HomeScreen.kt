@@ -57,7 +57,7 @@ fun HomeScreen(
     onAlbumClick: (HomeItem) -> Unit,
     onCreateAlbum: () -> Unit,
     modifier: Modifier = Modifier,
-    artistsContent: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
+    content: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -113,7 +113,7 @@ fun HomeScreen(
                     onAlbumClick = onAlbumClick,
                 )
 
-                HomeTab.ARTISTS -> artistsContent()
+                HomeTab.ARTISTS -> content()
                 HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
             }
             if (state.permissions.canCreate) {
@@ -251,7 +251,7 @@ private fun FeaturedAlbumCard(
     artist: String,
     genre: String,
     year: Int,
-    coverUrl: String? = null,
+    coverUrl: String?,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -333,7 +333,7 @@ private fun AlbumTileCard(
     artist: String,
     genre: String,
     year: Int,
-    coverUrl: String? = null,
+    coverUrl: String?,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -348,23 +348,21 @@ private fun AlbumTileCard(
                 .clip(RoundedCornerShape(22.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainer),
         ) {
-            if (!coverUrl.isNullOrBlank()) {
-                AsyncImage(
-                    model = coverUrl,
-                    contentDescription = title,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(22.dp)),
-                    contentScale = ContentScale.Crop,
-                )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(14.dp)
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(brush),
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(14.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(brush),
+            ) {
+                coverUrl?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
             }
             Box(
                 modifier = Modifier

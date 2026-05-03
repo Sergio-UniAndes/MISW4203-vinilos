@@ -7,9 +7,7 @@ import com.misw4203.vinilos.feature.home.data.remote.dto.TrackDto
 import org.json.JSONArray
 import org.json.JSONObject
 import android.content.ContentResolver
-import android.net.Uri
 import android.util.Log
-import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -71,8 +69,6 @@ class HttpHomeService(
                 put("recordLabel", album.recordLabel)
             }.toString()
 
-            Log.d("HttpHomeService", "Creating album with payload: $payload")
-
             connection.outputStream.use { os ->
                 os.write(payload.toByteArray(Charsets.UTF_8))
                 os.flush()
@@ -80,9 +76,7 @@ class HttpHomeService(
 
             val responseCode = connection.responseCode
             val isSuccess = responseCode in HTTP_SUCCESS_RANGE
-            
-            Log.d("HttpHomeService", "Create album response code: $responseCode")
-            
+
             if (!isSuccess) {
                 val errorBody = connection.errorStream?.bufferedReader()?.use { it.readText() } ?: "No error body"
                 Log.e("HttpHomeService", "Create album error: $errorBody")
@@ -153,19 +147,7 @@ class HttpHomeService(
     }
 }
 
-private fun JSONArray.safeOptJSONObject(index: Int): JSONObject? =
-    runCatching { getJSONObject(index) }.getOrNull()
-
-private fun JSONObject.optStringOrNull(name: String): String? =
-    optString(name).takeIf { it.isNotBlank() }
-
-private fun JSONObject.optLongOrNull(name: String): Long? =
-    if (has(name) && !isNull(name)) optLong(name) else null
-
-private fun JSONObject.optIntOrNull(name: String): Int? =
-    if (has(name) && !isNull(name)) optInt(name) else null
-
-private fun JSONArray?.toTrackDtos(): List<TrackDto> {
+internal fun JSONArray?.toTrackDtos(): List<TrackDto> {
     if (this == null) return emptyList()
     return buildList {
         for (index in 0 until length()) {
@@ -181,7 +163,7 @@ private fun JSONArray?.toTrackDtos(): List<TrackDto> {
     }
 }
 
-private fun JSONArray?.toPerformerDtos(): List<PerformerDto> {
+internal fun JSONArray?.toPerformerDtos(): List<PerformerDto> {
     if (this == null) return emptyList()
     return buildList {
         for (index in 0 until length()) {
@@ -199,7 +181,7 @@ private fun JSONArray?.toPerformerDtos(): List<PerformerDto> {
     }
 }
 
-private fun JSONArray?.toCommentDtos(): List<CommentDto> {
+internal fun JSONArray?.toCommentDtos(): List<CommentDto> {
     if (this == null) return emptyList()
     return buildList {
         for (index in 0 until length()) {
