@@ -72,19 +72,5 @@ export PATH="$JAVA_HOME/bin:$PATH"
 java -version
 ```
 
-## 7) Ejecutar SonarCloud (opcional)
-
-Si quieres enviar el análisis a SonarCloud desde tu máquina local, primero compila el proyecto y luego ejecuta Sonar. Hemos agregado `sonar.skipCompile=true` en `gradle.properties` para evitar que el plugin intente recompilar por sí mismo.
-
-```bash
-# Compilar (generar binarios)
-./gradlew clean assembleDebug
-
-# Ejecutar Sonar (usa el token de SonarCloud)
-export SONAR_TOKEN=14f1589aa2ebbc3d95ef45040e10f0a02f858908
-./gradlew sonarqube -Dsonar.login=$SONAR_TOKEN --no-daemon --info
-```
-
-Si el análisis falla por versiones de Java/Gradle, asegúrate de usar Java 21 (ver sección anterior). Si el plugin indica que necesita `-Dsonar.skipCompile=true`, no es necesario porque ya lo configuramos en `gradle.properties`.
 
 
