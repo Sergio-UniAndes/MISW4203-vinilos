@@ -79,7 +79,7 @@ La app consume un microservicio REST que expone `GET /albums` y `GET /albums/{id
 Pasos (en otra terminal, fuera de este repo):
 
 ```bash
-git clone https://github.com/MISW-4104-Web/vinyls-backend.git
+git clone https://github.com/TheSoftwareDesignLab/BackVynils.git
 cd vinyls-backend
 npm install
 npm start
