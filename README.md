@@ -2,7 +2,7 @@
 
 Aplicación Android del curso **MISW4203 — Ingeniería de Software para Aplicaciones Móviles** (Maestría en Ingeniería de Software, Uniandes). Construida con **Kotlin + Jetpack Compose**, **MVVM** y **Clean Architecture** modularizada por features.
 
-> **Estado al cierre del Sprint 1:** HU01 (catálogo de álbumes) y HU02 (detalle de álbum) implementadas. 61 tests automatizados (10 E2E + 51 unitarias JVM) en verde.
+> **Estado al cierre del Sprint 2:** 5 HU entregadas — HU01/HU02 (álbumes, _Visitor_), HU03/HU04 (artistas, _Visitor_), HU07 (crear álbum, _Collector_). Mejoras de desempeño: corrutinas + cache en memoria + persistencia local con Room (TTL 5 min). 112 tests automatizados en verde — 90 unitarias JVM + 14 E2E `:app` + 8 instrumentadas Compose `:feature-home`.
 
 ---
 
@@ -24,13 +24,13 @@ Aplicación Android del curso **MISW4203 — Ingeniería de Software para Aplica
 
 Instala lo siguiente en tu máquina antes de continuar:
 
-| Herramienta        | Versión                   | Notas                                                                                         |
-| ------------------ | ------------------------- | --------------------------------------------------------------------------------------------- |
-| **JDK**            | 21                        | Obligatorio. El proyecto compila con `sourceCompatibility = VERSION_21` y `jvmTarget = "21"`. |
-| **Android Studio** | Koala (2024.1) o superior | Trae JDK 21 embebido en `Android Studio/jbr`. Recomendado para abrir el proyecto.             |
-| **Android SDK**    | API 34 (`compileSdk`)     | El emulador objetivo es API 34 (Android 14). `minSdk` = 24 (Android 7.0).                     |
-| **Git**            | Cualquiera reciente       | Para clonar el repo.                                                                          |
-| **Node.js + npm**  | 18+                       | Solo si vas a levantar el backend del curso localmente (es Express).                          |
+| Herramienta        | Versión                   | Notas                                                                                                                             |
+| ------------------ | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **JDK**            | 21                        | Obligatorio. El proyecto compila con `sourceCompatibility = VERSION_21` y `jvmTarget = "21"`.                                     |
+| **Android Studio** | Koala (2024.1) o superior | Trae JDK 21 embebido en `Android Studio/jbr`. Recomendado para abrir el proyecto.                                                 |
+| **Android SDK**    | API 34 (`compileSdk`)     | El emulador objetivo es API 34 (Android 14). `minSdk` = 24 (Android 7.0).                                                         |
+| **Git**            | Cualquiera reciente       | Para clonar el repo.                                                                                                              |
+| **Node.js + npm**  | 18+                       | **Opcional.** Solo si vas a levantar el backend del curso localmente; por defecto la app apunta al backend desplegado en Railway. |
 
 ### Verificar la versión de Java
 
@@ -74,13 +74,26 @@ cd MISW4203-vinilos
 
 ## 3. Levantar el backend (microservicio)
 
-La app consume un microservicio REST que expone `GET /albums` y `GET /albums/{id}`. El curso provee un backend en Express que escucha en el puerto `3000`.
+La app consume un microservicio REST con los endpoints:
 
-Pasos (en otra terminal, fuera de este repo):
+- `GET /albums`, `GET /albums/{id}`, `POST /albums` (HU01, HU02, HU07)
+- `GET /musicians`, `GET /musicians/{id}` (HU03, HU04)
+
+**Por defecto la app apunta al backend desplegado en Railway**, así que no necesitas levantar nada local para ejecutarla. La URL viene cableada en `core/utils/src/main/kotlin/com/misw4203/vinilos/core/utils/config/BackendConfig.kt`:
+
+```kotlin
+object BackendConfig {
+    const val BASE_URL: String = "https://back-vynils-production.up.railway.app/"
+}
+```
+
+### (Opcional) Levantar el backend localmente
+
+Si quieres correr el microservicio en tu equipo (por ejemplo, sin internet o para depurar payloads), el curso provee un Express que escucha en el puerto `3000`:
 
 ```bash
 git clone https://github.com/TheSoftwareDesignLab/BackVynils.git
-cd vinyls-backend
+cd BackVynils
 npm install
 npm start
 ```
@@ -91,31 +104,35 @@ Verifica que responde:
 curl http://localhost:3000/albums | head -c 200
 ```
 
-> Si tu equipo usa otro backend (otra rama del curso, un fork, o el que corre el profesor en la nube), reemplaza la URL en el paso 4.
+Luego ajusta `BackendConfig.BASE_URL` según el paso 4.
 
 ---
 
 ## 4. Configurar la URL del backend en la app
 
-La URL base se define en una sola constante:
+La URL base es una única constante en `core:utils`:
 
-**`feature-home/src/main/kotlin/com/misw4203/vinilos/feature/home/data/repository/HomeRepositoryProvider.kt`**
+**`core/utils/src/main/kotlin/com/misw4203/vinilos/core/utils/config/BackendConfig.kt`**
 
 ```kotlin
-private const val DEFAULT_BASE_URL = "http://10.0.2.2:3000/"
+object BackendConfig {
+    const val BASE_URL: String = "https://back-vynils-production.up.railway.app/"
+}
 ```
+
+`HomeRepositoryProvider.kt` y `ArtistsRepositoryProvider.kt` la consumen como default; cambiar este valor afecta a toda la app.
 
 Casos típicos:
 
-| Entorno                                   | URL a usar                       |
-| ----------------------------------------- | -------------------------------- |
-| **Emulador Android + backend local**      | `http://10.0.2.2:3000/`          |
-| **Dispositivo físico + backend en tu PC** | `http://<IP-LAN-de-tu-PC>:3000/` |
-| **Backend remoto (nube)**                 | `https://<host>/`                |
+| Entorno                                   | URL a usar                                       |
+| ----------------------------------------- | ------------------------------------------------ |
+| **Producción (default)**                  | `https://back-vynils-production.up.railway.app/` |
+| **Emulador Android + backend local**      | `http://10.0.2.2:3000/`                          |
+| **Dispositivo físico + backend en tu PC** | `http://<IP-LAN-de-tu-PC>:3000/`                 |
 
 > `10.0.2.2` es la dirección que el emulador de Android usa para alcanzar `localhost` del host. No funciona desde un dispositivo físico.
 
-> El `AndroidManifest.xml` ya tiene `android:usesCleartextTraffic="true"` para permitir HTTP simple en desarrollo. Para producción usar HTTPS.
+> El `AndroidManifest.xml` ya tiene `android:usesCleartextTraffic="true"` para permitir HTTP simple en desarrollo (backend local). Para producción se usa HTTPS.
 
 ---
 
@@ -154,7 +171,7 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## 6. Ejecutar las pruebas
 
-El proyecto tiene **61 pruebas automatizadas**: 51 unitarias JVM (rápidas, sin emulador) + 10 E2E instrumentadas (Espresso + Compose UI Test, requieren emulador o dispositivo).
+El proyecto tiene **112 pruebas automatizadas**: 90 unitarias JVM (rápidas, sin emulador) + 22 instrumentadas (Espresso + Compose UI Test, requieren emulador o dispositivo) repartidas en 14 E2E `:app` y 8 de pantallas Compose `:feature-home`.
 
 ### Pruebas unitarias JVM (rápidas, sin emulador)
 
@@ -195,9 +212,9 @@ El proyecto tiene **61 pruebas automatizadas**: 51 unitarias JVM (rápidas, sin 
 ./gradlew :feature-home:testDebugUnitTest --tests "*HomeViewModelTest.onFilterSelected_appliesGenreFilter"
 ```
 
-Reportes HTML en `<módulo>/build/reports/tests/testDebugUnitTest/index.html`.
+Reportes HTML en `<módulo>/build/reports/tests/testDebugUnitTest/index.html` (en `:core:utils` la tarea es `test`, sin variant suffix).
 
-Cobertura actual: **51 tests JVM** (ViewModels, mapper, repositorio con fake `HomeService`, `HttpHomeService` con `MockWebServer`, permisos, sesión).
+Cobertura actual: **90 tests JVM** — ViewModels (HU01/HU02/HU03/HU04), `CreateAlbumUseCase` (HU07), mappers, repositorios con fakes, `HttpHomeService` y `HttpArtistsService` con `MockWebServer`, cache local Room (`RoomAlbumsLocalCacheTest`/`RoomArtistsLocalCacheTest` corren con Robolectric, sin emulador), permisos y sesión.
 
 ### Pruebas E2E instrumentadas (requieren emulador o dispositivo)
 
@@ -211,7 +228,10 @@ Cobertura actual: **51 tests JVM** (ViewModels, mapper, repositorio con fake `Ho
 4. Android Studio compila el APK de tests, lo instala en el dispositivo y muestra el progreso en tiempo real en la pestaña **Run**. Verás el emulador ejecutando los gestos automáticos.
 5. Como con los unitarios, también puedes correr una clase o un solo `@Test` desde los iconos ▶️ del _gutter_.
 
-> Los tests E2E del Sprint 1 viven en `:app/src/androidTest`: `AuthHomeFlowTest`, `AuthHomeFlowEspressoTest`, `CollectorPermissionsEspressoTest`, `AlbumDetailNavigationEspressoTest`.
+> Los tests instrumentados están repartidos en dos módulos:
+>
+> - **`:app/src/androidTest`** — flujos completos de la app (necesitan `MainActivity` y el `NavHost` real). Sprint 1: `AuthHomeFlowTest`, `AuthHomeFlowEspressoTest`, `CollectorPermissionsEspressoTest`, `AlbumDetailNavigationEspressoTest`. Sprint 2: `ArtistsEspressoTest` (HU03), `ArtistDetailNavigationEspressoTest` (HU04), `CreateAlbumNavigationEspressoTest` (HU07).
+> - **`:feature-home/src/androidTest`** — tests de pantalla Compose con repositorios fake (no necesitan backend ni navegación). Sprint 2: `ArtistsScreenTest` (HU03), `ArtistDetailScreenTest` (HU04).
 
 #### Opción B — Línea de comandos
 
@@ -219,16 +239,30 @@ Cobertura actual: **51 tests JVM** (ViewModels, mapper, repositorio con fake `Ho
 # Verifica que haya un dispositivo conectado
 adb devices
 
-# Ejecuta los 10 tests E2E
-./gradlew connectedDebugAndroidTest
+# Ejecuta las 14 E2E :app + las 8 instrumentadas Compose :feature-home (22 totales)
+./gradlew :app:connectedDebugAndroidTest :feature-home:connectedDebugAndroidTest
+
+# Solo un módulo
+./gradlew :app:connectedDebugAndroidTest
+./gradlew :feature-home:connectedDebugAndroidTest
 
 # Una clase específica
 ./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.misw4203.vinilos.app.AlbumDetailNavigationEspressoTest
 ```
 
-Reporte en `app/build/reports/androidTests/connected/index.html`.
+Reportes en `app/build/reports/androidTests/connected/debug/index.html` y `feature-home/build/reports/androidTests/connected/debug/index.html`.
 
-Cobertura actual: **10 tests E2E** (Bootstrap → Auth → Home, navegación HU02, visibilidad por rol).
+Cobertura actual: **14 tests E2E `:app`** (Auth, Home, navegación a detalle de álbum/artista, formulario _Create Album_, visibilidad por rol) + **8 tests Compose `:feature-home`** (`ArtistsScreen` y `ArtistDetailScreen`).
+
+#### Helper: capturas de evidencia para la wiki
+
+Para juntar los reportes HTML en un solo lugar y abrirlos automáticamente en el navegador (útil para tomar screenshots de evidencia), corre desde PowerShell:
+
+```powershell
+.\scripts\collect-test-reports.ps1
+```
+
+Copia los 6 reportes (4 JVM + 2 instrumentados) a `screenshots-input/` (carpeta gitignored) con los mismos nombres que la wiki espera para los PNG.
 
 > **Tip Windows (CLI):** si Gradle no encuentra JDK 21 con error `Cannot find a Java installation … languageVersion=21`, exporta `JAVA_HOME` apuntando al JBR de Android Studio antes de invocar el wrapper. **Desde Android Studio no aplica** porque ya usa su JBR embebido.
 >
@@ -253,28 +287,33 @@ Cobertura actual: **10 tests E2E** (Bootstrap → Auth → Home, navegación HU0
 
 ```text
 MISW4203-vinilos/
-├── app/                       # Entry point, MainActivity, NavHost, AppContainer (DI manual)
+├── app/                       # Entry point, MainActivity, NavHost, AppContainer (DI manual con Context)
 ├── core/
 │   ├── ui/                    # Tema + componentes Compose reutilizables
 │   ├── navigation/            # Rutas compartidas (AppRoute)
-│   └── utils/                 # Sesión (in-memory), permisos, modelos compartidos
+│   └── utils/                 # Sesión (in-memory), permisos, modelos compartidos, BackendConfig
 ├── feature-auth/              # Selección de rol (Visitor / Collector)
-└── feature-home/              # HU01 catálogo + HU02 detalle de álbum
-    ├── ui/                    # Composables + ViewModels
-    ├── domain/                # HomeRepository «interface», UseCases, modelos
-    └── data/
-        ├── repository/        # RemoteHomeRepository (impl) + AlbumMapper
-        ├── mapper/            # DTO → dominio
-        └── remote/            # HomeService «Service Adapter» + HttpHomeService
+├── feature-home/              # HU01 catálogo + HU02 detalle de álbum + HU03 listado de artistas + HU04 detalle de artista + HU07 crear álbum
+│   ├── ui/                    # Composables + ViewModels (Home/AlbumDetail/Artists/ArtistDetail/CreateAlbum)
+│   ├── domain/                # Repositorios «interface», UseCases (Observe…/CreateAlbum/UploadCover), modelos
+│   └── data/
+│       ├── repository/        # RemoteHomeRepository, RemoteArtistsRepository + Providers (DI)
+│       ├── mapper/            # AlbumMapper, ArtistMapper (DTO → dominio)
+│       ├── remote/            # HomeService / ArtistsService «Service Adapter» + Http…Service + JsonExtensions
+│       │   └── dto/           # AlbumDto, MusicianDto, TrackDto, PerformerDto, CommentDto
+│       └── cache/             # VinilosDatabase (Room), AlbumDao/ArtistDao, RoomAlbums/ArtistsLocalCache (TTL 5 min)
+└── scripts/                   # Helpers PowerShell (collect-test-reports.ps1)
 ```
 
 **Patrones aplicados:**
 
 - **MVVM + UDF**: ViewModel expone `StateFlow<UiState>` + `SharedFlow<UiEffect>`.
 - **Clean Architecture por feature**: `ui → domain ← data`.
-- **Service Adapter**: `RemoteHomeRepository` no conoce HTTP; delega en `HomeService` (interfaz). `HttpHomeService` es la implementación con `HttpURLConnection` + `org.json`. Cambiar a Retrofit/Ktor toca solo una clase.
-- **DI manual** vía `AppContainer` (sin Hilt/Koin).
+- **Service Adapter**: cada repositorio remoto delega en una interfaz de transporte (`HomeService`, `ArtistsService`). Las implementaciones HTTP usan `HttpURLConnection` + `org.json`. Cambiar a Retrofit/Ktor toca solo las clases `Http…Service`.
+- **Cache en dos niveles** (Sprint 2): `MutableStateFlow<List<…>?>` en memoria como render instantáneo + Room (`VinilosDatabase`) como persistencia entre sesiones, con TTL de 5 minutos. Detrás de `AlbumsLocalCache` / `ArtistsLocalCache` (interfaces) — los repositorios no conocen Room directamente, lo que permite inyectar `NoopAlbumsLocalCache` en tests JVM puros.
+- **DI manual** vía `AppContainer(context)` (sin Hilt/Koin). Recibe el `applicationContext` desde `MainActivity` para construir Room.
 - **Permisos centralizados** en `core:utils.PermissionsPolicy`; la UI nunca hardcodea reglas por rol.
+- **Configuración del backend centralizada** en `core:utils.BackendConfig` — un único punto de cambio para toda la app.
 
 ### Roles soportados
 
@@ -303,9 +342,10 @@ Las stubs de Android no implementan `org.json` en unit tests. El proyecto ya inc
 
 ### La app abre pero el catálogo está vacío
 
-- Verifica que el backend esté corriendo: `curl http://localhost:3000/albums`.
-- Si usas **emulador**, la URL base debe ser `http://10.0.2.2:3000/`.
-- Si usas **dispositivo físico**, cambia `DEFAULT_BASE_URL` en `HomeRepositoryProvider.kt` por la IP LAN de tu PC y abre el firewall en el puerto 3000.
+- Verifica conectividad al backend que estás usando: `curl https://back-vynils-production.up.railway.app/albums | head -c 200` (Railway, default) o `curl http://localhost:3000/albums` (local).
+- Si usas backend local con **emulador**, `BackendConfig.BASE_URL` debe ser `http://10.0.2.2:3000/`.
+- Si usas backend local con **dispositivo físico**, cambia `BackendConfig.BASE_URL` en `core/utils/.../config/BackendConfig.kt` por la IP LAN de tu PC y abre el firewall en el puerto 3000.
+- Si la app abrió antes con datos pero ahora se quedó "fría": Room mantiene el último snapshot por 5 minutos; pasado ese TTL, si la red sigue caída no hay datos para mostrar. Borra los datos de la app desde Settings o reinstala para resetear el cache.
 - Revisa `Logcat` filtrando por `vinilos` para ver si hay errores HTTP.
 
 ### Error de tema en el manifest
@@ -336,11 +376,11 @@ adb devices         # debe listar tu emulador/dispositivo
 
 ## 9. Documentación adicional
 
-- **Wiki del proyecto** (en GitHub): planes de sprint, estrategia de pruebas, retrospectivas.
+- **Wiki del proyecto** (en GitHub): planes de sprint (`Sprint-1`, `Sprint-2`), `Estrategia-de-Pruebas`, retrospectivas y evidencia de ejecución de tests por sprint.
 - **Diagramas UML** en la raíz del repo (editables con [draw.io](https://app.diagrams.net/)):
   - `package_diagram.drawio` / `.md` — paquetes y dependencias entre módulos.
   - `component_diagram.drawio` / `.md` — componentes en tiempo de ejecución.
-  - `class_diagram_feature_home.drawio` / `.md` — clases de `feature-home` (HU01 + HU02 + Service Adapter).
+  - `class_diagram_feature_home.drawio` / `.md` — clases de `feature-home` (HU01–HU04 + HU07 + Service Adapter + Cache Room).
   - `class_diagram_feature_auth.drawio` / `.md` — clases de `feature-auth`.
 - **`DESING.md`** y **`GUIA_CODIGO.md`** — decisiones arquitectónicas detalladas y guía de estilo.
 
@@ -348,13 +388,22 @@ adb devices         # debe listar tu emulador/dispositivo
 
 ## Versiones del stack
 
-| Componente            | Versión    |
-| --------------------- | ---------- |
-| Android Gradle Plugin | 8.5.2      |
-| Kotlin                | 1.9.24     |
-| Jetpack Compose BOM   | 2024.06.00 |
-| Compose Compiler      | 1.5.14     |
-| Gradle Wrapper        | 9.0.0      |
-| Java/Kotlin target    | 21         |
-| `compileSdk`          | 34         |
-| `minSdk`              | 24         |
+| Componente                     | Versión       |
+| ------------------------------ | ------------- |
+| Android Gradle Plugin          | 8.5.2         |
+| Kotlin                         | 1.9.24        |
+| KSP                            | 1.9.24-1.0.20 |
+| Jetpack Compose BOM            | 2024.06.00    |
+| Compose Compiler               | 1.5.14        |
+| Room                           | 2.6.1         |
+| Coroutines                     | 1.8.1         |
+| Coil                           | 2.7.0         |
+| desugar_jdk_libs               | 2.1.2         |
+| Robolectric (tests Room JVM)   | 4.10.3        |
+| MockWebServer (tests HTTP JVM) | 4.12.0        |
+| Gradle Wrapper                 | 9.0.0         |
+| Java/Kotlin target             | 21            |
+| `compileSdk`                   | 34            |
+| `minSdk`                       | 24            |
+
+> Las versiones están centralizadas en `gradle/libs.versions.toml` — para actualizar una dependencia, edita ahí y los módulos la consumen vía `libs.<alias>`.
