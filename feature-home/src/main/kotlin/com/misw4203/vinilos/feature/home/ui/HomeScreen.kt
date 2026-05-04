@@ -38,10 +38,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.misw4203.vinilos.core.ui.components.VinilosBottomNavItem
 import com.misw4203.vinilos.core.ui.components.VinilosBottomNavigationBar
 import com.misw4203.vinilos.core.ui.components.VinilosFilterChip
@@ -54,7 +55,9 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onBackToAuth: () -> Unit,
     onAlbumClick: (HomeItem) -> Unit,
+    onCreateAlbum: () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -110,8 +113,22 @@ fun HomeScreen(
                     onAlbumClick = onAlbumClick,
                 )
 
-                HomeTab.ARTISTS -> ComingSoonSection(title = "Artists")
+                HomeTab.ARTISTS -> content()
                 HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
+            }
+            if (state.permissions.canCreate) {
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(20.dp)
+                        .clickable { onCreateAlbum() },
+                    shape = RoundedCornerShape(999.dp),
+                    color = MaterialTheme.colorScheme.primary,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
+                        Text(text = "+ Add Album", color = MaterialTheme.colorScheme.onPrimary, style = MaterialTheme.typography.titleMedium)
+                    }
+                }
             }
         }
     }
@@ -201,6 +218,7 @@ private fun AlbumsEditorialFeed(
                     artist = featuredItem.artist,
                     genre = featuredItem.genre,
                     year = featuredItem.year,
+                    coverUrl = featuredItem.coverUrl,
                     canEdit = state.permissions.canEdit,
                     canDelete = state.permissions.canDelete,
                     onEdit = { onEditItem(featuredItem) },
@@ -216,6 +234,7 @@ private fun AlbumsEditorialFeed(
                 artist = item.artist,
                 genre = item.genre,
                 year = item.year,
+                coverUrl = item.coverUrl,
                 canEdit = state.permissions.canEdit,
                 canDelete = state.permissions.canDelete,
                 onEdit = { onEditItem(item) },
@@ -232,6 +251,7 @@ private fun FeaturedAlbumCard(
     artist: String,
     genre: String,
     year: Int,
+    coverUrl: String?,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -252,6 +272,14 @@ private fun FeaturedAlbumCard(
                     .clip(RoundedCornerShape(24.dp))
                     .background(brush),
             ) {
+                coverUrl?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = itemTitle,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -305,6 +333,7 @@ private fun AlbumTileCard(
     artist: String,
     genre: String,
     year: Int,
+    coverUrl: String?,
     canEdit: Boolean,
     canDelete: Boolean,
     onEdit: () -> Unit,
@@ -325,7 +354,16 @@ private fun AlbumTileCard(
                     .padding(14.dp)
                     .clip(RoundedCornerShape(18.dp))
                     .background(brush),
-            )
+            ) {
+                coverUrl?.takeIf { it.isNotBlank() }?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+            }
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -438,14 +476,3 @@ private fun ComingSoonSection(title: String) {
     }
 }
 
-private fun editorialBrush(seed: String): Brush {
-    val palette = listOf(
-        listOf(Color(0xFF1F2A37), Color(0xFF0F1115), Color(0xFF7A5CFF)),
-        listOf(Color(0xFF30204B), Color(0xFF111117), Color(0xFFB792FF)),
-        listOf(Color(0xFF15282D), Color(0xFF0E1215), Color(0xFF47E0C8)),
-        listOf(Color(0xFF34261B), Color(0xFF101012), Color(0xFFFFB38A)),
-    )
-    val index = kotlin.math.abs(seed.hashCode()) % palette.size
-    val colors = palette[index]
-    return Brush.linearGradient(colors = colors)
-}

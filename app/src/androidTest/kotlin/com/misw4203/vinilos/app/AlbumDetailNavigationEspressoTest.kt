@@ -70,7 +70,13 @@ class AlbumDetailNavigationEspressoTest {
         }
         composeRule.onNodeWithContentDescription("Back").assertIsDisplayed()
 
-        Espresso.pressBackUnconditionally()
+        // Dispatch the system back press through the Activity instead of
+        // Espresso.pressBackUnconditionally(). The latter blocks waiting for
+        // window focus on the AVD, which can stay false under Compose
+        // navigation transitions even with animations disabled.
+        composeRule.runOnUiThread {
+            composeRule.activity.onBackPressedDispatcher.onBackPressed()
+        }
         composeRule.waitForIdle()
 
         // Back from detail returns to home (the home top bar's title is "Vinilos").
