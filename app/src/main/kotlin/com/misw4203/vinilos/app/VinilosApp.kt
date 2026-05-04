@@ -89,14 +89,14 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                 onCreateAlbum = {
                     navController.navigate(AppRoute.CreateAlbum)
                 },
-                artistsContent = {
+                content = {
                     ArtistsScreen(
                         viewModel = artistsViewModel,
                         onArtistClick = { artist ->
                             navController.navigate("${AppRoute.ArtistDetail}/${artist.id}")
                         },
                     )
-                }
+                },
             )
         }
 

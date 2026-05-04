@@ -1,9 +1,11 @@
 package com.misw4203.vinilos.feature.home.data.repository
 
+import com.misw4203.vinilos.feature.home.data.cache.ArtistsLocalCache
 import com.misw4203.vinilos.feature.home.data.remote.ArtistsService
 import com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto
 import com.misw4203.vinilos.feature.home.data.remote.dto.MusicianDto
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -72,5 +74,46 @@ class RemoteArtistsRepositoryTest {
     fun observeArtist_returnsNull_whenServiceReturnsNull() = runTest {
         val repo = RemoteArtistsRepository(fakeService(emptyList()))
         assertNull(repo.observeArtist(99L).first())
+    }
+
+    @Test
+    fun observeArtists_emitsCachedArtists_beforeNetwork() = runTest {
+        val cached = MusicianDto(id = 99L, name = "From Cache")
+        val network = MusicianDto(id = 1L, name = "From Network")
+        val cache = FakeArtistsLocalCache(initial = listOf(cached))
+        val service = fakeService(listOf(network))
+        val repository = RemoteArtistsRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeArtists().toList()
+
+        assertEquals(2, emissions.size)
+        assertEquals("From Cache", emissions[0].single().name)
+        assertEquals("From Network", emissions[1].single().name)
+    }
+
+    @Test
+    fun observeArtists_persistsNetworkResponse_intoLocalCache() = runTest {
+        val cache = FakeArtistsLocalCache(initial = null)
+        val service = fakeService(listOf(MusicianDto(id = 1L, name = "Fresh")))
+        val repository = RemoteArtistsRepository(service = service, localCache = cache)
+
+        repository.observeArtists().toList()
+
+        val persisted = cache.snapshot()
+        assertEquals(1, persisted.size)
+        assertEquals("Fresh", persisted[0].name)
+    }
+
+    private class FakeArtistsLocalCache(
+        initial: List<MusicianDto>?,
+    ) : ArtistsLocalCache {
+        private var stored: List<MusicianDto>? = initial
+
+        override suspend fun read(): List<MusicianDto>? = stored
+        override suspend fun write(artists: List<MusicianDto>) {
+            stored = artists
+        }
+
+        fun snapshot(): List<MusicianDto> = stored.orEmpty()
     }
 }

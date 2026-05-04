@@ -1,5 +1,6 @@
 package com.misw4203.vinilos.app
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.misw4203.vinilos.core.utils.permissions.DefaultPermissionsPolicy
@@ -22,14 +23,16 @@ import com.misw4203.vinilos.feature.home.ui.ArtistDetailViewModel
 import com.misw4203.vinilos.feature.home.ui.ArtistsViewModel
 import com.misw4203.vinilos.feature.home.ui.HomeViewModel
 
-class AppContainer {
+class AppContainer(context: Context) {
+
+    private val appContext: Context = context.applicationContext
 
     private val permissionsPolicy: PermissionsPolicy = DefaultPermissionsPolicy()
     private val sessionRepository: SessionRepository = InMemorySessionRepository(
         permissionsPolicy = permissionsPolicy,
     )
-    private val homeRepository = provideHomeRepository()
-    private val artistsRepository = provideArtistsRepository()
+    private val homeRepository = provideHomeRepository(context = appContext)
+    private val artistsRepository = provideArtistsRepository(context = appContext)
 
     private val observeSessionUseCase = ObserveSessionUseCase(sessionRepository)
     private val clearSessionUseCase = ClearSessionUseCase(sessionRepository)
