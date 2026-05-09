@@ -4,11 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.misw4203.vinilos.feature.home.domain.model.Artist
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 data class ArtistsUiState(
     val isLoading: Boolean = true,
@@ -17,19 +21,32 @@ data class ArtistsUiState(
     val query: String = "",
 )
 
+@OptIn(FlowPreview::class)
 class ArtistsViewModel(
     observeArtistsUseCase: ObserveArtistsUseCase,
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
 
-    val uiState: StateFlow<ArtistsUiState> = combine(observeArtistsUseCase(), query) { all, currentQuery ->
+    private val allArtists = observeArtistsUseCase().distinctUntilChanged()
+
+    private val filteredArtists = combine(
+        allArtists,
+        query.debounce(300).distinctUntilChanged()
+    ) { all, currentQuery ->
         val trimmed = currentQuery.trim()
-        val filtered = if (trimmed.isEmpty()) {
+        if (trimmed.isEmpty()) {
             all
         } else {
             all.filter { it.name.contains(trimmed, ignoreCase = true) }
         }
+    }.distinctUntilChanged()
+
+    val uiState: StateFlow<ArtistsUiState> = combine(
+        allArtists,
+        filteredArtists,
+        query
+    ) { all, filtered, currentQuery ->
         ArtistsUiState(
             isLoading = false,
             artists = filtered,

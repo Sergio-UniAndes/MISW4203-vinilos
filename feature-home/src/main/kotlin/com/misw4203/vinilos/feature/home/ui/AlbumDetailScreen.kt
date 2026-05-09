@@ -27,6 +27,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -124,7 +125,15 @@ fun AlbumDetailScreen(
 
 @Composable
 private fun DetailHeroCard(album: HomeItem) {
-    val brush = editorialRadialBrush(seed = "${album.id}${album.title}${album.artist}${album.genre}")
+    val brush = remember(album.id) { editorialRadialBrush(seed = "${album.id}${album.title}${album.artist}${album.genre}") }
+    val overlayBrush = remember {
+        Brush.verticalGradient(
+            colors = listOf(
+                Color.Transparent,
+                Color.Black.copy(alpha = 0.62f),
+            ),
+        )
+    }
 
     Card(
         shape = RoundedCornerShape(32.dp),
@@ -155,14 +164,7 @@ private fun DetailHeroCard(album: HomeItem) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    Color.Black.copy(alpha = 0.62f),
-                                ),
-                            ),
-                        ),
+                        .background(overlayBrush),
                 )
 
                 Box(

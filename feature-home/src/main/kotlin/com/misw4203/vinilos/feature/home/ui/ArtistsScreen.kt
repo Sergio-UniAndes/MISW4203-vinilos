@@ -92,11 +92,16 @@ fun ArtistsScreen(
                         )
                     }
                 }
-                items(state.artists.drop(1), key = { it.id }) { artist ->
-                    ArtistListItem(
-                        artist = artist,
-                        onClick = { onArtistClick(artist) },
-                    )
+                items(
+                    items = state.artists,
+                    key = { it.id }
+                ) { artist ->
+                    if (artist.id != state.artists.firstOrNull()?.id) {
+                        ArtistListItem(
+                            artist = artist,
+                            onClick = { onArtistClick(artist) },
+                        )
+                    }
                 }
             }
         }
@@ -252,7 +257,7 @@ private fun FeaturedArtistCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val brush = editorialBrush(seed = "${artist.id}${artist.name}")
+    val brush = remember(artist.id, artist.name) { editorialBrush(seed = "${artist.id}${artist.name}") }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -315,7 +320,7 @@ private fun ArtistListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val brush = editorialBrush(seed = "${artist.id}${artist.name}")
+    val brush = remember(artist.id, artist.name) { editorialBrush(seed = "${artist.id}${artist.name}") }
     Row(
         modifier = modifier
             .fillMaxWidth()
