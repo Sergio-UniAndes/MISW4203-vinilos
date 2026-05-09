@@ -116,7 +116,7 @@ fun HomeScreen(
                 HomeTab.ARTISTS -> content()
                 HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
             }
-            if (state.permissions.canCreate) {
+            if (state.permissions.canCreate && state.selectedTab == HomeTab.ALBUMS) {
                 Surface(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
@@ -196,16 +196,19 @@ private fun AlbumsEditorialFeed(
         }
 
         item(span = { GridItemSpan(maxLineSpan) }) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
-            ) {
-                HomeFilter.entries.forEach { filter ->
-                    VinilosFilterChip(
-                        text = filter.label,
-                        selected = state.selectedFilter == filter,
-                        onClick = { onFilterSelected(filter) },
-                    )
+            val filters = state.availableFilters
+            if (filters.isNotEmpty()) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                ) {
+                    filters.forEach { filter ->
+                        VinilosFilterChip(
+                            text = filter.label,
+                            selected = state.activeFilter == filter,
+                            onClick = { onFilterSelected(filter) },
+                        )
+                    }
                 }
             }
         }
@@ -475,4 +478,3 @@ private fun ComingSoonSection(title: String) {
         }
     }
 }
-
