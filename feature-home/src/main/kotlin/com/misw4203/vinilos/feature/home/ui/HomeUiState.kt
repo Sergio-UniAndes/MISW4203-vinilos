@@ -6,8 +6,10 @@ import com.misw4203.vinilos.feature.home.domain.model.HomeItem
 
 enum class HomeFilter(val label: String) {
     RECENTLY_ADDED("Recently Added"),
+    CLASSICAL("Classical"),
+    SALSA("Salsa"),
     ROCK("Rock"),
-    JAZZ("Jazz"),
+    FOLK("Folk"),
 }
 
 enum class HomeTab(val label: String) {
@@ -26,14 +28,38 @@ data class HomeUiState(
     val permissions: RolePermissions
         get() = session?.permissions ?: RolePermissions()
 
+    val availableFilters: List<HomeFilter>
+        get() = HomeFilter.entries.filter { filter ->
+            when (filter) {
+                HomeFilter.RECENTLY_ADDED -> items.isNotEmpty()
+                HomeFilter.CLASSICAL -> hasGenre("Classical")
+                HomeFilter.SALSA -> hasGenre("Salsa")
+                HomeFilter.ROCK -> hasGenre("Rock")
+                HomeFilter.FOLK -> hasGenre("Folk")
+            }
+        }
+
+    val activeFilter: HomeFilter
+        get() = if (availableFilters.contains(selectedFilter)) {
+            selectedFilter
+        } else {
+            availableFilters.firstOrNull() ?: HomeFilter.RECENTLY_ADDED
+        }
+
     val filteredItems: List<HomeItem>
-        get() = when (selectedFilter) {
+        get() = when (activeFilter) {
             HomeFilter.RECENTLY_ADDED -> items.sortedByDescending(HomeItem::year)
+            HomeFilter.CLASSICAL -> items
+                .filter { it.genre.equals("Classical", ignoreCase = true) }
+                .sortedByDescending(HomeItem::year)
+            HomeFilter.SALSA -> items
+                .filter { it.genre.equals("Salsa", ignoreCase = true) }
+                .sortedByDescending(HomeItem::year)
             HomeFilter.ROCK -> items
                 .filter { it.genre.equals("Rock", ignoreCase = true) }
                 .sortedByDescending(HomeItem::year)
-            HomeFilter.JAZZ -> items
-                .filter { it.genre.equals("Jazz", ignoreCase = true) }
+            HomeFilter.FOLK -> items
+                .filter { it.genre.equals("Folk", ignoreCase = true) }
                 .sortedByDescending(HomeItem::year)
         }
 
@@ -45,4 +71,8 @@ data class HomeUiState(
 
     val totalCount: Int
         get() = filteredItems.size
+
+    private fun hasGenre(genre: String): Boolean {
+        return items.any { it.genre.equals(genre, ignoreCase = true) }
+    }
 }
