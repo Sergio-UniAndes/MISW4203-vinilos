@@ -47,7 +47,7 @@ class CreateAlbumNavigationEspressoTest {
         composeRule.onAllNodesWithText("Create Album").assertCountEquals(2)
         composeRule.onNodeWithText("Album name").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Release date").performScrollTo().assertIsDisplayed()
-        composeRule.onNodeWithText("Cover URL").performScrollTo().assertIsDisplayed()
+        composeRule.onNodeWithText("Choose a cover image").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Description").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Choose a genre from the options below").performScrollTo().assertIsDisplayed()
         composeRule.onNodeWithText("Choose a record label from the options below").performScrollTo().assertIsDisplayed()
@@ -84,6 +84,3 @@ class CreateAlbumNavigationEspressoTest {
         composeRule.onAllNodesWithContentDescription("Back").fetchSemanticsNodes()
     }
 }
-
-
-

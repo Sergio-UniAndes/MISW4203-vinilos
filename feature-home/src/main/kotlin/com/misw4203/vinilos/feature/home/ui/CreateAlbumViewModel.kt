@@ -1,6 +1,8 @@
 package com.misw4203.vinilos.feature.home.ui
 
-import android.content.ContentResolver
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +15,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import kotlin.math.min
 
 data class CreateAlbumUiState(
     val name: String = "",
@@ -48,15 +53,16 @@ class CreateAlbumViewModel(
         _state.value = _state.value.copy(cover = value)
     }
 
-    fun onPickImageUri(contentResolver: ContentResolver, uri: Uri) {
+    fun onPickImageUri(context: Context, uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isSubmitting = true)
-            val uploaded = uploadCoverUseCase(contentResolver, uri.toString())
+            val processedUri = processCoverImage(context, uri)
+            val uploaded = processedUri?.let { uploadCoverUseCase(context.contentResolver, it) }
             _state.value = _state.value.copy(isSubmitting = false)
             if (uploaded != null) {
                 onCoverChange(uploaded)
             } else {
-                _effects.emit(CreateAlbumUiEffect.ShowMessage("Failed to upload cover"))
+                _effects.emit(CreateAlbumUiEffect.ShowMessage("Failed to process cover image"))
             }
         }
     }
@@ -104,5 +110,50 @@ class CreateAlbumViewModel(
             }
         }
     }
-}
 
+    private fun processCoverImage(context: Context, uri: Uri): String? {
+        val resolver = context.contentResolver
+        val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        resolver.openInputStream(uri)?.use { stream ->
+            BitmapFactory.decodeStream(stream, null, options)
+        }
+        if (options.outWidth <= 0 || options.outHeight <= 0) return null
+
+        val maxSize = 1024
+        val sampleSize = calculateSampleSize(options.outWidth, options.outHeight, maxSize)
+        val decodeOptions = BitmapFactory.Options().apply { inSampleSize = sampleSize }
+        val decoded = resolver.openInputStream(uri)?.use { stream ->
+            BitmapFactory.decodeStream(stream, null, decodeOptions)
+        } ?: return null
+
+        val square = centerCropSquare(decoded)
+        val resized = if (square.width > maxSize) {
+            Bitmap.createScaledBitmap(square, maxSize, maxSize, true)
+        } else {
+            square
+        }
+
+        val outputFile = File(context.cacheDir, "cover_${System.currentTimeMillis()}.jpg")
+        FileOutputStream(outputFile).use { out ->
+            resized.compress(Bitmap.CompressFormat.JPEG, 85, out)
+        }
+        return android.net.Uri.fromFile(outputFile).toString()
+    }
+
+    private fun centerCropSquare(source: Bitmap): Bitmap {
+        val size = min(source.width, source.height)
+        val x = (source.width - size) / 2
+        val y = (source.height - size) / 2
+        return Bitmap.createBitmap(source, x, y, size, size)
+    }
+
+    private fun calculateSampleSize(width: Int, height: Int, maxSize: Int): Int {
+        var inSampleSize = 1
+        var halfWidth = width / 2
+        var halfHeight = height / 2
+        while (halfWidth / inSampleSize >= maxSize && halfHeight / inSampleSize >= maxSize) {
+            inSampleSize *= 2
+        }
+        return inSampleSize
+    }
+}

@@ -14,7 +14,11 @@ internal fun isValidCoverUrl(value: String): Boolean {
 
     return runCatching {
         val uri = URI(trimmed)
-        (uri.scheme == "http" || uri.scheme == "https") && !uri.host.isNullOrBlank()
+        when (uri.scheme) {
+            "http", "https" -> !uri.host.isNullOrBlank()
+            "content", "file" -> !uri.path.isNullOrBlank()
+            else -> false
+        }
     }.getOrDefault(false)
 }
 
@@ -28,8 +32,8 @@ internal fun isValidReleaseDate(value: String): Boolean {
 internal fun isValidDescription(value: String): Boolean = value.trim().length >= MIN_DESCRIPTION_LENGTH
 
 internal fun coverUrlError(value: String): String? = when {
-    value.isBlank() -> "Cover URL is required"
-    !isValidCoverUrl(value) -> "Enter a valid http or https URL"
+    value.isBlank() -> "Cover image is required"
+    !isValidCoverUrl(value) -> "Cover image must be a valid image reference"
     else -> null
 }
 
@@ -71,5 +75,3 @@ internal fun validateCreateAlbumForm(state: CreateAlbumUiState): String? =
         genreError(state.genre),
         recordLabelError(state.recordLabel),
     ).firstOrNull()
-
-
