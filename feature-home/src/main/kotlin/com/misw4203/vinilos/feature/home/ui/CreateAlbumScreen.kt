@@ -91,7 +91,7 @@ fun CreateAlbumScreen(
     var descriptionTouched by remember { mutableStateOf(false) }
 
     val nameErrorText = if (nameTouched) nameError(state.name) else null
-    val coverUrlErrorText = if (coverTouched) coverUrlError(state.cover) else null
+    val coverErrorText = if (coverTouched) coverUrlError(state.cover) else null
     val releaseDateErrorText = if (releaseDateTouched) releaseDateError(state.releaseDate) else null
     val descriptionErrorText = if (descriptionTouched) descriptionError(state.description) else null
     val formIsValid = validateCreateAlbumForm(state) == null
@@ -184,7 +184,7 @@ fun CreateAlbumScreen(
                                 contract = ActivityResultContracts.GetContent(),
                                 onResult = { uri: Uri? ->
                                     uri?.let { picked ->
-                                        viewModel.onPickImageUri(context.contentResolver, picked)
+                                        viewModel.onPickImageUri(context, picked)
                                     }
                                 },
                             )
@@ -217,7 +217,10 @@ fun CreateAlbumScreen(
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
                                     .padding(12.dp)
-                                    .clickable { pickImageLauncher.launch("image/*") }
+                                    .clickable {
+                                        coverTouched = true
+                                        pickImageLauncher.launch("image/*")
+                                    }
                                     .semantics { contentDescription = "Choose album cover image" },
                             ) {
                                 Icon(
@@ -269,6 +272,12 @@ fun CreateAlbumScreen(
                                 )
                             }
                         }
+
+                        Text(
+                            text = coverErrorText ?: "Choose a cover image (we'll crop to square and optimize quality)",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = if (coverErrorText != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
 
                         SectionLabel(text = "Album details")
 
@@ -326,17 +335,6 @@ fun CreateAlbumScreen(
                             text = recordLabelError(state.recordLabel) ?: "Select one record label",
                             style = MaterialTheme.typography.labelMedium,
                             color = if (recordLabelError(state.recordLabel) != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-
-                        EditorialTextField(
-                            value = state.cover,
-                            onValueChange = viewModel::onCoverChange,
-                            label = "Cover URL",
-                            placeholder = "https://...",
-                            keyboardType = KeyboardType.Uri,
-                            supportingText = if (coverTouched) coverUrlErrorText ?: "Use a valid http or https image URL" else "Paste a valid image URL",
-                            isError = coverUrlErrorText != null,
-                            onTouched = { coverTouched = true },
                         )
 
                         EditorialTextField(
@@ -586,5 +584,3 @@ private fun DatePickerField(
         ),
     )
 }
-
-
