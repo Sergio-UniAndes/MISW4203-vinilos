@@ -16,6 +16,12 @@ class RoomAlbumsLocalCache(
         return rows.map { it.toDto() }
     }
 
+    override suspend fun readStale(): List<AlbumDto>? {
+        val rows = dao.getAll()
+        if (rows.isEmpty()) return null
+        return rows.map { it.toDto() }
+    }
+
     override suspend fun write(albums: List<AlbumDto>) {
         if (albums.isEmpty()) return
         val timestamp = now()

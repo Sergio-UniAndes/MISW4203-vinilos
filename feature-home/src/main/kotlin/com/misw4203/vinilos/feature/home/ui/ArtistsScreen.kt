@@ -92,16 +92,11 @@ fun ArtistsScreen(
                         )
                     }
                 }
-                items(
-                    items = state.artists,
-                    key = { it.id }
-                ) { artist ->
-                    if (artist.id != state.artists.firstOrNull()?.id) {
-                        ArtistListItem(
-                            artist = artist,
-                            onClick = { onArtistClick(artist) },
-                        )
-                    }
+                items(state.artists.drop(1), key = { it.id }) { artist ->
+                    ArtistListItem(
+                        artist = artist,
+                        onClick = { onArtistClick(artist) },
+                    )
                 }
             }
         }
