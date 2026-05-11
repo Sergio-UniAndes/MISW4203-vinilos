@@ -24,20 +24,38 @@ class RemoteHomeRepository(
     private val itemsCache = MutableStateFlow<List<HomeItem>?>(null)
 
     override fun observeItems(): Flow<List<HomeItem>> = flow {
-        itemsCache.value?.let { emit(it) }
+        var hasEmitted = false
+        itemsCache.value?.let {
+            emit(it)
+            hasEmitted = true
+        }
 
         if (itemsCache.value == null) {
             localCache.read()?.let { dtos ->
                 val items = dtos.toHomeItems()
                 itemsCache.value = items
                 emit(items)
+                hasEmitted = true
             }
         }
 
-        val fresh = service.getAlbums()
+        val fresh = try {
+            service.getAlbums()
+        } catch (_: Exception) {
+            if (!hasEmitted) {
+                val stale = localCache.readStale()?.toHomeItems().orEmpty()
+                itemsCache.value = stale
+                emit(stale)
+            }
+            return@flow
+        }
         val freshItems = fresh.toHomeItems()
         if (fresh.isNotEmpty()) {
             localCache.write(fresh)
+        }
+        // HttpHomeService swallows transport failures and returns []; keep cache instead of blanking.
+        if (freshItems.isEmpty() && itemsCache.value?.isNotEmpty() == true) {
+            return@flow
         }
         if (freshItems != itemsCache.value) {
             itemsCache.value = freshItems

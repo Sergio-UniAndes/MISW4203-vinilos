@@ -16,6 +16,12 @@ class RoomArtistsLocalCache(
         return rows.map { it.toDto() }
     }
 
+    override suspend fun readStale(): List<MusicianDto>? {
+        val rows = dao.getAll()
+        if (rows.isEmpty()) return null
+        return rows.map { it.toDto() }
+    }
+
     override suspend fun write(artists: List<MusicianDto>) {
         if (artists.isEmpty()) return
         val timestamp = now()

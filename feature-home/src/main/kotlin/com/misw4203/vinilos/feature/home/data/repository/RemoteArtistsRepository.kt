@@ -23,20 +23,38 @@ class RemoteArtistsRepository(
     private val artistsCache = MutableStateFlow<List<Artist>?>(null)
 
     override fun observeArtists(): Flow<List<Artist>> = flow {
-        artistsCache.value?.let { emit(it) }
+        var hasEmitted = false
+        artistsCache.value?.let {
+            emit(it)
+            hasEmitted = true
+        }
 
         if (artistsCache.value == null) {
             localCache.read()?.let { dtos ->
                 val artists = dtos.toArtists()
                 artistsCache.value = artists
                 emit(artists)
+                hasEmitted = true
             }
         }
 
-        val fresh = service.getMusicians()
+        val fresh = try {
+            service.getMusicians()
+        } catch (_: Exception) {
+            if (!hasEmitted) {
+                val stale = localCache.readStale()?.toArtists().orEmpty()
+                artistsCache.value = stale
+                emit(stale)
+            }
+            return@flow
+        }
         val freshArtists = fresh.toArtists()
         if (fresh.isNotEmpty()) {
             localCache.write(fresh)
+        }
+        // HttpArtistsService swallows transport failures and returns []; keep cache instead of blanking.
+        if (freshArtists.isEmpty() && artistsCache.value?.isNotEmpty() == true) {
+            return@flow
         }
         if (freshArtists != artistsCache.value) {
             artistsCache.value = freshArtists

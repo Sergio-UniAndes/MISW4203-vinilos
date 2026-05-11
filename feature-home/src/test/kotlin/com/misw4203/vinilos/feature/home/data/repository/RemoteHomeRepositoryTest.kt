@@ -135,11 +135,53 @@ class RemoteHomeRepositoryTest {
         assertEquals("Same", emissions[0].single().title)
     }
 
+    @Test
+    fun observeItems_fallsBackToStaleCache_whenNetworkFails() = runTest {
+        val cachedAlbum = AlbumDto(id = 99L, name = "Stale Album", artist = "Stale", genre = "Rock")
+        val cache = FakeAlbumsLocalCache(initial = null, stale = listOf(cachedAlbum))
+        val service = FakeHomeService(throwOnList = true)
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeItems().toList()
+
+        assertEquals(1, emissions.size)
+        assertEquals("Stale Album", emissions[0].single().title)
+    }
+
+    @Test
+    fun observeItems_emitsEmpty_whenNetworkFailsAndCacheIsEmpty() = runTest {
+        val cache = FakeAlbumsLocalCache(initial = null, stale = null)
+        val service = FakeHomeService(throwOnList = true)
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeItems().toList()
+
+        assertEquals(1, emissions.size)
+        assertTrue(emissions[0].isEmpty())
+    }
+
+    @Test
+    fun observeItems_keepsCache_whenServiceSilentlyReturnsEmpty() = runTest {
+        val cachedAlbum = AlbumDto(id = 5L, name = "Cached", artist = "x", genre = "Rock")
+        val cache = FakeAlbumsLocalCache(initial = listOf(cachedAlbum))
+        val service = FakeHomeService(albums = emptyList())
+        val repository = RemoteHomeRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeItems().toList()
+
+        assertEquals(1, emissions.size)
+        assertEquals("Cached", emissions[0].single().title)
+    }
+
     private class FakeHomeService(
         private val albums: List<AlbumDto> = emptyList(),
         private val albumsById: Map<String, AlbumDto> = emptyMap(),
+        private val throwOnList: Boolean = false,
     ) : HomeService {
-        override suspend fun getAlbums(): List<AlbumDto> = albums
+        override suspend fun getAlbums(): List<AlbumDto> {
+            if (throwOnList) throw java.io.IOException("offline")
+            return albums
+        }
         override suspend fun getAlbum(id: String): AlbumDto? = albumsById[id]
         override suspend fun createAlbum(album: AlbumDto): Boolean = true
         override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
@@ -147,10 +189,12 @@ class RemoteHomeRepositoryTest {
 
     private class FakeAlbumsLocalCache(
         initial: List<AlbumDto>?,
+        private val stale: List<AlbumDto>? = initial,
     ) : AlbumsLocalCache {
         private var stored: List<AlbumDto>? = initial
 
         override suspend fun read(): List<AlbumDto>? = stored
+        override suspend fun readStale(): List<AlbumDto>? = stored ?: stale
         override suspend fun write(albums: List<AlbumDto>) {
             stored = albums
         }
