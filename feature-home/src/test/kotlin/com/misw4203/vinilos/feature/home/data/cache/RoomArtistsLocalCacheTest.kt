@@ -74,6 +74,20 @@ class RoomArtistsLocalCacheTest {
     }
 
     @Test
+    fun readStale_returnsExpiredEntries_forOfflineFallback() = runTest {
+        var clock = 0L
+        val cache = RoomArtistsLocalCache(dao = dao, ttlMillis = 1_000L, now = { clock })
+
+        cache.write(listOf(MusicianDto(id = 1L, name = "Old")))
+
+        clock = 5_000L
+        val stale = cache.readStale()
+        assertNotNull(stale)
+        assertEquals(1, stale!!.size)
+        assertEquals("Old", stale[0].name)
+    }
+
+    @Test
     fun write_replacesPreviousEntries() = runTest {
         val cache = RoomArtistsLocalCache(dao = dao, ttlMillis = 60_000L, now = { 1L })
 

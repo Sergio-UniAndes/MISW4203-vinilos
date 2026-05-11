@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class RemoteArtistsRepositoryTest {
@@ -104,12 +105,62 @@ class RemoteArtistsRepositoryTest {
         assertEquals("Fresh", persisted[0].name)
     }
 
+    @Test
+    fun observeArtists_fallsBackToStaleCache_whenNetworkFails() = runTest {
+        val cache = FakeArtistsLocalCache(
+            initial = null,
+            stale = listOf(MusicianDto(id = 7L, name = "Stale Artist")),
+        )
+        val service = object : ArtistsService {
+            override suspend fun getMusicians(): List<MusicianDto> =
+                throw java.io.IOException("offline")
+            override suspend fun getMusician(id: Long): MusicianDto? = null
+        }
+        val repository = RemoteArtistsRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeArtists().toList()
+
+        assertEquals(1, emissions.size)
+        assertEquals("Stale Artist", emissions[0].single().name)
+    }
+
+    @Test
+    fun observeArtists_emitsEmpty_whenNetworkFailsAndCacheIsEmpty() = runTest {
+        val cache = FakeArtistsLocalCache(initial = null, stale = null)
+        val service = object : ArtistsService {
+            override suspend fun getMusicians(): List<MusicianDto> =
+                throw java.io.IOException("offline")
+            override suspend fun getMusician(id: Long): MusicianDto? = null
+        }
+        val repository = RemoteArtistsRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeArtists().toList()
+
+        assertEquals(1, emissions.size)
+        assertTrue(emissions[0].isEmpty())
+    }
+
+    @Test
+    fun observeArtists_keepsCache_whenServiceSilentlyReturnsEmpty() = runTest {
+        val cachedArtist = MusicianDto(id = 7L, name = "Cached")
+        val cache = FakeArtistsLocalCache(initial = listOf(cachedArtist))
+        val service = fakeService(emptyList())
+        val repository = RemoteArtistsRepository(service = service, localCache = cache)
+
+        val emissions = repository.observeArtists().toList()
+
+        assertEquals(1, emissions.size)
+        assertEquals("Cached", emissions[0].single().name)
+    }
+
     private class FakeArtistsLocalCache(
         initial: List<MusicianDto>?,
+        private val stale: List<MusicianDto>? = initial,
     ) : ArtistsLocalCache {
         private var stored: List<MusicianDto>? = initial
 
         override suspend fun read(): List<MusicianDto>? = stored
+        override suspend fun readStale(): List<MusicianDto>? = stored ?: stale
         override suspend fun write(artists: List<MusicianDto>) {
             stored = artists
         }
