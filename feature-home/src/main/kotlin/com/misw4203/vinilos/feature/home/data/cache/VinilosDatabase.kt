@@ -6,14 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [AlbumEntity::class, ArtistEntity::class],
-    version = 1,
+    entities = [AlbumEntity::class, ArtistEntity::class, CollectorEntity::class],
+    version = 2,
     exportSchema = false,
 )
 abstract class VinilosDatabase : RoomDatabase() {
 
     abstract fun albumDao(): AlbumDao
     abstract fun artistDao(): ArtistDao
+    abstract fun collectorDao(): CollectorDao
 
     companion object {
         private const val DATABASE_NAME = "vinilos.db"

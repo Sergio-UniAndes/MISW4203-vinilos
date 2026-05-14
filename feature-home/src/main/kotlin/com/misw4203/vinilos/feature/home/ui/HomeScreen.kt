@@ -58,6 +58,7 @@ fun HomeScreen(
     onCreateAlbum: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = { ComingSoonSection(title = "Artists") },
+    collectorsContent: @Composable () -> Unit = { ComingSoonSection(title = "Collectors") },
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -114,7 +115,7 @@ fun HomeScreen(
                 )
 
                 HomeTab.ARTISTS -> content()
-                HomeTab.COLLECTORS -> ComingSoonSection(title = "Collectors")
+                HomeTab.COLLECTORS -> collectorsContent()
             }
             if (state.permissions.canCreate && state.selectedTab == HomeTab.ALBUMS) {
                 Surface(
