@@ -5,6 +5,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -169,5 +170,45 @@ class HttpHomeServiceTest {
 
         assertEquals(42L, album?.id)
         assertEquals("Alt Id Album", album?.name)
+    }
+
+    // -- addTrack --------------------------------------------------------
+
+    @Test
+    fun addTrack_returnsTrue_on201() = runTest {
+        server.enqueue(MockResponse().setResponseCode(201).setBody("{}"))
+
+        val result = service.addTrack(albumId = "5", name = "Decisiones", duration = "4:30")
+
+        assertTrue(result)
+        val request = server.takeRequest()
+        assertEquals("POST", request.method)
+        assertEquals("/albums/5/tracks", request.path)
+        val body = request.body.readUtf8()
+        assertTrue(body.contains("\"name\""))
+        assertTrue(body.contains("Decisiones"))
+        assertTrue(body.contains("\"duration\""))
+        assertTrue(body.contains("4:30"))
+    }
+
+    @Test
+    fun addTrack_returnsTrue_on200() = runTest {
+        server.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
+
+        assertTrue(service.addTrack("1", "Track A", "3:00"))
+    }
+
+    @Test
+    fun addTrack_returnsFalse_on400() = runTest {
+        server.enqueue(MockResponse().setResponseCode(400))
+
+        assertFalse(service.addTrack("1", "Bad Track", ""))
+    }
+
+    @Test
+    fun addTrack_returnsFalse_on500() = runTest {
+        server.enqueue(MockResponse().setResponseCode(500))
+
+        assertFalse(service.addTrack("1", "Track", "1:00"))
     }
 }

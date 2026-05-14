@@ -87,6 +87,16 @@ class RemoteHomeRepository(
         }
     }
 
+    override suspend fun addTrack(albumId: String, name: String, duration: String): Boolean {
+        return try {
+            withContext(ioDispatcher) {
+                service.addTrack(albumId, name, duration)
+            }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
     private fun List<AlbumDto>.toHomeItems(): List<HomeItem> =
         mapIndexed { index, dto -> dto.toHomeItem(index) }
 }
