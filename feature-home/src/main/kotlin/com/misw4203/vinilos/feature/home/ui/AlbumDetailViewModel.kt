@@ -5,30 +5,46 @@ import androidx.lifecycle.viewModelScope
 import com.misw4203.vinilos.core.utils.usecase.ObserveSessionUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.AddTrackUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveAlbumDetailUseCase
+import com.misw4203.vinilos.feature.home.domain.usecase.ObserveCollectorsUseCase
+import com.misw4203.vinilos.feature.home.domain.usecase.ObserveCommentsUseCase
+import com.misw4203.vinilos.feature.home.domain.usecase.PostCommentUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class AlbumDetailViewModel(
     private val albumId: String,
     observeAlbumDetailUseCase: ObserveAlbumDetailUseCase,
     observeSessionUseCase: ObserveSessionUseCase,
+    observeCommentsUseCase: ObserveCommentsUseCase,
+    observeCollectorsUseCase: ObserveCollectorsUseCase,
     private val addTrackUseCase: AddTrackUseCase,
+    private val postCommentUseCase: PostCommentUseCase,
 ) : ViewModel() {
 
     private val _dialogState = MutableStateFlow(AddTrackDialogState())
+    private val _commentForm = MutableStateFlow(CommentFormState())
+
+    private val firstCollectorId: StateFlow<Long?> = observeCollectorsUseCase()
+        .map { collectors -> collectors.firstOrNull()?.id }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val uiState: StateFlow<AlbumDetailUiState> = combine(
         observeAlbumDetailUseCase(albumId),
         observeSessionUseCase(),
+        observeCommentsUseCase(albumId),
         _dialogState,
-    ) { album, session, dialog ->
+        _commentForm,
+    ) { album, session, comments, dialog, comment ->
         AlbumDetailUiState(
             isLoading = false,
             album = album,
@@ -38,6 +54,11 @@ class AlbumDetailViewModel(
             trackName = dialog.name,
             trackDuration = dialog.duration,
             addTrackError = dialog.error,
+            comments = comments,
+            commentDraft = comment.draft,
+            commentRating = comment.rating,
+            isPostingComment = comment.isPosting,
+            commentError = comment.error,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -81,6 +102,46 @@ class AlbumDetailViewModel(
             }
         }
     }
+
+    fun onCommentDraftChange(value: String) {
+        _commentForm.update { it.copy(draft = value, error = null) }
+    }
+
+    fun onCommentRatingChange(rating: Int) {
+        _commentForm.update { it.copy(rating = rating.coerceIn(0, 5), error = null) }
+    }
+
+    fun onPostComment() {
+        val state = _commentForm.value
+        if (state.isPosting) return
+        viewModelScope.launch {
+            _commentForm.update { it.copy(isPosting = true, error = null) }
+            val collectorId = firstCollectorId.value
+                ?: withTimeoutOrNull(COLLECTOR_RESOLUTION_TIMEOUT_MS) {
+                    firstCollectorId.first { it != null }
+                }
+            val result = postCommentUseCase(
+                albumId = albumId,
+                description = state.draft,
+                rating = state.rating,
+                collectorId = collectorId,
+            )
+            when (result) {
+                is PostCommentUseCase.Result.Success -> {
+                    _commentForm.value = CommentFormState()
+                    _effects.emit(AlbumDetailUiEffect.CommentPosted)
+                }
+                PostCommentUseCase.Result.EmptyDescription ->
+                    _commentForm.update { it.copy(isPosting = false, error = "Write something before posting.") }
+                PostCommentUseCase.Result.InvalidRating ->
+                    _commentForm.update { it.copy(isPosting = false, error = "Rating must be between 0 and 5.") }
+                PostCommentUseCase.Result.NoCollector ->
+                    _commentForm.update { it.copy(isPosting = false, error = "No collector available. Try again in a moment.") }
+                PostCommentUseCase.Result.NetworkError ->
+                    _commentForm.update { it.copy(isPosting = false, error = "Could not post comment. Please try again.") }
+            }
+        }
+    }
 }
 
 private data class AddTrackDialogState(
@@ -90,3 +151,12 @@ private data class AddTrackDialogState(
     val duration: String = "",
     val error: String? = null,
 )
+
+private data class CommentFormState(
+    val draft: String = "",
+    val rating: Int = AlbumDetailUiState.DEFAULT_COMMENT_RATING,
+    val isPosting: Boolean = false,
+    val error: String? = null,
+)
+
+private const val COLLECTOR_RESOLUTION_TIMEOUT_MS = 5_000L
