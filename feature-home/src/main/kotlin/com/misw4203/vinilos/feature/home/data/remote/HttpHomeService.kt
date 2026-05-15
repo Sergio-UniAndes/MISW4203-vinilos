@@ -137,11 +137,46 @@ class HttpHomeService(
         )
     }
 
+    override suspend fun addTrack(albumId: String, name: String, duration: String): Boolean {
+        val connection = openConnection("/albums/$albumId/tracks")
+        return try {
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8")
+            connection.connectTimeout = TIMEOUT_MILLIS
+            connection.readTimeout = TIMEOUT_MILLIS
+
+            val payload = JSONObject().apply {
+                put("name", name)
+                put("duration", duration)
+            }.toString()
+
+            connection.outputStream.use { os ->
+                os.write(payload.toByteArray(Charsets.UTF_8))
+                os.flush()
+            }
+
+            val responseCode = connection.responseCode
+            val isSuccess = responseCode in HTTP_SUCCESS_RANGE
+            if (!isSuccess) {
+                val errorBody = connection.errorStream?.bufferedReader()?.use { it.readText() } ?: "No error body"
+                Log.e(TAG, "POST /albums/$albumId/tracks error $responseCode: $errorBody")
+            }
+            isSuccess
+        } catch (e: Exception) {
+            Log.e(TAG, "POST /albums/$albumId/tracks exception: ${e.message}", e)
+            false
+        } finally {
+            connection.disconnect()
+        }
+    }
+
     private fun openConnection(path: String): HttpURLConnection {
         return (URL(baseUrl.trimEnd('/') + path).openConnection() as HttpURLConnection)
     }
 
     private companion object {
+        const val TAG = "HttpHomeService"
         const val TIMEOUT_MILLIS = 10_000
         val HTTP_SUCCESS_RANGE = 200..299
     }

@@ -188,5 +188,7 @@ private class FakeHomeRepository(
     override suspend fun createAlbum(album: com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto): Boolean = true
 
     override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
+
+    override suspend fun addTrack(albumId: String, name: String, duration: String): Boolean = true
 }
 

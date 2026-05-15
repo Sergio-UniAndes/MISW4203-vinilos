@@ -65,6 +65,8 @@ class CreateAlbumUseCaseTest {
         }
 
         override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
+
+        override suspend fun addTrack(albumId: String, name: String, duration: String): Boolean = true
     }
 }
 

@@ -8,4 +8,5 @@ interface HomeService {
     suspend fun getAlbum(id: String): AlbumDto?
     suspend fun createAlbum(album: AlbumDto): Boolean
     suspend fun uploadCover(contentResolver: ContentResolver, uriString: String): String?
+    suspend fun addTrack(albumId: String, name: String, duration: String): Boolean
 }

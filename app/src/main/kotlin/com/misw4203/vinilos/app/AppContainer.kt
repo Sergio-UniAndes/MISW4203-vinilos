@@ -14,6 +14,7 @@ import com.misw4203.vinilos.feature.auth.ui.AuthViewModel
 import com.misw4203.vinilos.feature.home.data.repository.provideArtistsRepository
 import com.misw4203.vinilos.feature.home.data.repository.provideCollectorsRepository
 import com.misw4203.vinilos.feature.home.data.repository.provideHomeRepository
+import com.misw4203.vinilos.feature.home.domain.usecase.AddTrackUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveAlbumDetailUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistDetailUseCase
 import com.misw4203.vinilos.feature.home.domain.usecase.ObserveArtistsUseCase
@@ -44,6 +45,7 @@ class AppContainer(context: Context) {
     private val observeHomeItemsUseCase = ObserveHomeItemsUseCase(homeRepository)
     private val observeAlbumDetailUseCase = ObserveAlbumDetailUseCase(homeRepository)
     private val createAlbumUseCase = CreateAlbumUseCase(homeRepository)
+    private val addTrackUseCase = AddTrackUseCase(homeRepository)
     private val uploadCoverUseCase = com.misw4203.vinilos.feature.home.domain.usecase.UploadCoverUseCase(homeRepository)
     private val observeArtistsUseCase = ObserveArtistsUseCase(artistsRepository)
     private val observeArtistDetailUseCase = ObserveArtistDetailUseCase(artistsRepository)
@@ -69,6 +71,8 @@ class AppContainer(context: Context) {
         AlbumDetailViewModel(
             albumId = albumId,
             observeAlbumDetailUseCase = observeAlbumDetailUseCase,
+            observeSessionUseCase = observeSessionUseCase,
+            addTrackUseCase = addTrackUseCase,
         )
     }
 
