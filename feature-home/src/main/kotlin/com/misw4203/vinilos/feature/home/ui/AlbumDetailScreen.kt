@@ -1,6 +1,7 @@
 package com.misw4203.vinilos.feature.home.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -79,6 +81,7 @@ fun AlbumDetailScreen(
         viewModel.effects.collect { effect ->
             when (effect) {
                 is AlbumDetailUiEffect.TrackAdded -> { /* track added — list will refresh on next open */ }
+                is AlbumDetailUiEffect.CommentPosted -> { /* comment posted — list refreshes via repository cache */ }
             }
         }
     }
@@ -174,7 +177,17 @@ fun AlbumDetailScreen(
             DescriptionSection(album = album)
             TracksSection(tracks = album.tracks)
             PerformersSection(performers = album.performers)
-            CommentsSection(comments = album.comments)
+            CommentsSection(
+                comments = state.comments,
+                canPost = state.canCreate,
+                draft = state.commentDraft,
+                rating = state.commentRating,
+                isPosting = state.isPostingComment,
+                error = state.commentError,
+                onDraftChange = viewModel::onCommentDraftChange,
+                onRatingChange = viewModel::onCommentRatingChange,
+                onPostClick = viewModel::onPostComment,
+            )
             ShareAction()
         }
     }
@@ -415,27 +428,221 @@ private fun PerformersSection(performers: List<AlbumPerformer>) {
 }
 
 @Composable
-private fun CommentsSection(comments: List<AlbumComment>) {
-    if (comments.isEmpty()) return
+private fun CommentsSection(
+    comments: List<AlbumComment>,
+    canPost: Boolean,
+    draft: String,
+    rating: Int,
+    isPosting: Boolean,
+    error: String?,
+    onDraftChange: (String) -> Unit,
+    onRatingChange: (Int) -> Unit,
+    onPostClick: () -> Unit,
+) {
+    if (comments.isEmpty() && !canPost) return
 
     Card(
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(COMMENTS_SECTION_TAG),
     ) {
-        Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Text(
                 text = "Comments",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-            comments.forEach { comment ->
+
+            if (comments.isEmpty()) {
                 Text(
-                    text = "${comment.rating}/5 - ${comment.description}",
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = "No comments yet. Be the first to share your take.",
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    comments.forEach { comment -> CommentRow(comment = comment) }
+                }
+            }
+
+            if (canPost) {
+                CommentComposer(
+                    draft = draft,
+                    rating = rating,
+                    isPosting = isPosting,
+                    error = error,
+                    onDraftChange = onDraftChange,
+                    onRatingChange = onRatingChange,
+                    onPostClick = onPostClick,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CommentRow(comment: AlbumComment) {
+    Surface(
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(commentRowTag(comment.id)),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                repeat(5) { index ->
+                    val active = index < comment.rating
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .clip(CircleShape)
+                            .background(
+                                if (active) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.surfaceVariant,
+                            ),
+                    )
+                }
+                Spacer(modifier = Modifier.size(6.dp))
+                Text(
+                    text = "${comment.rating}/5",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Text(
+                text = comment.description,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CommentComposer(
+    draft: String,
+    rating: Int,
+    isPosting: Boolean,
+    error: String?,
+    onDraftChange: (String) -> Unit,
+    onRatingChange: (Int) -> Unit,
+    onPostClick: () -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Text(
+            text = "ADD A COLLECTOR'S NOTE",
+            style = MaterialTheme.typography.labelMedium.copy(letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold),
+            color = MaterialTheme.colorScheme.primary,
+        )
+
+        Card(
+            shape = RoundedCornerShape(18.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            BasicTextField(
+                value = draft,
+                onValueChange = onDraftChange,
+                enabled = !isPosting,
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurface),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 92.dp)
+                    .padding(14.dp)
+                    .testTag(COMMENT_INPUT_TAG),
+                decorationBox = { innerTextField ->
+                    if (draft.isEmpty()) {
+                        Text(
+                            text = "Add a collector's note...",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    innerTextField()
+                },
+            )
+        }
+
+        RatingPicker(rating = rating, isPosting = isPosting, onRatingChange = onRatingChange)
+
+        if (error != null) {
+            Text(
+                text = error,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            Button(
+                onClick = onPostClick,
+                enabled = !isPosting && draft.isNotBlank(),
+                shape = RoundedCornerShape(999.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                modifier = Modifier.testTag(COMMENT_POST_TAG),
+            ) {
+                if (isPosting) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                } else {
+                    Text(text = "Post Comment")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RatingPicker(
+    rating: Int,
+    isPosting: Boolean,
+    onRatingChange: (Int) -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            text = "RATING",
+            style = MaterialTheme.typography.labelMedium.copy(letterSpacing = 2.sp, fontWeight = FontWeight.SemiBold),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(modifier = Modifier.size(4.dp))
+        repeat(5) { index ->
+            val starValue = index + 1
+            val active = starValue <= rating
+            Surface(
+                shape = CircleShape,
+                color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
+                modifier = Modifier
+                    .size(28.dp)
+                    .testTag(commentRatingTag(starValue)),
+            ) {
+                androidx.compose.foundation.layout.Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable(enabled = !isPosting) { onRatingChange(starValue) },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "$starValue",
+                        style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                        color = if (active) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
     }
@@ -680,6 +887,12 @@ const val ADD_TRACK_FAB_TAG = "add_track_fab"
 const val ADD_TRACK_NAME_TAG = "add_track_name_field"
 const val ADD_TRACK_DURATION_TAG = "add_track_duration_field"
 const val ADD_TRACK_CONFIRM_TAG = "add_track_confirm_button"
+
+const val COMMENTS_SECTION_TAG = "comments_section"
+const val COMMENT_INPUT_TAG = "comment_input"
+const val COMMENT_POST_TAG = "comment_post_button"
+fun commentRatingTag(value: Int): String = "comment_rating_$value"
+fun commentRowTag(commentId: Long): String = "comment_row_$commentId"
 
 private fun formatReleaseDate(releaseDate: String?, fallbackYear: Int): String {
     if (releaseDate.isNullOrBlank()) {
