@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.core.graphics.scale
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto
@@ -128,7 +129,7 @@ class CreateAlbumViewModel(
 
         val square = centerCropSquare(decoded)
         val resized = if (square.width > maxSize) {
-            Bitmap.createScaledBitmap(square, maxSize, maxSize, true)
+            square.scale(maxSize, maxSize)
         } else {
             square
         }
