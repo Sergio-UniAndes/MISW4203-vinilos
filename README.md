@@ -2,7 +2,7 @@
 
 Aplicación Android del curso **MISW4203 — Ingeniería de Software para Aplicaciones Móviles** (Maestría en Ingeniería de Software, Uniandes). Construida con **Kotlin + Jetpack Compose**, **MVVM** y **Clean Architecture** modularizada por features.
 
-> **Estado al cierre del Sprint 2:** 5 HU entregadas — HU01/HU02 (álbumes, _Visitor_), HU03/HU04 (artistas, _Visitor_), HU07 (crear álbum, _Collector_). Mejoras de desempeño: corrutinas + cache en memoria + persistencia local con Room (TTL 5 min). 112 tests automatizados en verde — 90 unitarias JVM + 14 E2E `:app` + 8 instrumentadas Compose `:feature-home`.
+> **Estado al cierre del Sprint 3 (MVP completo):** 8 HU entregadas — HU01/HU02 (álbumes, _Visitor_), HU03/HU04 (artistas, _Visitor_), HU05 (coleccionistas, _Visitor_), HU07 (crear álbum, _Collector_), HU08 (asociar tracks, _Collector_), HU09 (comentar álbum, _Collector_). Mejoras de desempeño: corrutinas + cache en memoria + persistencia local con Room (TTL 5 min) extendido al catálogo de coleccionistas, y `readStale()` como fallback offline en los tres caches. **205 tests automatizados en verde** — 171 unitarias JVM + 21 E2E `:app` + 13 instrumentadas Compose `:feature-home`.
 
 ---
 
@@ -78,6 +78,9 @@ La app consume un microservicio REST con los endpoints:
 
 - `GET /albums`, `GET /albums/{id}`, `POST /albums` (HU01, HU02, HU07)
 - `GET /musicians`, `GET /musicians/{id}` (HU03, HU04)
+- `GET /collectors` (HU05)
+- `POST /albums/{id}/tracks` (HU08)
+- `GET /albums/{id}/comments`, `POST /albums/{id}/comments` (HU09)
 
 **Por defecto la app apunta al backend desplegado en Railway**, así que no necesitas levantar nada local para ejecutarla. La URL viene cableada en `core/utils/src/main/kotlin/com/misw4203/vinilos/core/utils/config/BackendConfig.kt`:
 
@@ -120,7 +123,7 @@ object BackendConfig {
 }
 ```
 
-`HomeRepositoryProvider.kt` y `ArtistsRepositoryProvider.kt` la consumen como default; cambiar este valor afecta a toda la app.
+`HomeRepositoryProvider.kt`, `ArtistsRepositoryProvider.kt`, `CollectorsRepositoryProvider.kt` y `CommentsRepositoryProvider.kt` la consumen como default; cambiar este valor afecta a toda la app.
 
 Casos típicos:
 
@@ -171,7 +174,7 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## 6. Ejecutar las pruebas
 
-El proyecto tiene **112 pruebas automatizadas**: 90 unitarias JVM (rápidas, sin emulador) + 22 instrumentadas (Espresso + Compose UI Test, requieren emulador o dispositivo) repartidas en 14 E2E `:app` y 8 de pantallas Compose `:feature-home`.
+El proyecto tiene **205 pruebas automatizadas**: 171 unitarias JVM (rápidas, sin emulador) + 34 instrumentadas (Espresso + Compose UI Test, requieren emulador o dispositivo) repartidas en 21 E2E `:app` y 13 de pantallas Compose `:feature-home`.
 
 ### Pruebas unitarias JVM (rápidas, sin emulador)
 
@@ -214,7 +217,7 @@ El proyecto tiene **112 pruebas automatizadas**: 90 unitarias JVM (rápidas, sin
 
 Reportes HTML en `<módulo>/build/reports/tests/testDebugUnitTest/index.html` (en `:core:utils` la tarea es `test`, sin variant suffix).
 
-Cobertura actual: **90 tests JVM** — ViewModels (HU01/HU02/HU03/HU04), `CreateAlbumUseCase` (HU07), mappers, repositorios con fakes, `HttpHomeService` y `HttpArtistsService` con `MockWebServer`, cache local Room (`RoomAlbumsLocalCacheTest`/`RoomArtistsLocalCacheTest` corren con Robolectric, sin emulador), permisos y sesión.
+Cobertura actual: **171 tests JVM** — ViewModels (HU01/HU02/HU03/HU04 + extensiones de `AlbumDetailViewModel` para HU08/HU09), `CreateAlbumUseCase` (HU07), `PostCommentUseCase` (HU09), mappers (`AlbumMapper` + `CommentMapper`), repositorios con fakes (incluidos `RemoteCollectorsRepository` y `RemoteCommentsRepository`), `HttpHomeService` (con `addTrack` HU08), `HttpArtistsService`, `HttpCollectorsService` (HU05) y `HttpCommentsService` (HU09) con `MockWebServer`, cache local Room (`RoomAlbumsLocalCacheTest`/`RoomArtistsLocalCacheTest`/`RoomCollectorsLocalCacheTest` corren con Robolectric, sin emulador), permisos y sesión.
 
 ### Pruebas E2E instrumentadas (requieren emulador o dispositivo)
 
@@ -230,8 +233,8 @@ Cobertura actual: **90 tests JVM** — ViewModels (HU01/HU02/HU03/HU04), `Create
 
 > Los tests instrumentados están repartidos en dos módulos:
 >
-> - **`:app/src/androidTest`** — flujos completos de la app (necesitan `MainActivity` y el `NavHost` real). Sprint 1: `AuthHomeFlowTest`, `AuthHomeFlowEspressoTest`, `CollectorPermissionsEspressoTest`, `AlbumDetailNavigationEspressoTest`. Sprint 2: `ArtistsEspressoTest` (HU03), `ArtistDetailNavigationEspressoTest` (HU04), `CreateAlbumNavigationEspressoTest` (HU07).
-> - **`:feature-home/src/androidTest`** — tests de pantalla Compose con repositorios fake (no necesitan backend ni navegación). Sprint 2: `ArtistsScreenTest` (HU03), `ArtistDetailScreenTest` (HU04).
+> - **`:app/src/androidTest`** — flujos completos de la app (necesitan `MainActivity` y el `NavHost` real). Sprint 1: `AuthHomeFlowTest`, `AuthHomeFlowEspressoTest`, `CollectorPermissionsEspressoTest`, `AlbumDetailNavigationEspressoTest`. Sprint 2: `ArtistsEspressoTest` (HU03), `ArtistDetailNavigationEspressoTest` (HU04), `CreateAlbumNavigationEspressoTest` (HU07). Sprint 3: `CollectorsEspressoTest` (HU05), `AddTrackEspressoTest` (HU08), `PostCommentEspressoTest` (HU09).
+> - **`:feature-home/src/androidTest`** — tests de pantalla Compose con repositorios fake (no necesitan backend ni navegación). Sprint 2: `ArtistsScreenTest` (HU03), `ArtistDetailScreenTest` (HU04). Sprint 3: `AlbumDetailCommentsScreenTest` (HU09).
 
 #### Opción B — Línea de comandos
 
@@ -239,7 +242,7 @@ Cobertura actual: **90 tests JVM** — ViewModels (HU01/HU02/HU03/HU04), `Create
 # Verifica que haya un dispositivo conectado
 adb devices
 
-# Ejecuta las 14 E2E :app + las 8 instrumentadas Compose :feature-home (22 totales)
+# Ejecuta las 21 E2E :app + las 13 instrumentadas Compose :feature-home (34 totales)
 ./gradlew :app:connectedDebugAndroidTest :feature-home:connectedDebugAndroidTest
 
 # Solo un módulo
@@ -252,7 +255,7 @@ adb devices
 
 Reportes en `app/build/reports/androidTests/connected/debug/index.html` y `feature-home/build/reports/androidTests/connected/debug/index.html`.
 
-Cobertura actual: **14 tests E2E `:app`** (Auth, Home, navegación a detalle de álbum/artista, formulario _Create Album_, visibilidad por rol) + **8 tests Compose `:feature-home`** (`ArtistsScreen` y `ArtistDetailScreen`).
+Cobertura actual: **21 tests E2E `:app`** (Auth, Home, navegación a detalle de álbum/artista, formulario _Create Album_, visibilidad por rol, pestaña _Collectors_, diálogo _Add Track_, composer de comentarios) + **13 tests Compose `:feature-home`** (`ArtistsScreen`, `ArtistDetailScreen` y `AlbumDetailCommentsScreenTest`).
 
 #### Helper: capturas de evidencia para la wiki
 
@@ -293,15 +296,15 @@ MISW4203-vinilos/
 │   ├── navigation/            # Rutas compartidas (AppRoute)
 │   └── utils/                 # Sesión (in-memory), permisos, modelos compartidos, BackendConfig
 ├── feature-auth/              # Selección de rol (Visitor / Collector)
-├── feature-home/              # HU01 catálogo + HU02 detalle de álbum + HU03 listado de artistas + HU04 detalle de artista + HU07 crear álbum
-│   ├── ui/                    # Composables + ViewModels (Home/AlbumDetail/Artists/ArtistDetail/CreateAlbum)
-│   ├── domain/                # Repositorios «interface», UseCases (Observe…/CreateAlbum/UploadCover), modelos
+├── feature-home/              # HU01 catálogo + HU02 detalle de álbum + HU03 artistas + HU04 detalle artista + HU05 coleccionistas + HU07 crear álbum + HU08 asociar tracks + HU09 comentar álbum
+│   ├── ui/                    # Composables + ViewModels (Home/AlbumDetail/Artists/ArtistDetail/Collectors/CreateAlbum)
+│   ├── domain/                # Repositorios «interface», UseCases (Observe…/CreateAlbum/UploadCover/AddTrack/PostComment), modelos
 │   └── data/
-│       ├── repository/        # RemoteHomeRepository, RemoteArtistsRepository + Providers (DI)
-│       ├── mapper/            # AlbumMapper, ArtistMapper (DTO → dominio)
-│       ├── remote/            # HomeService / ArtistsService «Service Adapter» + Http…Service + JsonExtensions
-│       │   └── dto/           # AlbumDto, MusicianDto, TrackDto, PerformerDto, CommentDto
-│       └── cache/             # VinilosDatabase (Room), AlbumDao/ArtistDao, RoomAlbums/ArtistsLocalCache (TTL 5 min)
+│       ├── repository/        # RemoteHomeRepository, RemoteArtistsRepository, RemoteCollectorsRepository, RemoteCommentsRepository + Providers (DI)
+│       ├── mapper/            # AlbumMapper, ArtistMapper, CollectorMapper, CommentMapper (DTO → dominio)
+│       ├── remote/            # HomeService/ArtistsService/CollectorsService/CommentsService «Service Adapter» + Http…Service + JsonExtensions
+│       │   └── dto/           # AlbumDto, MusicianDto, CollectorDto, CommentDto, TrackDto, PerformerDto
+│       └── cache/             # VinilosDatabase (Room v2), AlbumDao/ArtistDao/CollectorDao, RoomAlbums/Artists/CollectorsLocalCache (TTL 5 min + readStale offline)
 └── scripts/                   # Helpers PowerShell (collect-test-reports.ps1)
 ```
 
@@ -309,8 +312,8 @@ MISW4203-vinilos/
 
 - **MVVM + UDF**: ViewModel expone `StateFlow<UiState>` + `SharedFlow<UiEffect>`.
 - **Clean Architecture por feature**: `ui → domain ← data`.
-- **Service Adapter**: cada repositorio remoto delega en una interfaz de transporte (`HomeService`, `ArtistsService`). Las implementaciones HTTP usan `HttpURLConnection` + `org.json`. Cambiar a Retrofit/Ktor toca solo las clases `Http…Service`.
-- **Cache en dos niveles** (Sprint 2): `MutableStateFlow<List<…>?>` en memoria como render instantáneo + Room (`VinilosDatabase`) como persistencia entre sesiones, con TTL de 5 minutos. Detrás de `AlbumsLocalCache` / `ArtistsLocalCache` (interfaces) — los repositorios no conocen Room directamente, lo que permite inyectar `NoopAlbumsLocalCache` en tests JVM puros.
+- **Service Adapter**: cada repositorio remoto delega en una interfaz de transporte (`HomeService`, `ArtistsService`, `CollectorsService`, `CommentsService`). Las implementaciones HTTP usan `HttpURLConnection` + `org.json`. Cambiar a Retrofit/Ktor toca solo las clases `Http…Service`.
+- **Cache en dos niveles** (Sprints 2 + 3): `MutableStateFlow<List<…>?>` en memoria como render instantáneo + Room (`VinilosDatabase` v2, ahora con `CollectorEntity`) como persistencia entre sesiones, con TTL de 5 minutos. Detrás de `AlbumsLocalCache` / `ArtistsLocalCache` / `CollectorsLocalCache` (interfaces) — los repositorios no conocen Room directamente, lo que permite inyectar `Noop…LocalCache` en tests JVM puros. Sprint 3 añade `readStale()` en las tres implementaciones para degradar al snapshot vencido cuando la red falla. **Excepción consciente**: `RemoteCommentsRepository` (HU09) usa una variante de cache **per-álbum** (`Map<albumId, List<AlbumComment>>`) con `mergePreservingLocalAppends` y **no** persiste en Room — los comentarios son una lista que crece, no un catálogo refrescable, y persistirlos sin sync robusto generaría inconsistencia.
 - **DI manual** vía `AppContainer(context)` (sin Hilt/Koin). Recibe el `applicationContext` desde `MainActivity` para construir Room.
 - **Permisos centralizados** en `core:utils.PermissionsPolicy`; la UI nunca hardcodea reglas por rol.
 - **Configuración del backend centralizada** en `core:utils.BackendConfig` — un único punto de cambio para toda la app.
@@ -376,11 +379,11 @@ adb devices         # debe listar tu emulador/dispositivo
 
 ## 9. Documentación adicional
 
-- **Wiki del proyecto** (en GitHub): planes de sprint (`Sprint-1`, `Sprint-2`), `Estrategia-de-Pruebas`, retrospectivas y evidencia de ejecución de tests por sprint.
+- **Wiki del proyecto** (en GitHub): planes de sprint (`Sprint-1`, `Sprint-2`, `Sprint-3`), `Estrategia-de-Pruebas`, retrospectivas y evidencia de ejecución de tests por sprint.
 - **Diagramas UML** en la raíz del repo (editables con [draw.io](https://app.diagrams.net/)):
   - `package_diagram.drawio` / `.md` — paquetes y dependencias entre módulos.
   - `component_diagram.drawio` / `.md` — componentes en tiempo de ejecución.
-  - `class_diagram_feature_home.drawio` / `.md` — clases de `feature-home` (HU01–HU04 + HU07 + Service Adapter + Cache Room).
+  - `class_diagram_feature_home.drawio` / `.md` — clases de `feature-home` (HU01–HU05 + HU07–HU09 + Service Adapter + Cache Room).
   - `class_diagram_feature_auth.drawio` / `.md` — clases de `feature-auth`.
 - **`DESING.md`** y **`GUIA_CODIGO.md`** — decisiones arquitectónicas detalladas y guía de estilo.
 
