@@ -1,0 +1,146 @@
+  bash arg: -p
+  bash arg: com.misw4203.vinilos
+  bash arg: -v
+  bash arg: 1000
+args: [-p, com.misw4203.vinilos, -v, 1000]
+ arg: "-p"
+ arg: "com.misw4203.vinilos"
+ arg: "-v"
+ arg: "1000"
+data="com.misw4203.vinilos"
+:Monkey: seed=1779381332779 count=1000
+:AllowPackage: com.misw4203.vinilos
+:IncludeCategory: android.intent.category.LAUNCHER
+:IncludeCategory: android.intent.category.MONKEY
+// Event percentages:
+//   0: 15.0%
+//   1: 10.0%
+//   2: 2.0%
+//   3: 15.0%
+//   4: -0.0%
+//   5: -0.0%
+//   6: 25.0%
+//   7: 15.0%
+//   8: 2.0%
+//   9: 2.0%
+//   10: 1.0%
+//   11: 13.0%
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,2.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.FileNotFoundException: /dev/input/event0: open failed: EACCES (Permission denied)
+    // Injection Failed
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,0.0)
+    //[calendar_time:2026-05-18 17:08:30.716  system_uptime:3232518692]
+    // Sending event #100
+    //[calendar_time:2026-05-18 17:08:30.725  system_uptime:3232518695]
+    // Sending event #100
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,1.0)
+:Sending Flip keyboardOpen=true
+Got IOException performing flipjava.io.FileNotFoundException: /dev/input/event0: open failed: EACCES (Permission denied)
+    // Injection Failed
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,4.0)
+    //[calendar_time:2026-05-18 17:08:31.039  system_uptime:3232519012]
+    // Sending event #200
+    //[calendar_time:2026-05-18 17:08:31.045  system_uptime:3232519014]
+    // Sending event #200
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,2.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-4.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,0.0)
+    //[calendar_time:2026-05-18 17:08:31.373  system_uptime:3232519342]
+    // Sending event #300
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,1.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,-4.0)
+    // activityResuming(com.misw4203.vinilos)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(2.0,-5.0)
+    //[calendar_time:2026-05-18 17:08:32.112  system_uptime:3232520081]
+    // Sending event #400
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(-3.0,-1.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,2.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,4.0)
+    //[calendar_time:2026-05-18 17:08:32.676  system_uptime:3232520645]
+    // Sending event #500
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,4.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,-4.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,-1.0)
+    //[calendar_time:2026-05-18 17:08:33.971  system_uptime:3232521941]
+    // Sending event #600
+    //[calendar_time:2026-05-18 17:08:33.973  system_uptime:3232521942]
+    // Sending event #600
+:Sending Trackball (ACTION_MOVE): 0:(-1.0,-2.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,2.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,-1.0)
+    // Rejecting start of Intent { cmp=com.whatsapp/.companiondevice.LinkedDevicesActivity } in package com.whatsapp
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-1.0)
+    // Rejecting start of Intent { act=com.google.android.gms.signin.action.CONSENT cat=[callingapp:com.google.android.gms,Workflow:TokenRetrieval,categoryhack:sessionid=0f5e74f6-0bb3-420d-b2a9-8eed2059ad2e,progressux:false,service:3ZDAi5xLS65DULZyH3uYHDQsil6kZfuwpaTxZG/j6OM=
+,saferPendingIntent,Account:3e3aa35312b624e11bdc4f34b12e1b7fe6bd22d167da60c4467924714a82179e] pkg=com.google.android.gms cmp=com.google.android.gms/.signin.activity.ConsentActivity } in package com.google.android.gms
+    //[calendar_time:2026-05-18 17:08:35.247  system_uptime:3232523216]
+    // Sending event #700
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,-2.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(4.0,-3.0)
+:Sending Trackball (ACTION_MOVE): 0:(2.0,-5.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-4.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+    //[calendar_time:2026-05-18 17:08:36.574  system_uptime:3232524543]
+    // Sending event #800
+:Sending Trackball (ACTION_MOVE): 0:(4.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(0.0,1.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+:Sending Trackball (ACTION_MOVE): 0:(1.0,4.0)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,3.0)
+:Sending Trackball (ACTION_MOVE): 0:(-4.0,1.0)
+:Sending Trackball (ACTION_MOVE): 0:(3.0,0.0)
+:Sending Trackball (ACTION_UP): 0:(0.0,0.0)
+    //[calendar_time:2026-05-18 17:08:37.478  system_uptime:3232525447]
+    // Sending event #900
+    //[calendar_time:2026-05-18 17:08:37.479  system_uptime:3232525448]
+    // Sending event #900
+:Sending Trackball (ACTION_MOVE): 0:(-5.0,0.0)
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Switch: #Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=com.misw4203.vinilos/.app.MainActivity;end
+    // Allowing start of Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.misw4203.vinilos/.app.MainActivity } in package com.misw4203.vinilos
+:Sending Trackball (ACTION_MOVE): 0:(3.0,-4.0)
+:Sending Flip keyboardOpen=false
+Got IOException performing flipjava.io.FileNotFoundException: /dev/input/event0: open failed: EACCES (Permission denied)
+    // Injection Failed
+Events injected: 1000
+:Sending rotation degree=0, persist=false
+:Dropped: keys=0 pointers=0 trackballs=0 flips=3 rotations=0
+## Network stats: elapsed time=9539ms (0ms mobile, 0ms wifi, 9539ms not connected)
+// Monkey finished
