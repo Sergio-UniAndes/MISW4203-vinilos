@@ -28,6 +28,8 @@ import com.misw4203.vinilos.feature.home.ui.ArtistDetailScreen
 import com.misw4203.vinilos.feature.home.ui.ArtistDetailViewModel
 import com.misw4203.vinilos.feature.home.ui.ArtistsScreen
 import com.misw4203.vinilos.feature.home.ui.ArtistsViewModel
+import com.misw4203.vinilos.feature.home.ui.CollectorsScreen
+import com.misw4203.vinilos.feature.home.ui.CollectorsViewModel
 import com.misw4203.vinilos.feature.home.ui.HomeScreen
 import com.misw4203.vinilos.feature.home.ui.HomeViewModel
 
@@ -76,6 +78,7 @@ private fun VinilosNavHost(appContainer: AppContainer) {
         composable(AppRoute.Home) {
             val viewModel: HomeViewModel = viewModel(factory = appContainer.homeViewModelFactory())
             val artistsViewModel: ArtistsViewModel = viewModel(factory = appContainer.artistsViewModelFactory())
+            val collectorsViewModel: CollectorsViewModel = viewModel(factory = appContainer.collectorsViewModelFactory())
             HomeScreen(
                 viewModel = viewModel,
                 onBackToAuth = {
@@ -96,6 +99,9 @@ private fun VinilosNavHost(appContainer: AppContainer) {
                             navController.navigate("${AppRoute.ArtistDetail}/${artist.id}")
                         },
                     )
+                },
+                collectorsContent = {
+                    CollectorsScreen(viewModel = collectorsViewModel)
                 },
             )
         }

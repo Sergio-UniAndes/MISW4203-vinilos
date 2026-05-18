@@ -185,6 +185,7 @@ class RemoteHomeRepositoryTest {
         override suspend fun getAlbum(id: String): AlbumDto? = albumsById[id]
         override suspend fun createAlbum(album: AlbumDto): Boolean = true
         override suspend fun uploadCover(contentResolver: android.content.ContentResolver, uriString: String): String? = null
+        override suspend fun addTrack(albumId: String, name: String, duration: String): Boolean = true
     }
 
     private class FakeAlbumsLocalCache(

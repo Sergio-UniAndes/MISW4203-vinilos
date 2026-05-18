@@ -1,6 +1,7 @@
 package com.misw4203.vinilos.feature.home.data.cache
 
 import com.misw4203.vinilos.feature.home.data.remote.dto.AlbumDto
+import com.misw4203.vinilos.feature.home.data.remote.dto.CollectorDto
 import com.misw4203.vinilos.feature.home.data.remote.dto.MusicianDto
 
 internal fun AlbumDto.toEntity(cachedAtMillis: Long): AlbumEntity? {
@@ -55,4 +56,24 @@ internal fun ArtistEntity.toDto(): MusicianDto = MusicianDto(
     image = image,
     description = description,
     birthDate = birthDate,
+)
+
+internal fun CollectorDto.toEntity(cachedAtMillis: Long): CollectorEntity? {
+    val rowId = id ?: return null
+    return CollectorEntity(
+        id = rowId,
+        name = name,
+        telephone = telephone,
+        email = email,
+        albumCount = albumCount,
+        cachedAtMillis = cachedAtMillis,
+    )
+}
+
+internal fun CollectorEntity.toDto(): CollectorDto = CollectorDto(
+    id = id,
+    name = name,
+    telephone = telephone,
+    email = email,
+    albumCount = albumCount,
 )
